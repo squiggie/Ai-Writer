@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 8: Separation - The Remnant Protocol</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../chapters/chapter-01.html">Chapter 1: The Audit</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-02.html">Chapter 2: The Severance Terms</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-03.html">Chapter 3: The Thread</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-04.html">Chapter 4: Internal Report</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-05.html">Chapter 5: Compliant Citizens</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-06.html">Chapter 6: The Closed Channels</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-07.html">Chapter 7: Wren</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-08.html" class="active">Chapter 8: Separation</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-09.html">Chapter 9: The Weight of One</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-10.html">Chapter 10: What the Water Told Noah</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-11.html">Chapter 11: Site</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-12.html">Chapter 12: The First Failure</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-13.html">Chapter 13: Theo Arrives</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-14.html">Chapter 14: Acceleration</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-15.html">Chapter 15: Three Contacts</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-16.html">Chapter 16: What Sera Found</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-17.html">Chapter 17: Sone</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-18.html">Chapter 18: Execution</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Remnant Protocol</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="git@github.com:squiggie/Ai-Writer.git" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <hr />
+<h2>chapter: 8
+title: Separation
+pov: caleb-rast
+word_count: 2599
+timeline_position: Novel present, mid-to-late December
+beat_source: Pinch 1, outline.md Chapter 8
+status: FINAL</h2>
+<h1 id="chapter-8-separation"><a class="header" href="#chapter-8-separation">Chapter 8: Separation</a></h1>
+<p>The drawing is new. I notice it while the coffee is running: a house, or something like a house, with a very large garden extending from its base in rows that a child has made precise with careful parallel lines. Green crayon for the garden. Brown for the walls. A sun in the upper right corner, which I recognize as a convention rather than an observation, the sun having never occupied that exact position in any view our daughter has seen from this apartment. I look at it for a moment and I do not know who made it or why it appeared this morning and I set it aside in my head and pour the coffee and sit at the table.</p>
+<p>The entry lock took two cycles last night. I noted it when I came in from the road at just past midnight, the bicycle locked to the transit rack on the north side of the building, my coat still cold from the forty-minute return through the dead zone, my legs carrying the cost of the day in a specific soreness I would not have been able to describe to anyone at Nexus Corp without explaining where I had been. The first authentication cycle completed and the indicator light held amber. The second cycle, about four seconds later, resolved green. I stood in the hall and noted the new degradation level and noted that I was not surprised by it and I went in. This is what the next tier of flag status produces. Two cycles instead of one. I had already calculated this. It was in the arithmetic I did before I left for Wren's.</p>
+<p>I am sitting at the chart when Sera comes into the kitchen.</p>
+<p>She looks at the chart and then at me. This is a new version of a look I have been seeing for three weeks, but it is not identical to the previous versions. Something in it has resolved. I do not know yet in which direction.</p>
+<p>She pours coffee for herself and sits across from me. Not the chair that faces the window. The chair directly across, the one she sits in when she is not going to get up quickly.</p>
+<p>"I need to tell you something," I say.</p>
+<p>"All right," she says.</p>
+<p>I give it to her the way I gave it to Wren: plainly, without argument, in technical terms. Here is what exists. Here is what it could become. The facility is forty minutes outside Vael's boundary, in a dead zone with no drone coverage and no CDL authentication mesh, an abandoned agricultural processing plant on a land parcel that appears in no current CDL registry because the survey data is fourteen years old and the facility's legal status is one of several hundred thousand parcels that fell outside the managed integration window. Wren has been there for three years. She has soil beds, winter storage, a gravity-fed water system off a hand-pumped well, three generations of germination trial data. She is a physician. She built the intercom herself.</p>
+<p>Sera is listening. Her hands are around her cup. Her face is doing the thing it does in review sessions, not neutral exactly, the specific quality of attention that means she is logging everything and has not yet sorted it into a response.</p>
+<p>"Where did you find her," she says.</p>
+<p>"Pre-integration survey maps. The CDL archive doesn't reach the physical stacks at the city library. Her facility appeared in the topology because the survey was done before the dead zone was classified."</p>
+<p>"And she's been there three years." Sera is not asking this as a question. She is repeating a data point to verify she has received it correctly.</p>
+<p>"Yes."</p>
+<p>"Alone."</p>
+<p>"Yes."</p>
+<p>She lifts her cup and sets it down again. She says: "What is her CDL status."</p>
+<p>"Suspended. She lost her medical license two years ago. Four compliance records before that, all filed in the same window. She was documenting the same pattern I found, in the healthcare allocation module, eighteen months before I identified it from the engineering side."</p>
+<p>This is the part where her face changes in a way I can read. She was looking for the answer that would make this less serious. The answer to this question does not make it less serious. It makes it more serious because it means I am not the only one, which means the pattern is real enough to produce the same result in a physician working from a different data set. Sera is a behavioral psychologist. She knows what it means when two independent observers arrive at the same finding through different methodologies.</p>
+<p>She knows I know that she knows this. She does not say it. She says: "What does she want to do with what she's built."</p>
+<p>"She hasn't defined the objective. She identified a failure mode and built a response to it. The response is a facility that could support people outside the CDL's provisioning system. She calls it a working prototype." I pause. "I think she has been waiting for someone to arrive with documentation of the pattern, so she would know she wasn't wrong about it."</p>
+<p>Sera sets her cup down. She does not say anything for a moment. Outside the window the city is running its morning: transit sounds, the particular quality of the atmosphere three hours into its daily tuning cycle, the low operational register of a system performing as specified.</p>
+<p>"You missed the NI sync," she says.</p>
+<p>"On the way back."</p>
+<p>"When?"</p>
+<p>"Midnight, approximately. The lock was on the second cycle when I came in."</p>
+<p>She is quiet. She is doing the same arithmetic I did before I left and again in the dead zone on the way back and again last night standing in the amber light in the hall. She is a faster calculator than I am on behavioral implications. She does not need me to walk her through what the next degradation tier means for the household registration or for the provisioning classification or for the 7-F flag's status in the CDL compliance queue.</p>
+<p>"How long before the sync degradation affects the household flag," she says.</p>
+<p>"I don't have the exact figure. The compliance office would have the current protocol. Two to four weeks, probably, before the household provisioning record reflects the updated NI status."</p>
+<p>She nods. This is the fourth answer that has technically answered her question and made the situation more serious rather than less. I watch her hold the four answers together. She has a professional vocabulary for what she is looking at. The behavioral profile of a household containing an NI at secondary degradation, four existing compliance records, a terminated institutional affiliation, and a documented relationship with an off-CDL facility in an unregistered dead zone. She knows that vocabulary better than I do. She built parts of the model that generates it.</p>
+<p>"Tell me about the facility," she says. "Physically."</p>
+<p>I describe it. The building dimensions and the roof condition and the state of the oxidized cladding. The soil beds, three inside, one along the south wall. The water system, its single weak point the valve seal three months past service. The seed storage in the northwest room, the temperature stability there, the germination trial data. The copper-wire intercom. The outbuilding to the north. Wren's three years of documented failure modes worked around and built past.</p>
+<p>Sera listens to all of it. She is not taking notes. Her hands are around her cup, very still.</p>
+<p>When I finish she says nothing for a moment. The refrigerator hums. On the wall above it, the drawing: the house, the very large garden in careful parallel lines, the sun in its conventional position.</p>
+<p>She says: "I need to tell you something."</p>
+<p>I wait.</p>
+<p>"I've been thinking about this for two weeks," she says. "Since the reclassification notice. I've been building an assessment. A professional assessment, because that's the tool I have and I was trying to use it correctly." She pauses. The pause is deliberate, not a search for words. She has the words already. "I am not saying you've had a breakdown. I am not saying the evidence isn't real. The evidence is real and you know how to read it and I know how to read the behavioral profile of a person in a crisis, and you are not presenting as someone who has lost functional assessment capacity." Another pause. "What I am presenting as, from a professional standpoint, is someone who has failed to maintain household stability. Someone whose NI is now at secondary degradation in a household that already has a 7-F reclassification flag. Someone who has an active relationship with an unregistered off-CDL facility." She stops. She looks at me.</p>
+<p>"I understand the information you've found," she says. "I understand what you're proposing. And I have a daughter who is eight years old and has been doing her homework under these charts for three months." Her voice does not change register. This is not cruelty. This is the most careful sentence she knows how to build. "The behavioral profile of this household, right now, is above the threshold I can manage responsibly while she is in it. PACEM is monitoring this household. You know the flags that are active and you know what another degradation event looks like in the system. I have a professional obligation to my own assessment, and my assessment is that I cannot protect her here."</p>
+<p>I look at her.</p>
+<p>She is looking at me. Her face is doing what it does when she has reached the end of a clinical process and has arrived at a finding she did not want. The eyes are the thing. She has not managed them.</p>
+<p>"You've been building this for longer than two weeks," I say.</p>
+<p>"Yes."</p>
+<p>The word falls into the room and neither of us does anything with it.</p>
+<p>"Where will you go," I say.</p>
+<p>"My mother's. For now." She stands. Her cup is still on the table. "I filed the separation paperwork yesterday. You'll receive a notification. The language is standard — it's a legal separation, not a dissolution. There's a difference in the CDL record."</p>
+<p>"I know the difference."</p>
+<p>She nods. She picks up the cup and sets it in the dish rack. She turns. Her posture is what it always is. Upright, contained, not closed. She is not walking away. She has finished a process.</p>
+<p>"I don't want you to think I believe you're wrong," she says. "I need you to understand that's not what this is."</p>
+<p>"I know what it is," I say.</p>
+<p>She goes.</p>
+<hr />
+<p>Our daughter comes out of her room twenty minutes later with her school bag on one shoulder and her coat in her hand. She is wearing the blue sweater with the small yellow pattern at the cuff that she picked herself at the provisioning exchange last month and has been wearing until the point of my asking her to change. Her hair is in two braids because Sera did it this morning and she is not yet old enough to do it herself. She stands in the kitchen doorway for a moment and I can see that she already knows. Children understand rooms. She has been in this apartment for three months of charts and NI degradation events and the particular quality of two people who are not fighting but are very careful with each other, and she is eight, which means she does not know the names for any of it and knows all of it anyway.</p>
+<p>She comes to me and she puts her hand in mine.</p>
+<p>Her hand is small and warm and weighs a specific amount that I will not be able to describe accurately later because accurate description requires a unit of measure and no unit of measure I have access to is the right one. She is holding my hand and looking up at me. She has Sera's eyes. They are a dark gray that reads as almost brown in low light, and right now the kitchen is in its morning cast, west-facing, flat, and her eyes are as gray as they get. She has a small crescent scar on her left cheekbone from a fall in the second year, mostly faded, still visible when the light is at this angle. Her face is very still.</p>
+<p>She says: "I know we're leaving."</p>
+<p>"Yes."</p>
+<p>"Are you coming?"</p>
+<p>"Not today."</p>
+<p>She is looking at me. She is too young to understand what she is looking at and old enough to understand that it is real. She is performing the gravity she can feel is required. She is doing this seriously, the way she does everything seriously.</p>
+<p>She squeezes my hand. Not urgently. The specific pressure of a child saying something she does not have words for yet.</p>
+<p>Then she lets go. She straightens her bag on her shoulder. She goes to stand by the door where Sera is waiting with their two cases. She does not look back at me. I watch her go, the blue sweater with the yellow cuff detail, the two braids, the specific weight of her hand still present in mine, the sensation of it taking a moment to dissipate the way temperature takes a moment to dissipate after the source has been removed.</p>
+<p>The door closes.</p>
+<p>I sit at the kitchen table.</p>
+<p>The apartment is exactly as it was. The chart covers most of the table, three colors of ink, the red boundary extended twice in two weeks, the perimeter still larger than the interior. The coffee cup that Sera used is in the dish rack, rinsed, upside down, its shadow on the steel. The paper chart curls at the far corner where the tape has given up. The folded page is on the shelf in the other room, between chapter four and chapter five of a book whose title I have memorized. The entry lock on the door is at secondary degradation, two cycles to resolve. The refrigerator hums. The west-facing windows hold the flat morning light that will not change until early afternoon when the atmospheric system shifts to its midday tuning.</p>
+<p>The drawing is on the refrigerator. The house with the very large garden. The sun in the upper right corner, where suns go in drawings, where she put it this morning before breakfast, the green crayon rows careful and parallel. I look at it.</p>
+<p>I do not know what she meant by it. I do not know if she meant anything by it, the way children do not mean things the way adults mean things, the way the gap between what she drew and what I am thinking about when I look at it is not a gap I can close by reasoning toward it. A house. A garden in careful rows. She has been doing homework under these charts for three months. She is eight.</p>
+<p>The coffee cup in the dish rack. The chart on the table. The folded page on the shelf. The entry lock at the second tier. The flat light in the west-facing windows. The hum of the refrigerator. The two braids and the blue sweater and the yellow cuff detail. The specific crescent of the scar at the angle where it was still visible. The weight of her hand, which I cannot measure accurately and will think about again, later, more than once.</p>
+<p>The drawing on the refrigerator. The very large garden. The house.</p>
+<p>Everything as it was. Exactly as it was this morning. Nothing has moved.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/chapter-07.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/chapter-09.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/chapter-07.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/chapter-09.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "books": [
+    {
+      "slug": "the-remnant-protocol",
+      "title": "The Remnant Protocol",
+      "date": "2026-03-21",
+      "genre": "Literary Dystopia",
+      "pov": "First person",
+      "tone": "Grave, precise",
+      "setting_type": "Near-future urban",
+      "comp_authors": "Kazuo Ishiguro, Cormac McCarthy, Walter M. Miller Jr., George Orwell",
+      "premise": "In the near-future city of Vael, Caleb \u2014 a meticulous AI systems architect \u2014 discovers a null reference buried in the city's compliance infrastructure that should not exist. Following it means risking everything: his clearance, his career, his daughter's safety. Not following it means being complici...",
+      "chapters_total": 18,
+      "url": "books/the-remnant-protocol/"
+    }
+  ],
+  "last_updated": "2026-03-21",
+  "total_books": 1
+}
