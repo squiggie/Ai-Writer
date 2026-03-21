@@ -51,7 +51,7 @@ Requirements:
 - No isolated one-sentence paragraphs unless load-bearing
 - No em dashes
 - No witty chapter endings — end on tension, consequence, or an open question
-- 2,600–3,200 words
+- ${WORDS_MIN}–${WORDS_MAX} words; let the chapter's emotional weight guide placement within that range — quieter chapters can sit lower, climactic chapters higher
 - YAML frontmatter: chapter number, title, pov, word_count, timeline_position, beat_source, status: draft
 
 Save the complete chapter with frontmatter to chapters/chapter-${PADDED}-draft.md.

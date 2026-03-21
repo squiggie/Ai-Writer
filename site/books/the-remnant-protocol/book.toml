@@ -1,0 +1,14 @@
+[book]
+title = "The Remnant Protocol"
+authors = ["The Daily Novel"]
+language = "en"
+src = "."
+
+[output.html]
+site-url = "/site/books/the-remnant-protocol/"
+git-repository-url = "git@github.com:squiggie/Ai-Writer.git"
+edit-url-template = ""
+no-section-label = true
+
+[output.html.fold]
+enable = false

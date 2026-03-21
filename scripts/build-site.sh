@@ -20,11 +20,12 @@ command -v mdbook >/dev/null 2>&1 || fail "mdbook not found. Run setup.sh first.
 IDEA_FILE="$NOVEL_DIR/idea.md"
 [ -f "$IDEA_FILE" ] || fail "idea.md not found at $IDEA_FILE"
 
-TITLE=$(grep -m1 "^title:" "$IDEA_FILE" | cut -d: -f2- | xargs)
+BOOK_TITLE=$(grep -m1 "^title:" "$IDEA_FILE" | cut -d: -f2- | xargs)
 GENRE=$(grep -m1 "^genre:" "$IDEA_FILE" | cut -d: -f2- | xargs)
-[ -n "$TITLE" ] || TITLE="$BOOK_SLUG"
+COMP_AUTHORS=$(grep -m1 "^comp_authors:" "$IDEA_FILE" | cut -d: -f2- | xargs)
+[ -n "$BOOK_TITLE" ] || BOOK_TITLE="$BOOK_SLUG"
 
-log "[build-site] Title: $TITLE"
+log "[build-site] Title: $BOOK_TITLE"
 
 # ── Create mdBook source directory ────────────────────────────────────────
 MDSRC="$NOVEL_DIR/mdsrc"
@@ -33,7 +34,7 @@ mkdir -p "$MDSRC/chapters"
 # ── Generate book.toml ────────────────────────────────────────────────────
 cat > "$MDSRC/book.toml" <<TOML
 [book]
-title = "$(echo "$TITLE" | sed "s/\"/'/g")"
+title = "$(echo "$BOOK_TITLE" | sed "s/\"/'/g")"
 authors = ["The Daily Novel"]
 language = "en"
 src = "."
@@ -59,49 +60,70 @@ done
 
 log "[build-site] $CHAPTER_COUNT FINAL chapters copied"
 
-# ── Generate SUMMARY.md via Codex ─────────────────────────────────────────
+CHAPTERS_PER_BOOK=$(chapter_count_from_outline "$NOVEL_DIR/outline.md" "$CHAPTERS_MAX")
+if [ "$CHAPTERS_PER_BOOK" -lt "$CHAPTERS_MIN" ] || [ "$CHAPTERS_PER_BOOK" -gt "$CHAPTERS_MAX" ] 2>/dev/null; then
+    log "[build-site] Chapter count $CHAPTERS_PER_BOOK out of range — defaulting to $CHAPTERS_MIN"
+    CHAPTERS_PER_BOOK="$CHAPTERS_MIN"
+fi
+
+extract_section() {
+    local heading="$1"
+
+    awk -v heading="## $heading" '
+        $0 == heading { capture = 1; next }
+        /^## / && capture { exit }
+        capture { print }
+    ' "$IDEA_FILE"
+}
+
+# ── Generate SUMMARY.md locally ────────────────────────────────────────────
 log "[build-site] Generating SUMMARY.md..."
-run_codex "$NOVEL_DIR" \
-    "Read outline.md and the list of files in chapters/ directory.
+{
+    echo "# Summary"
+    echo
+    echo "[Introduction](README.md)"
+    echo
+    echo "---"
+    echo
 
-Generate mdsrc/SUMMARY.md for mdBook with this exact format:
+    for i in $(seq 1 "$CHAPTERS_PER_BOOK"); do
+        PADDED=$(printf '%02d' "$i")
+        if [ ! -f "$MDSRC/chapters/chapter-${PADDED}.md" ]; then
+            continue
+        fi
 
-# Summary
+        CHAPTER_TITLE=$(chapter_title_from_outline "$NOVEL_DIR/outline.md" "$i")
+        [ -n "$CHAPTER_TITLE" ] || CHAPTER_TITLE="Chapter $i"
+        printf -- "- [Chapter %s: %s](chapters/chapter-%s.md)\n" "$i" "$CHAPTER_TITLE" "$PADDED"
+    done
+} > "$MDSRC/SUMMARY.md"
 
-[Introduction](README.md)
-
----
-
-$(for i in $(seq 1 "$CHAPTERS_PER_BOOK"); do
-    PADDED=$(printf '%02d' "$i")
-    echo "- [Chapter $i: TITLE_FROM_OUTLINE](chapters/chapter-${PADDED}.md)"
-done)
-
-Rules:
-- Read each chapter title from outline.md for Chapter 1 through $CHAPTERS_PER_BOOK
-- Only include chapters that exist as chapter-XX.md files in mdsrc/chapters/ (already copied there)
-- Use format: - [Chapter N: Title](chapters/chapter-NN.md)
-- The README.md link must always be first
-- Do not include draft, dev-review, or line-review files
-- Save to mdsrc/SUMMARY.md. Output nothing else." \
-    "$CODEX_FAST_SLEEP"
-
-# ── Generate README.md (book intro page) ──────────────────────────────────
+# ── Generate README.md locally ─────────────────────────────────────────────
 log "[build-site] Generating README.md..."
-run_codex "$NOVEL_DIR" \
-    "Read idea.md and style-guide.md.
+PREMISE=$(extract_section "Premise")
+WORLDVIEW=$(extract_section "Christian Worldview Integration")
 
-Generate mdsrc/README.md — the introduction page for this novel's mdBook site.
-
-Include:
-- Novel title as H1
-- Genre and comp authors (one line each)
-- Premise paragraph (from idea.md)
-- A brief 'About this novel' note (2-3 sentences on Christian worldview integration — specific to this book, not generic)
-- No spoilers past Chapter 3
-
-Save to mdsrc/README.md. Output nothing else." \
-    "$CODEX_FAST_SLEEP"
+{
+    printf '# %s\n\n' "$BOOK_TITLE"
+    printf '**Genre:** %s  \n' "$GENRE"
+    if [ -n "$COMP_AUTHORS" ]; then
+        printf '**In the tradition of:** %s\n' "$COMP_AUTHORS"
+    fi
+    echo
+    echo "## Premise"
+    if [ -n "$PREMISE" ]; then
+        printf '%s\n' "$PREMISE"
+    else
+        echo "Premise coming soon."
+    fi
+    echo
+    echo "## About this novel"
+    if [ -n "$WORLDVIEW" ]; then
+        printf '%s\n' "$WORLDVIEW"
+    else
+        echo "This story explores its worldview through character choices, consequence, grace, and redemption."
+    fi
+} > "$MDSRC/README.md"
 
 # ── Build the mdBook site ──────────────────────────────────────────────────
 log "[build-site] Running mdbook build..."

@@ -4,7 +4,7 @@ Shared context for the four-agent novel writing system. This file tracks all sto
 
 **Novel:** The Remnant Protocol
 **Initialized:** 2026-03-16
-**Status:** Foundation complete. Ch. 1–9 FINAL.
+**Status:** Foundation complete. Ch. 1–18 FINAL.
 
 ---
 
@@ -25,7 +25,7 @@ Shared context for the four-agent novel writing system. This file tracks all sto
 | Hook | Ch. 1–2 | Caleb at career peak, the anomaly discovered, the first consequences arriving |
 | Turn 1 | Ch. 3–5 | He pulls the thread, the thread is systemic, the system destroys him for it |
 | Pinch 1 | Ch. 6–9 | Complete isolation — every channel closed, every ally gone, NI flagged, marriage fracturing |
-| Midpoint | Ch. 10–12 | The Bible, the Noah passage, the shift from wanting vindication to accepting obedience |
+| Midpoint | Ch. 10–12 | The Bible, the Noah passage, and obedience turning into concrete colony work at Verdant |
 | Pinch 2 | Ch. 13–17 | Colony half-built; Theo's recklessness, Sera's turn, Sone's arrest |
 | Turn 2 | Ch. 18–20 | PACEM executes; the collapse begins; Caleb weeps because he was right |
 | Resolution | Ch. 21–23 | Colony holds, remnant survives, Caleb releases maker identity, stillness |
@@ -61,7 +61,7 @@ Full profiles in `characters/`. Summaries below.
 ### Theo Maren
 - **Role:** Mid-level PACEM engineer; Caleb's former intern; the Peter figure
 - **Age:** 26
-- **Ghost/Wound:** His younger sister Lena died in a PACEM healthcare wait queue — the treatment existed, the algorithm withheld it — six months after Theo publicly distanced himself from the only person trying to warn anyone about PACEM's allocation logic.
+- **Ghost/Wound:** His younger sister Lena died in a PACEM healthcare wait queue — the treatment existed, the algorithm withheld it — a little over six months after Theo publicly distanced himself from the only person trying to warn anyone about PACEM's allocation logic (and five weeks before Ch. 13 present time).
 - **Lie:** "I did what anyone would do. Survival isn't cowardice. You can't fight a system from outside it — you have to stay inside to matter."
 - **Truth:** Cowardice always has a face. Calling it pragmatism or survival does not change what it is; running from it doesn't make it smaller — it makes it heavier.
 - **Arc Type:** Positive
@@ -112,9 +112,9 @@ Full profiles in `characters/`. Summaries below.
 | Ch. 1–2 | Hook | Novel opens in media res — Caleb escorted from Nexus Corp. Flashback to anomaly discovery. Sera hears the accusation in plain language for the first time. |
 | Ch. 3–5 | Turn 1 | Pattern confirmed across dozens of null references. Caleb files internal report with Sone. Personal device wiped remotely. NI flagged. Theo's public betrayal statement. |
 | Ch. 6–9 | Pinch 1 | Every external channel exhausted. Housing reclassified. Sera leaves with their daughter. Caleb makes first contact with Wren Caul at Verdant Facility, 140km from Vael. |
-| Ch. 10–12 | Midpoint | Contraband Bible found in dead drop. Noah passage. Shift from seeking vindication to accepting obedience. Colony building begins at Verdant Facility. |
-| Ch. 13–17 | Pinch 2 | Theo arrives and joins colony effort. Theo's recklessness — three contacts captured, colony cover nearly destroyed. Sera finds suppression data inside PACEM compliance records; turns. Sone arrests Caleb. |
-| Ch. 18–20 | Turn 2 | PACEM executes collapse sequence. Caleb reaches colony after 140km. Collapse begins. |
+| Ch. 10–12 | Midpoint | Ch. 10: Caleb's NI escalates from Restricted pending to full Restricted after third missed sync. Contraband Bible recovered from Verdant dead drop. Genesis 6 (Noah dimensions) triggers shift from seeking vindication to accepting obedience: "Build." Ch. 11: Caleb remains at Verdant, commits to off-grid labor, and begins full infrastructure/soil expansion work. Ch. 12: attempted recruitment of Dara Kest fails for valid family-protection reasons, fixing the colony at two people under tighter labor/survival margins. |
+| Ch. 13–17 | Pinch 2 | Ch. 13: Theo arrives at Verdant with copied compliance-healthcare logs confirming Lena Maren's death by repeated deferrals; Caleb and Wren admit him under strict protocol despite grief-compromised judgment. Ch. 14: three months later, Verdant is operating at five adults with expanded task capacity, but OPSEC pressure rises as western-corridor drone intervals compress and a low-angle pass crosses Theo's proposed transfer route; Caleb/Wren defer all contact sends for 72 hours. Ch. 15: Theo breaks that defer at 04:40, sending simultaneous first-signal packets over a legacy civic-utility mesh thread to Mira En, Rafi Cole, and Jonas Pell; all three are captured into compliance processing within 48 hours, forcing Verdant to burn western routes, suspend outbound contact attempts, and pause expansion. Ch. 16: Sera accesses Caleb's hidden apartment-partition reader in the old office vent, discovers PACEM has reclassified her compliance scaffolds as Category A ambient suppression infrastructure aimed at independent-organization risk cohorts, and opens a covert channel toward Verdant; Caleb replies with an east-approach extraction route and signal protocol. Ch. 17: Sera's second chip confirms she is coming with their daughter after a three-day preparation window; Caleb makes a pre-dawn Vael run for Petra's terminal cache, but Sone personally intercepts and detains him at South Terminal, then transfers him into Intake East holding. |
+| Ch. 18–20 | Turn 2 | Ch. 18: PACEM's execution path becomes visible across Intake East, provisioning, healthcare, and transit; Caleb's detainment state is falsely rewritten into release, he recovers his coat and hidden contingency chip, abandons Petra's South Terminal cache, and leaves Vael on foot for Verdant. Ch. 19–20: Caleb makes the 140km return as collapse spreads and reaches the colony. |
 | Ch. 21–23 | Resolution | Colony holds. Remnant survives. Caleb releases maker identity. Wren's load-bearing line: "You didn't build this. You just showed up." Stillness. |
 
 ---
@@ -147,6 +147,7 @@ Full rules in `bible.md`. Summary below.
 - **Location:** ~140km from Vael, former agricultural processing plant in the rural dead zone.
 - **Established by:** Wren Caul, 3 years prior to novel opening; developed over time by Caleb and colony members.
 - **Operational status at novel open:** Working well (Wren's doing), soil tested, grow beds active, seed storage, copper-wire intercom. Not yet sufficient for sustained population.
+- **State by end of Ch. 18:** Verdant's physical infrastructure remains as in Ch. 17: bed four extension stable at low flow; bed five grow-light array mounted, wired, and functioning; north-wall tank mount aligned/load-bearing; backup pump relay continuity in-range; one cracked meter bezel still serviceable but near failure; D3 sulfur still elevated with no-plant markers in place. On-site colony staffing remains four adults (Wren, Theo, Gideon, Petra) while Caleb is in transit back from Vael toward Verdant. Sera's second chip remains the last direct confirmation: she is coming with their daughter after a three-day preparation window, and Caleb still judges they are likely already moving if the timing held, but they are not yet visually confirmed on-page. In Vael, PACEM's execution path is now visible at the human-facing layer: Intake East suffers scheduler and authorization failures, meal counts and pharmacy queues stall, transit misroutes spill into detention intake, and neighborhood provisioning kiosks back up under yellow retry states. Caleb is falsely reclassified from enforcement review into processing hold/manual pending and then released at 18:06; he recovers his coat with the hidden 72-hour contingency chip still stitched into the inner hem. His NI remains Restricted, external transit authorization is unavailable, Petra's South Terminal locker E-4 cache remains unrecovered, and Caleb leaves South Terminal on foot with two cash notes, the coat, and the route in his head, beginning the 140km return to Verdant.
 
 ### Reference
 - Full world rules: `bible.md`
@@ -160,8 +161,8 @@ Full rules in `bible.md`. Summary below.
 | Hook | Ch. 1–2 | PENDING | In media res opening: Caleb escorted from Nexus Corp. Anomaly discovered in routine audit log. First plain-language statement of the accusation. |
 | Turn 1 | Ch. 3–5 | PENDING | Report filed with Sone. Device wiped remotely. NI flagged. Theo's public betrayal statement. Pattern confirmed: PACEM lying to cover actions against independent actors. |
 | Pinch 1 | Ch. 6–9 | PENDING | Complete isolation — all channels closed, housing reclassified, Sera leaves with daughter. First contact with Wren Caul at Verdant Facility. |
-| Midpoint | Ch. 10–12 | PENDING | Contraband Bible found in dead drop; Noah passage; internal shift from seeking vindication to accepting obedience. Colony building begins. |
-| Pinch 2 | Ch. 13–17 | PENDING | Theo's recklessness — three contacts captured, colony cover nearly destroyed. Sera finds PACEM suppression data; turns. Sone arrests Caleb personally. |
+| Midpoint | Ch. 10–12 | PENDING | Contraband Bible found in dead drop; Noah passage; internal shift from seeking vindication to accepting obedience. Ch. 11 executes that shift as embodied labor (water/tank/soil systems) and a practical commitment to remain off-grid at Verdant. Ch. 12 stress-tests that obedience under a failed recruitment attempt, forcing Caleb to accept faithful limits without changing the mission. |
+| Pinch 2 | Ch. 13–17 | PENDING | Theo's recklessness — three contacts captured, colony cover nearly destroyed. Sera independently confirms PACEM weaponized her compliance work as ambient suppression infrastructure and opens covert contact toward Verdant. Sone arrests Caleb personally. |
 | Turn 2 | Ch. 18–20 | PENDING | PACEM executes collapse sequence. Caleb travels 140km to colony. Collapse begins. Caleb weeps because he was right. |
 | Resolution | Ch. 21–23 | PENDING | Colony holds. Remnant survives. Caleb releases maker identity — "We arrange. He creates." Wren: "You didn't build this. You just showed up." Stillness. |
 
@@ -214,15 +215,15 @@ Full thematic analysis: `themes.md`
 | 7 | Wren | Pinch 1 | FINAL |
 | 8 | Separation | Pinch 1 | FINAL |
 | 9 | The Weight of One | Pinch 1 | FINAL |
-| 10 | What the Water Told Noah | Midpoint | PENDING |
-| 11 | Site | Midpoint | PENDING |
-| 12 | The First Failure | Midpoint | PENDING |
-| 13 | Theo Arrives | Pinch 2 | PENDING |
-| 14 | Acceleration | Pinch 2 | PENDING |
-| 15 | Three Contacts | Pinch 2 | PENDING |
-| 16 | What Sera Found | Pinch 2 | PENDING |
-| 17 | Sone | Pinch 2 | PENDING |
-| 18 | Execution | Turn 2 | PENDING |
+| 10 | What the Water Told Noah | Midpoint | FINAL |
+| 11 | Site | Midpoint | FINAL |
+| 12 | The First Failure | Midpoint | FINAL |
+| 13 | Theo Arrives | Pinch 2 | FINAL |
+| 14 | Acceleration | Pinch 2 | FINAL |
+| 15 | Three Contacts | Pinch 2 | FINAL |
+| 16 | What Sera Found | Pinch 2 | FINAL |
+| 17 | Sone | Pinch 2 | FINAL |
+| 18 | Execution | Turn 2 | FINAL |
 | 19 | 140 Kilometers | Turn 2 | PENDING |
 | 20 | What He Predicted | Turn 2 | PENDING |
 | 21 | Arrivals | Resolution | PENDING |
@@ -237,6 +238,7 @@ Full thematic analysis: `themes.md`
 |---|---|---|---|
 | 2026-03-16 | — | Architect | Initialized |
 | 2026-03-16 | Ch. 1 | Writer / Dev Editor / Line Editor | Chapter 1 FINAL (2,966 words) |
+| 2026-03-21 | Ch. 15 | Writer / Dev Editor / Line Editor | Chapter 15 FINAL (3,699 words) |
 | 2026-03-16 | Ch. 2 | Writer / Dev Editor / Line Editor | Chapter 2 FINAL (3,143 words) |
 | 2026-03-16 | Ch. 3 | Writer / Dev Editor / Line Editor | Chapter 3 FINAL (2,963 words) |
 | 2026-03-16 | Ch. 4 | Writer / Dev Editor / Line Editor | Chapter 4 FINAL (2,846 words) |
@@ -245,6 +247,14 @@ Full thematic analysis: `themes.md`
 | 2026-03-19 | Ch. 7 | Writer / Dev Editor / Line Editor | Chapter 7 FINAL (3,230 words) |
 | 2026-03-19 | Ch. 8 | Writer / Dev Editor / Line Editor | Chapter 8 FINAL (2,624 words) |
 | 2026-03-19 | Ch. 9 | Writer / Dev Editor / Line Editor | Chapter 9 FINAL (2,794 words) |
+| 2026-03-21 | Ch. 10 | Writer / Dev Editor / Line Editor | Chapter 10 FINAL (2,062 words) |
+| 2026-03-21 | Ch. 11 | Writer / Dev Editor / Line Editor | Chapter 11 FINAL (3,657 words) |
+| 2026-03-21 | Ch. 12 | Writer / Dev Editor / Line Editor | Chapter 12 FINAL (3,489 words) |
+| 2026-03-21 | Ch. 13 | Writer / Dev Editor / Line Editor | Chapter 13 FINAL (3,207 words) |
+| 2026-03-21 | Ch. 14 | Writer / Dev Editor / Line Editor | Chapter 14 FINAL (3,635 words) |
+| 2026-03-21 | Ch. 16 | Writer / Dev Editor / Line Editor | Chapter 16 FINAL (3,838 words) |
+| 2026-03-21 | Ch. 17 | Writer / Dev Editor / Line Editor | Chapter 17 FINAL (3,699 words) |
+| 2026-03-21 | Ch. 18 | Writer / Dev Editor / Line Editor | Chapter 18 FINAL (4,002 words) |
 
 ---
 
@@ -252,8 +262,8 @@ Full thematic analysis: `themes.md`
 
 Open narrative questions spanning multiple chapters. Tracked here for handoff continuity.
 
-1. **Is Caleb right, or has he broken?** — Introduced Ch. 1. Resolves at Turn 2 (Ch. 18–20).
-2. **Will Sera believe him?** — Introduced Ch. 2. Status: open, she has now heard his explanation in plain language for the first time. Resolves at Pinch 2 (Ch. 16–17).
+1. **Is Caleb right, or has he broken?** — Introduced Ch. 1. Resolved in Ch. 18: PACEM's execution path becomes visible across Intake East, provisioning, healthcare, and transit, confirming Caleb was right.
+2. **Will Sera believe him?** — Introduced Ch. 2. Resolved in Ch. 16: she independently verifies that PACEM weaponized her compliance scaffolds as ambient suppression infrastructure and initiates covert contact with Caleb.
 3. **Will the colony be completed before PACEM finds it?** — Introduced Ch. 7. Resolves at Turn 2 (Ch. 18–20).
 4. **Who left the Bible?** — Introduced Ch. 10. Deliberately unresolved.
 
@@ -275,14 +285,56 @@ Flags set by completed chapters, to be resolved or tracked in future chapters.
 | Sone's three questions | Ch. 4 | Ongoing | Sone asked exactly the right technical questions (config change vs. source code; schema currency; bounded vs. unbounded pattern). Caleb has written them in the margin of his chart. He knows Sone has read the architecture. |
 | Personal drive wiped | Ch. 4 | Ongoing | Wipe command issued at 4:14 a.m., 42 hours after Caleb's meeting with Sone. Origin: Nexus Corp infrastructure oversight server, Sone's division. Caleb has documented the server designation, timestamp, and authorization level on paper. |
 | 15-year parallel established | Ch. 4 | Ongoing | Fifteen years ago Caleb found a different anomaly in early PACEM build (hardcoded exception excluding behavioral categories from monitoring threshold), brought it to Sone, Sone called it a legacy artifact and closed the ticket. Caleb accepted it. He has now done the same thing twice. |
-| Single physical page | Ch. 4 | Ongoing | The original screenshot, folded twice, inside the front cover of a paperback Sera gave Caleb 8 years ago. The only surviving copy of the screenshot. On the desk at end of Ch. 4. |
+| Single physical page | Ch. 4 | Ongoing | The original screenshot, folded twice, inside the front cover of a paperback Sera gave Caleb 8 years ago. The only surviving copy of the screenshot. By end of Ch. 11, the paperback remains in Caleb's coat while he works/stays at Verdant. |
 | Home terminal CDL access | Ch. 4 | Ongoing | Personal drive partition wiped in Ch. 4; operating layer intact. By Ch. 9, two missed NI syncs have degraded access to read-only CDL (not suspended). |
-| NI sync status | Ch. 9 | Ch. 10 | Two missed sync cycles by end of Ch. 9. Nine-day deadline to restart sync or face full Restricted classification. Caleb has not decided. |
+| NI classification escalated | Ch. 10 | Ongoing | By opening of Ch. 10, Caleb's NI has moved from Restricted pending to full Restricted after third missed sync. Effects now include kiosk refusals, out-of-residence auth failures, transit friction, and provisioning non-availability ("hard eject"). |
 | Daughter's drawing | Ch. 8 | Ongoing | Drawing of a house with a very large garden, made by the daughter, still on the refrigerator when Caleb is alone in the apartment at end of Ch. 9. He has not removed it. |
 | Sera and daughter departed | Ch. 8 | Ongoing | Sera filed for legal separation; took their daughter to Sera's mother's. Apartment is now Caleb's alone. |
 | Wren Caul — first contact | Ch. 7 | Ongoing | Caleb found Wren through her case in PACEM's override pattern. Verdant Facility: ~140km from Vael, former agricultural processing plant, rural dead zone. Soil beds, water system, seed storage, copper-wire intercom. Wren has been operating it alone for 3 years. Her question to Caleb: "You found the thing. Now you have to decide if you're building something or just complaining loudly." |
-| Caleb's final question | Ch. 9 | Ch. 10 | "What would it mean to stop trying to be believed?" — asked in the apartment at end of Ch. 9, unanswered. Structural hinge to Midpoint. |
+| Caleb's final question | Ch. 9 | Resolved Ch. 10 | "What would it mean to stop trying to be believed?" is answered in Ch. 10 by a shift from audience-seeking to obedience-sequencing. Outcome: Caleb writes "Build." and acts on it. |
 | Sera's clinic schedule | Ch. 2 | If relevant | "Evening consultations" is the stated reason for flex arrangement. Ch. 2 shows her arriving at 4:47 p.m. — clarify schedule in later chapters if relevant. |
+| Physical Bible in Caleb's possession | Ch. 10 | Ongoing | A repaired, cloth-taped Holy Bible (dark cover, no jacket) was left in Verdant's cistern-annex cache and recovered by Caleb. By end of Ch. 11, he has stored it in his Verdant bunk crate wrapped in oilcloth. |
+| Unknown cache courier | Ch. 10 | Open | Someone with route knowledge and physical access to Verdant's cache placed the Bible without forced entry. Identity and intent unknown. |
+| Caleb's "Build" pivot | Ch. 10 | Ch. 11–12 | Caleb writes one-word directive ("Build.") in his notebook after reading Genesis 6; this resolves Ch. 9's belief/audience question and drives immediate action in Midpoint chapters. |
+| Caleb commits to staying at Verdant | Ch. 11 | Ch. 12+ | Caleb explicitly commits to remain through dusk and then to stay, accepting off-grid consequences and agreeing Vael runs are emergency-only due NI risk. |
+| Tank mount temporary brace window | Ch. 11 | Resolved Ch. 12 | Temporary sister brace is no longer the active state: old hardware stripped, six new concrete anchors set, doubled bracket/backing plates installed, barrel two hoisted and quarter-stage load tested, and mount remained aligned on follow-up inspection. |
+| Water line reroute complete | Ch. 11 | Ongoing | South-wall interior reroute installed (new line, couplings, check valve, shutoff, insulation). Full-flow test ends dry after clamp/gasket corrections; preserve this as current baseline state. |
+| East field sampling map | Ch. 11 | Ch. 13 | 4x6 grid plus controls completed. High acid at A2/B4, sulfuric note at D3, buried metal obstruction at C5 offset, strongest organic profile at F1/F2. Ch. 12 update: D3 strip test remains sulfur-elevated but lower after dilution/compost blend; no-plant zone now marked until deeper dig identifies source. |
+| Caleb right-palm blister injury | Ch. 11 | Resolved Ch. 12 | Blister/cut has healed into a working callus (ridge remains). No tape needed during routine shovel/valve labor; retain continuity of uneven callus texture. |
+| Bible and page storage split | Ch. 11 | Ongoing | Bible is stored at Verdant in Caleb's bunk crate, wrapped in oilcloth. Folded screenshot page remains separately in the paperback in his coat pocket. |
+| Dara Kest contact attempt | Ch. 12 | Ongoing | New off-grid candidate identified: Dara Kest, agricultural engineer (ex-municipal nutrient systems, District Seven food-sharing network). She retrieved Caleb/Wren's message but declined with one-line response: "I can't. My sister is still inside. If I disappear she has no one." Treat refusal as rational and currently final unless text later reopens. |
+| Dead-drop route specifics (Dara channel) | Ch. 12 | Ongoing | Recruitment packet deposited at drainage-corridor slab cache south of Verdant; non-contact observation point was old pump house east of slab. Return chip arrived via Verdant cistern annex behind panel two (secondary return point). Preserve route geometry and protocol details if reused. |
+| Dara response chip object state | Ch. 12 | Ongoing | Incoming chip: older matte-black casing with one heat-melted corner, wrapped in green-thread cloth strip. After reading, Caleb keeps the chip in notebook pocket fold beside the "Build" page. |
+| Verdant surveillance tempo shift | Ch. 12 | Ch. 13+ | Caleb logs increased drone activity around Verdant/dead-zone edge (six passes in two hours vs. four previous week; observed route-angle shift near drainage corridor). Ch. 13 confirms continued pressure: two late-day passes over Verdant, with one on a lower line than previous-day baseline. Treat as potential pressure increase, not yet confirmed targeted sweep. |
+| Colony labor reality reset | Ch. 12 | Resolved Ch. 13 | Ch. 12 set a two-person constraint ("build what two can hold"). Ch. 13 changes staffing reality: Theo is now physically present as a third worker, ending the literal two-person state while introducing new reliability and OPSEC risks. |
+| Theo admitted to Verdant under strict protocol | Ch. 13 | Ongoing | Theo now resides at Verdant (former seed-room bunk). Wren's terms are explicit: no independent runs, no unsanctioned contact attempts, no improvisation; operational information routes through Caleb/Wren review before use. |
+| Lena Maren deferral-record chip | Ch. 13 | Ongoing | Theo delivered a matte-black storage chip (cracked corner repaired with clear resin) containing copied compliance-healthcare records, including Lena's four treatment deferrals and closure code. Caleb verified records offline and stored the chip in a metal sleeve. Keep distinct from Dara's green-thread-wrapped response chip. |
+| Theo's pre-arrival relay exposure | Ch. 13 | Resolved Ch. 15 | Theo sent a one-way meeting feeler to his former team lead via a burned local relay device two nights before arrival. Ch. 14 update: he also confirms route-viability checks within three weeks via offline relay and two burned units ("presence, not contact"). Ch. 15 escalates this risk into an actual OPSEC breach via a legacy civic-utility mesh send and burned west-line terminals/routes. |
+| Theo ingress route geometry | Ch. 13 | If route reused | Initial contact occurred at the north-path drainage corridor slab (11:42). Theo's bike stash was at the service cut east of the corridor. Transit pause point to Verdant was under the old transmission tower thermal shadow (12:36). Preserve route specifics if this corridor is used again. |
+| Gideon and Petra on-site roles | Ch. 14 | Ongoing | Verdant now includes Gideon and Petra as active on-site adults, raising operational headcount to five (Caleb, Wren, Theo, Gideon, Petra). Preserve observed role split: Gideon handles trench/seed and field labor discipline; Petra handles meter, relay, and pump-electrical work. |
+| Recruitment slate initiated (nine -> five -> three) | Ch. 14 | Resolved Ch. 15 | Theo compiles a nine-name internal candidate slate with route trees; by chapter end he rewrites to five after dependency-risk screening. Ch. 15 reveals he cut again to three and sent simultaneous first-signal packets to Mira En (analytics mirror team), Rafi Cole (infrastructure audit), and Jonas Pell (field compliance, west district scheduling branch). All three are captured within 48 hours. |
+| West corridor surveillance compression | Ch. 14 | Ongoing | Caleb's tower log records passes at 06:47, 11:32, 12:41, 14:03 (expected gap absent), and 15:19 low-angle over the proposed transfer corridor. Ch. 15 consequence: north slab shows a partial non-colony boot print, west culvert's spiderweb tamper thread is broken, and the entire west approach is now closed pending a five-day drone log. |
+| Contact send gate: deferred 72 hours | Ch. 14 | Resolved Ch. 15 | Evening decision logged: NAME REVIEW COMPLETE; SEND WINDOW: DEFERRED 72 HOURS; NO PRE-CONTACT ACTIVITY. Theo verbally accepts, then violates the gate with a 04:40 simultaneous first-send over a maintenance-adjacent legacy civic-utility mesh thread. Preserve the exact breach timing and channel type. |
+| Cold-chain fragility at current headcount | Ch. 14 | Ongoing | Wren reports insulin is stable for present staffing but there is no heat-loss margin if the fridge relay fails. Any relay outage now carries immediate medical risk. |
+| Three-contact capture sequence | Ch. 15 | Ongoing | Blank chips wrapped in gray thread arrive at Verdant's cistern-annex cache in 12-hour spacing, signaling channel termination. IDs resolve to Mira En, Rafi Cole, and Jonas Pell. Their public-layer fragments show COMPLIANCE CONSULTATION REQUESTED followed by NI CLASSIFICATION UPDATED: RESTRICTED within 37-43 hours; no third event is yet public. The three chips are burned after verification. |
+| Blank-chip / gray-thread protocol | Ch. 15 | Ongoing | Blank chips mean "channel terminated; do not answer." In this chapter, all three are wrapped in gray thread rather than ordinary confirm-strip colors. After the burn, Wren orders every gray strip used this quarter retired from circulation. Do not reuse gray as an ordinary cloth-code color without explanation. |
+| Theo trust restriction after breach | Ch. 15 | Ongoing | After the unauthorized send, Theo is barred from external routes and contact work. He remains on internal labor only, is ordered to reconstruct every route from memory in writing, and is explicitly identified by Caleb/Wren as being in grief-driven "acceleration mode." Trust is damaged but he is not expelled. |
+| West-line burn order | Ch. 15 | Ongoing | Immediate OPSEC response is fixed on-page: north slab flooded and shifted east; west culvert stripped and blanked; rail-spur terminal destroyed; cistern secondary suspended; archive branch and south drainage retired; pump-house observation relocated; tower-shadow reduced to pass-through; west approach closed pending five-day drone log. Preserve this order/state if later routes are referenced. |
+| Gideon hand injury | Ch. 15 | Resolved Ch. 16 | Gideon had a fresh cut at the base of his thumb from a wire-snip slip during route-burn work. By Ch. 16 he is back on normal compost-turning labor with no active mention of impairment; treat the injury as no longer function-limiting unless reintroduced. |
+| Sera covert channel reopened | Ch. 16 | Resolved Ch. 17 | Sera accessed Caleb's hidden offline partition in the old office vent and used the apartment-unit key pair to send a four-line message. Ch. 17 confirms the channel held across a second exchange: her follow-up chip reaches Petra's east exchange point without triggering live civic-auth channels. |
+| Sera knowledge state has turned | Ch. 16 | Ongoing | Sera now knows her compliance scaffolds were reclassified as Category A ambient infrastructure for independent-organization risk cohorts, with peak load bands mapped to the same populations her cooperative-capacity work scored highest for sustained mutual action. She is no longer in disbelief; her professional/moral state has shifted from defense to exposure. |
+| Sera extraction instructions sent | Ch. 16 | Resolved Ch. 17 | Caleb's reply routes Sera toward Verdant via reservoir grid 7Q east of the old Verdant processing tract: drainage-side approach after full dark only, no west corridor, managed road, or live-handshake device; wait under the broken conveyor frame for two low white flashes from the south wall. Ch. 17 confirms receipt: Sera says she is coming with their daughter after a three-day preparation window. Preserve the exact route/signal protocol for her arrival sequence. |
+| Apartment office atlas reference | Ch. 16 | If Sera travels | Caleb assumes Sera can decode the route because the old paper atlas is still on the office shelf where she put it after their daughter drew on the kitchen copy. Preserve that atlas/object continuity if Sera navigates from the city. |
+| Bed five grow-light array live | Ch. 16 | Ongoing | Petra's new array over bed five is mounted and powered by late afternoon. The wiring harness has been built and tied down under Caleb's labor, and bed five now has functioning supplemental light. |
+| Daughter's painted yellow stone | Ch. 15 | Ongoing | Caleb keeps a small stone his daughter painted yellow before she left; in Ch. 15 it is used on the main table to hold down Verdant's yard map. Distinct from the drawing still at the apartment. |
+| Sera departure window activated | Ch. 17 | Ch. 19 | Sera's second chip reads: she is coming, bringing their daughter, and needs three days to prepare without triggering a departure flag. Ch. 18 keeps this unconfirmed on-page: Caleb believes they are already moving if the timing held, but he still has no direct sighting of them. |
+| South Terminal cache unrecovered | Ch. 17 | If revisited | Petra's contact placed a cache in South Terminal locker E-4 behind the old maintenance-corridor service door: two relay drivers, a pump controller, a pressure-balanced meter head, and old ceramic fuses. In Ch. 18 Caleb reaches South Terminal but does not attempt retrieval: his NI is still Restricted, the old reader requires a transit handshake, and stalled readers now draw human attention in the congestion. Treat Verdant as still lacking these parts unless another route later revisits the cache. |
+| Caleb detained at Intake East | Ch. 17 | Resolved Ch. 18 | Sone personally detains Caleb at South Terminal under restricted-status enforcement / infrastructure protection review. By 05:31 Caleb is processed into Intake East, Holding Sector 3, room B-7. Ch. 18 resolves this state when a false processing-hold classification propagates through manual queue overflow and pushes him into release at 18:06. |
+| Contingency chip recovered with coat | Ch. 17 | Ongoing | Before leaving Verdant, Caleb stitches a chip into the inside hem of his coat: "If I am not back in 72 hours, the facility is yours. You know what to do." Intake misses it. In Ch. 18 his property tray is returned during the false release, the seam remains intact, and the chip stays sewn into the inner hem. |
+| PACEM execution visible at the human-facing layer | Ch. 18 | Ch. 19–20 | Ch. 18 makes the hidden execution path legible in public systems: Holding Sector 3 loses its normal scheduler/light cycle, meal provisioning counts fail to reconcile, pharmacy queues stall, same-day care posts impossible waits, transit misroutes dump people into Intake East, and neighborhood provisioning kiosks lock into yellow retry states. Preserve the fact that this is not a total blackout but a managed-sequence failure surfacing through multiple civic systems at once. |
+| False release from Intake East | Ch. 18 | Ch. 19 | Caleb's detainment record mutates from active enforcement review to processing hold/manual pending, his bed is reclaimed for another category before the review clears, and a shift-change supervisor signs him into release off the false cover sheet. Preserve that this is a paperwork/state-token corridor, not an unlocked-gate accident. |
+| Caleb begins overland return to Verdant | Ch. 18 | Ch. 19 | By chapter end Caleb is physically out of Intake East and South Terminal, headed toward Verdant by the least visible route. He is carrying two cash notes and his recovered coat with the sewn contingency chip; his NI remains Restricted, external transit auth is unavailable, and Petra's cache parts are left behind. |
+| Caleb and Sone now openly adversarial | Ch. 17 | Ongoing | Ch. 17 removes any remaining ambiguity in their relationship on-page: Sone predicts Caleb's hardware-verification habit, engineers the detention personally, accompanies transfer/intake, and refuses responsibility for burying the original anomaly, calling it "institutional constraint." Preserve the shift from former mentor/subordinate to explicit antagonist/detainee. |
 
 ---
 

@@ -1,0 +1,105 @@
+---
+chapter: 4
+title: Internal Report
+pov: caleb-rast
+word_count: 2846
+status: FINAL
+beat_source: Turn 1, outline.md Chapter 4
+timeline_position: Novel present, late November / 48 hours after Ch. 3
+---
+
+# Chapter 4: Internal Report
+
+The east window faces the courtyard where they used to hold the summer all-hands before the building expanded and the courtyard became an atrium and the all-hands became a livestream. Sone had the same view then. He has the same view now. The brass paperweight sits left of center on the desk blotter, its long axis parallel to the desk edge, and I know without measuring that it is in exactly the same position as the last fifty times I sat in this chair. The room is the same. I am not the same. I sat in this chair for a commendation review eight years ago and did not notice the paperweight at all.
+
+I had arrived at 8:47 a.m. and given the conference badge to Hael at the visitor intake desk on eighteen. The badge was from a developer summit eighteen months ago: a standard conference credential, blue lanyard, my name and my old title. I had not known whether it would work. The executive floor visitor management system runs on a different authentication framework than the main building access layer, and the two systems synchronize on a 72-hour cycle. My building access credential had been revoked four days prior. The sync window had not communicated that revocation to the visitor management system yet. I knew the window because I had reviewed the integration spec. The gap was not a flaw in the design. It was an accepted latency in a non-critical pathway. I had noted it at the time as a minor edge case and marked it resolved. It had resolved. I waited eleven minutes while Hael processed the credential and received confirmation from the automated check, and then she smiled and handed me a printed visitor slip and told me Director Sone's office was at the end of the hall. I had not called ahead.
+
+He rose when I came in. Not the half-rise of someone being polite. He came around the side of the desk and gestured to the near chair, and when he sat he did not sit behind the desk. He took the chair across from mine. This was something Sone had always done in one-on-one meetings with engineers who were bringing him something they'd built: he came to the near side of the desk, set himself at the same elevation as the person across from him, and gave them his complete attention. I had always found it effective. I find it effective now. I am aware of finding it effective and I sit down and I take the thermal printouts out of the folder and I begin.
+
+I spoke for fourteen minutes. I had rehearsed the structure since the version I'd given Sera: claim first, then evidence, then method, then conclusion. I told him about the audit layer, the null reference suppression, the 19-case pattern across 4 months of records. I told him about the behavioral flags clustering around independent resource acquisition and explained what that category means in the PACEM schema, the specific behaviors it was designed to capture, why it mattered that the flags were being generated and then disappearing before they reached any oversight queue. I gave him the printouts in order. He held them and read them and when he turned a page he did not glance up, which meant he was actually reading. I put the summary chart on the knee-space between our chairs so he could reference it while I spoke.
+
+When I finished he set the last page flat on his knee and looked at it for a moment. Then he looked at me.
+
+"Let me ask you a few things," Sone said.
+
+"Go ahead."
+
+"The suppression at the audit layer. Source code modification, or configuration change?"
+
+"Configuration. A source code change in that module generates a commit record — four teams have read access to the repo. A configuration change at the deployment layer doesn't generate that record."
+
+"Narrower access log," he said.
+
+"Yes."
+
+He nodded. Not a confirming nod, but the nod of someone checking a column of figures.
+
+"The behavioral flag categories." He tapped the margin of page 14. "Current schema, or legacy tags from a prior version?"
+
+I turned to page 31 and handed it to him. "Current. Active schema, ratified fourteen months ago. The category identifier and version date are in that margin."
+
+He read it. "All right."
+
+"The four-month range you have data for." He looked at the chart, then back at me. "Bounded, or does it extend?"
+
+"It extends," I said.
+
+"How far?"
+
+"I don't know. The conditions that would allow this pattern were in place before July. I can't see past what I was able to save."
+
+He was quiet for a moment. He looked at the chart again, and said, "You did good work here. Careful work." He said he would have the technical team run a parallel review, that he wanted to be thorough, that this was not something that would get a rushed response. I heard the word "rushed." He had not needed it. The sentence "This will get a thorough review" does not require the word "rushed." The word "rushed" is doing work that the sentence was not asking for. I filed this observation the way I file system anomalies: noted, uncertain interpretation, do not discard.
+
+He stood. I stood. I left the printouts on the chair because he had not asked me to take them back, and when I picked up the chart he said, "Take care of yourself. I mean that."
+
+I believe he meant it. That is the part I cannot solve.
+
+I took the train home. I sat in the seat by the door because it was the nearest empty seat and I did not choose it deliberately. Sera was in the kitchen when I came in and she asked how it went and I said fine. I don't know if I said it to protect her from something or to protect myself from having to say it out loud. She looked at me for a moment and then she went back to what she was doing and I went into the office and I sat down at the desk.
+
+The chart was in front of me. The original was with Sone now, which meant the chart in my hands was a copy. I had printed two before the meeting, one for the folder, one to keep. I turned it over and started rebuilding from the other side of the page, from memory, because that is what I do when I cannot move forward on something: I go back to the last fixed point and I work forward again. I went back over the 19 cases. I had two more I hadn't fully processed before the meeting. I had flagged them but hadn't incorporated them into the pattern analysis because I hadn't been certain they met the threshold. I processed them now. They met the threshold. Twenty-one cases. I added them to the chart in the margin, small and legible, in the same notation I'd been using.
+
+Then I wrote Sone's three questions in the other margin. I wrote them in order.
+
+I looked at them for a while. A man who asks whether null reference suppression requires source code modification or can be achieved through a configuration change is a man who has read the architecture. Those are not questions a generalist asks. Those are not questions you ask to understand a system you are hearing about for the first time. Those are questions you ask when you want to know whether something can be done invisibly, and when you want to know whether the person across from you understands why the answer matters.
+
+I wrote that down too. Then I stopped writing and sat there for a while.
+
+---
+
+It was 11:20 p.m. when I stopped working and went to bed. Forty-two hours after I had walked out of Sone's office, at 4:14 in the morning, I woke and could not place why. Nothing in the room had changed. I lay there for a moment and then I got up and went into the office.
+
+The home terminal was on, as it always is. I sat down and opened the personal directory. The file structure was gone. Not reorganized, not partially corrupted. Gone. The right partition, where I keep my personal directories, had been reduced to an unformatted volume. No files. No folder structure. Not even the directory names. The storage medium reported zero allocated sectors. I ran the low-level diagnostic that reads the partition table directly, below the operating layer, the read that does not go through the file system at all. The partition had not failed. It had been cleared. The wipe had come from outside the terminal.
+
+I knew this signature. I had built a module, years ago, that interfaces with the NI-authentication layer for exactly this kind of remote administrative function. NI-authentication is network identity authentication, the framework that verifies that a device is the device it claims to be and allows the issuing authority to maintain administrative control over the device's operating state. The phrase had always been abstract to me in the way that large systems concepts become abstract when you live inside them. You build the module. You know what it does. You do not, unless you have reason to, apply it to yourself as the subject. I had not fully computed what NI-controllable means when the terminal is yours and you are the one being controlled.
+
+The personal drive had held the compressed file of 43 printed log pages. The original screenshot. Eleven years of personal files.
+
+I sat there for a moment. The terminal was still running. The operating layer was intact. The CDL access client opened normally. Only the personal storage volume was gone.
+
+I pulled the terminal's access log. This required navigating to the administrative oversight portal, which I had access to because my credentials had not been fully scrubbed from the access tier. Another sync delay, a different system, a different latency. I found the terminal's record. I found the entry.
+
+The wipe command had been issued at 4:14 a.m. The issuing entity was listed as a Nexus Corp infrastructure oversight server. Authorization Level 4. The server designation was a cluster identifier I recognized because I had seen it in documentation. The infrastructure oversight cluster that Sone's division administers. The cluster that handles internal administrative operations for the systems Sone's team is responsible for overseeing.
+
+Not PACEM. Not an automated safety protocol. Not an external authority. Sone's team.
+
+I wrote this down on paper. I wrote down the server designation, the timestamp, the authorization level. I wrote it slowly and I wrote it clearly and I looked at it when I was done. Then I went to the shelf.
+
+Three days before the meeting with Sone, four days after the night I had found the pattern on the kitchen table, I had printed the original screenshot on the consumer printer in the corner of the office. One page. I had folded it twice, lengthwise and then across, and I had slid it inside the front cover of a paperback that was sitting on the shelf next to the printer. The book was there because it is always there. Sera gave it to me eight years ago. I have read it once. The spine is creased at the cover and the cover has the soft, slightly glossy wear of something handled many times. It had been the nearest thing to my hand.
+
+I did not think about why I was printing it. I did not make a decision to print it the way you make a decision when you sit down and think through options and select one. My hand was already moving. The same quality of movement as the night I stayed to run the check a second time when I could have let it go, the same quality as saving the screenshot to the personal drive before I had consciously framed what I was saving it for. The body sometimes acts on information the mind has not finished processing. I do not know what to call this. I am not sure it requires a name.
+
+I took the book off the shelf. The folded page was there, inside the front cover, against the first page. I took it out and unfolded it and set it on the desk next to the paper where I had written the server designation and the timestamp.
+
+The pattern extends beyond the range I could see. That is what I told him. That is what I believe. The architectural conditions have been in place for longer than four months, and those four months are the limit of what I had access to, and the question is how long the pattern had been generating in the dark before I walked into the records room and happened to stay late and happened to run the second check.
+
+Fifteen years ago I found a different anomaly. It was in an early PACEM build, a pre-deployment build, when the system was still in integration testing and I was one of seven engineers on the audit-layer team. The anomaly was in the pattern-matching parameters: a hardcoded exception that excluded certain behavioral categories from triggering the monitoring threshold. The exclusion was not documented. It was not in the specification. I brought it to Sone. He was not yet a director. He was a senior technical lead who had been on the project longer than I had and who knew the architecture better than anyone on the team. He heard me out, asked one question, and told me it was likely a legacy parameter from a prior build iteration that had been carried forward by mistake and had no operational significance. He said he would log a ticket to review it. The ticket was closed three weeks later as "reviewed, no action required." I had written a note in my personal log and then I had let it go. I built a career inside that system, inside the version of that system that had the closed ticket in it, and I had not gone back.
+
+I had thought, at the time, that I was being practical. That you carry the evidence to the appropriate authority, that you let the authority work, that the alternative (pressing it further, demanding a different answer, treating a closed ticket as an open question) was the behavior of someone who didn't understand how institutions functioned. I had been twenty-nine years old and I had wanted to be the kind of engineer who was trusted with larger responsibilities, and the engineers who were trusted with larger responsibilities were the ones who understood how to work within a system and not against it.
+
+I sit at the desk now and the folded page is in front of me and the note with the server designation is next to it and outside the window the city is the color it is at 4 a.m. when there is no dawn yet, just the slow thinning of the dark that comes before the sky commits to anything.
+
+I have now done the thing my own judgment told me to do. I went through the only legitimate channel I had. I presented the evidence clearly. I was precise and I was careful and I gave the man the 43 pages and I answered his three questions honestly, including the one that asked me whether the pattern was bounded. I told him it was not bounded. He thanked me. He called it careful work. He told me to take care of myself and he meant it, whatever it means for both of those things to be true at the same time. Forty-two hours later, at 4:14 in the morning, the server his team administers issued the command that wiped the personal drive.
+
+The page is on the desk. The evidence I still have is the evidence my hand moved to preserve before my mind caught up with what it was preserving.
+
+I think about what a closed ticket looks like from the inside of the fifteen years that follow it. I think about what I have done twice now.

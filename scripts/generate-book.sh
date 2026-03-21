@@ -2,7 +2,7 @@
 # =============================================================================
 # generate-book.sh — Full pipeline: idea → architect → write → build → deploy
 #
-# Usage: generate-book.sh [book-slug]
+# Usage: generate-book.sh [book-slug] [--chapters-per-run N|--all]
 #   If no slug is given, uses today's date: book-YYYY-MM-DD
 #   Resumes safely if interrupted — skips any phase whose output files exist
 # =============================================================================
@@ -10,11 +10,58 @@ set -euo pipefail
 source "$(dirname "$0")/config.sh"
 check_deps
 
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [book-slug] [--chapters-per-run N|--all]
+
+Options:
+  --chapters-per-run N   Write at most N unfinished chapters this run
+  --all                  Write all remaining chapters this run
+  -h, --help             Show this help
+EOF
+}
+
 # ── Setup ─────────────────────────────────────────────────────────────────────
 DATE=$(date +%Y-%m-%d)
-BOOK_SLUG="${1:-book-$DATE}"
+BOOK_SLUG=""
+CHAPTERS_PER_RUN_LIMIT="$CHAPTERS_PER_RUN"
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --chapters-per-run)
+            shift
+            [ "$#" -gt 0 ] || fail "Missing value for --chapters-per-run"
+            CHAPTERS_PER_RUN_LIMIT="$1"
+            ;;
+        --all)
+            CHAPTERS_PER_RUN_LIMIT=0
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -*)
+            fail "Unknown option: $1"
+            ;;
+        *)
+            if [ -n "$BOOK_SLUG" ]; then
+                fail "Only one book slug may be provided"
+            fi
+            BOOK_SLUG="$1"
+            ;;
+    esac
+    shift
+done
+
+BOOK_SLUG="${BOOK_SLUG:-book-$DATE}"
 NOVEL_DIR="$NOVELS_DIR/$BOOK_SLUG"
 LOG_FILE="$LOG_DIR/book-$DATE.log"
+
+case "$CHAPTERS_PER_RUN_LIMIT" in
+    ''|*[!0-9]*)
+        fail "chapters-per-run must be a non-negative integer"
+        ;;
+esac
 
 mkdir -p "$LOG_DIR" "$NOVEL_DIR/chapters" "$NOVEL_DIR/characters"
 
@@ -24,6 +71,11 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 log "================================================================"
 log "Starting: $BOOK_SLUG"
 log "Novel dir: $NOVEL_DIR"
+if [ "$CHAPTERS_PER_RUN_LIMIT" -eq 0 ]; then
+    log "Chapter batch: all remaining chapters"
+else
+    log "Chapter batch: up to $CHAPTERS_PER_RUN_LIMIT unfinished chapters"
+fi
 log "================================================================"
 
 # ── Phase 1: Ideation ─────────────────────────────────────────────────────────
@@ -32,11 +84,11 @@ if [ ! -f "$NOVEL_DIR/idea.md" ]; then
     log "[Phase 1/6] Generating novel concept..."
 
     run_codex "$NOVELS_DIR" \
-        "Read $AIWRITER_DIR/genres.md in full — all 12 genre profiles including comp authors, POV, rhythm, tone, and Christian worldview integration approach.
+        "Read $AIWRITER_DIR/genres.md in full — all approved genre profiles, their category labels, comp authors, POV, rhythm, tone, and Christian worldview integration approach.
 
 Read $AIWRITER_DIR/diversity-tracker.md — understand what genres, POVs, tones, settings, and protagonist types have already been used. Note the last 3 books specifically.
 
-Select a genre profile that maximizes contrast with recent entries:
+Select one approved genre profile from genres.md that maximizes contrast with recent entries:
 - Different genre from the last 3 books
 - Different POV from the last 2 books
 - Different tone from the last 2 books
@@ -48,7 +100,8 @@ Save to $BOOK_SLUG/idea.md with exactly this structure:
 ---
 title: [Novel Title]
 slug: $BOOK_SLUG
-genre: [exact genre name from genres.md]
+category: [Sci-Fi / Fantasy / Thriller / Military SF / Space]
+genre: [exact genre profile name from genres.md]
 pov: [First person / Third limited / Third omniscient / Multiple / Epistolary]
 tone: [primary tone descriptor — one or two words]
 setting_type: [Contemporary / Near-future / Historical / Fantasy / Rural / Urban / etc.]
@@ -92,7 +145,7 @@ if [ ! -f "$NOVEL_DIR/memory.md" ]; then
     log "  Generating style guide..."
     run_codex "$NOVEL_DIR" \
         "Read $AIWRITER_DIR/agents.md — the Architect Agent section and the per-novel style guide template.
-Read $AIWRITER_DIR/genres.md — find the full genre profile that matches the genre in idea.md.
+Read $AIWRITER_DIR/genres.md — find the full approved genre profile that matches the genre in idea.md.
 Read idea.md.
 
 Generate style-guide.md for this novel using the template in agents.md.
@@ -119,6 +172,7 @@ Add a new entry to diversity-tracker.md following the exact format of existing e
 ### [Book entry for $BOOK_SLUG]
 - date: $DATE
 - slug: $BOOK_SLUG
+- category: [from idea.md]
 - genre: [from idea.md]
 - pov: [from idea.md]
 - tone: [from idea.md]
@@ -138,17 +192,20 @@ Save the updated diversity-tracker.md. Output nothing else." \
 Read idea.md and style-guide.md.
 
 Select the story structure that best fits this novel's genre and emotional arc.
+Decide how many chapters the story needs — between $CHAPTERS_MIN and $CHAPTERS_MAX. Let the structure drive the count: a tighter thriller may need fewer; a sprawling epic more. Choose the number that serves the story, not the maximum.
+
 Generate outline.md with:
 
 # [Novel Title] — Outline
 
 ## Structure
 Chosen structure: [name]
-Rationale: [why this serves this story]
+Chapter count: [N]
+Rationale: [why this structure and this chapter count serve this story]
 
 ## Chapter Outline
 
-For each of the 23 chapters:
+For each chapter:
 
 ### Chapter N: [Title]
 - Beat: [which structural beat this serves]
@@ -208,7 +265,7 @@ Generate two files:
    [Title, genre, premise, protagonist, antagonist]
 
    ## Chapter Progress Log
-   [23 entries, all marked TODO, with chapter number and title]
+   [One entry per chapter in outline.md, all marked TODO, with chapter number and title]
 
    ## Continuity Flags
    [Empty — populated as chapters are written]
@@ -234,9 +291,22 @@ else
 fi
 
 # ── Phase 3: Write all chapters ───────────────────────────────────────────────
-log ""
-log "[Phase 3/6] Writing $CHAPTERS_PER_BOOK chapters..."
+# Read actual chapter count from outline.md (Architect chose it within the configured range)
+CHAPTERS_PER_BOOK=$(chapter_count_from_outline "$NOVEL_DIR/outline.md" "$CHAPTERS_MAX")
+# Validate: clamp to configured range
+if [ "$CHAPTERS_PER_BOOK" -lt "$CHAPTERS_MIN" ] || [ "$CHAPTERS_PER_BOOK" -gt "$CHAPTERS_MAX" ] 2>/dev/null; then
+    log "  Chapter count $CHAPTERS_PER_BOOK out of range — defaulting to $CHAPTERS_MIN"
+    CHAPTERS_PER_BOOK="$CHAPTERS_MIN"
+fi
 
+log ""
+if [ "$CHAPTERS_PER_RUN_LIMIT" -eq 0 ]; then
+    log "[Phase 3/6] Writing remaining chapters (up to $CHAPTERS_PER_BOOK total)..."
+else
+    log "[Phase 3/6] Writing up to $CHAPTERS_PER_RUN_LIMIT unfinished chapters this run..."
+fi
+
+CHAPTERS_WRITTEN_THIS_RUN=0
 for i in $(seq 1 "$CHAPTERS_PER_BOOK"); do
     PADDED=$(printf '%02d' "$i")
     FINAL="$NOVEL_DIR/chapters/chapter-${PADDED}.md"
@@ -246,17 +316,25 @@ for i in $(seq 1 "$CHAPTERS_PER_BOOK"); do
         continue
     fi
 
-    # Get chapter title from outline
-    TITLE=$(run_codex "$NOVEL_DIR" \
-        "Read outline.md. Output only the title of Chapter $i — the words after 'Chapter $i:'. No other text, no punctuation before or after." \
-        "$CODEX_FAST_SLEEP" | tr -d '\n' | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+    if [ "$CHAPTERS_PER_RUN_LIMIT" -gt 0 ] && [ "$CHAPTERS_WRITTEN_THIS_RUN" -ge "$CHAPTERS_PER_RUN_LIMIT" ]; then
+        log "  Reached chapter batch limit for this run"
+        break
+    fi
+
+    TITLE=$(chapter_title_from_outline "$NOVEL_DIR/outline.md" "$i" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+    [ -n "$TITLE" ] || TITLE="Chapter $i"
 
     log "  Chapter $i: $TITLE"
     bash "$SCRIPTS_DIR/generate-chapter.sh" "$NOVEL_DIR" "$i" "$TITLE"
+    CHAPTERS_WRITTEN_THIS_RUN=$((CHAPTERS_WRITTEN_THIS_RUN + 1))
 done
 
 log ""
-log "[Phase 3/6] All chapters written"
+if [ "$CHAPTERS_WRITTEN_THIS_RUN" -eq 0 ]; then
+    log "[Phase 3/6] No unfinished chapters processed"
+else
+    log "[Phase 3/6] Completed $CHAPTERS_WRITTEN_THIS_RUN chapter(s) this run"
+fi
 
 # ── Phase 4: Build site ───────────────────────────────────────────────────────
 log ""

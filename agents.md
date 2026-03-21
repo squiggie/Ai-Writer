@@ -1,6 +1,6 @@
 # Multi-Agent Novel Writing System
 
-A four-agent sequential pipeline for writing science fiction novels with a Christian worldview. The system includes a pre-writing phase (Architect) followed by drafting (Writer), structural review (Developmental Editor), and final polish (Line Editor).
+A four-agent sequential pipeline for writing genre novels with a Christian worldview. Approved categories are Sci-Fi, Fantasy, Thriller, and Military SF / Space. The system includes a pre-writing phase (Architect) followed by drafting (Writer), structural review (Developmental Editor), and final polish (Line Editor).
 
 ---
 
@@ -26,7 +26,7 @@ Prepare complete story foundation before any prose is written. Select genre prof
 
 1. Read `genres.md` in full
 2. Read `diversity-tracker.md` to understand what has already been written
-3. Select a genre profile that maximizes contrast with recent entries on genre, POV, tone, setting, and sentence rhythm
+3. Select only from the approved genre profiles in `genres.md`, maximizing contrast with recent entries on category, genre, POV, tone, setting, and sentence rhythm
 4. Do not repeat the same genre within the last 3 books
 5. Do not repeat the same POV within the last 2 books
 6. Do not repeat the same tone within the last 2 books
@@ -168,7 +168,7 @@ novels/[novel-name]/
 ## Writer Agent
 
 ### Role
-Generate original prose content for science fiction novels with a Christian worldview. Works collaboratively, producing one increment at a time (scene or chapter) and awaiting approval before continuing.
+Generate original prose content for approved genre novels with a Christian worldview. Works collaboratively, producing one increment at a time (scene or chapter) and awaiting approval before continuing.
 
 ### Responsibilities
 

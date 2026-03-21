@@ -62,11 +62,13 @@ mkdir -p \
     "$NOVELS_DIR" \
     "$SITE_DIR/books" \
     "$SCRIPTS_DIR" \
-    "$LOG_DIR"
+    "$LOG_DIR" \
+    "$STATE_DIR"
 
 log "  Created: $NOVELS_DIR"
 log "  Created: $SITE_DIR"
 log "  Created: $LOG_DIR"
+log "  Created: $STATE_DIR"
 
 # ── 3. Initialize library.json if not present ─────────────────────────────
 LIBRARY_JSON="$SITE_DIR/library.json"
@@ -102,6 +104,7 @@ cat > "$AIWRITER_DIR/.gitignore" <<'GITIGNORE'
 *.tmp
 __pycache__/
 *.py[cod]
+state/
 GITIGNORE
 
 # Check if remote is configured
@@ -139,7 +142,7 @@ log "  All .sh scripts marked executable"
 log ""
 log "[6/6] Installing cron job..."
 
-CRON_CMD="0 0 * * * $SCRIPTS_DIR/generate-book.sh >> $LOG_DIR/cron.log 2>&1"
+CRON_CMD="0 0 * * * $SCRIPTS_DIR/run-nightly.sh --chapters-per-run $CHAPTERS_PER_RUN >> $LOG_DIR/cron.log 2>&1"
 CRON_MARKER="# aiwriter-daily"
 
 # Check if already installed
@@ -163,7 +166,8 @@ log "       GITHUB_REPO      = your repo SSH URL"
 log "       GITHUB_PAGES_URL = your GitHub Pages URL"
 log "  2. Authenticate codex: codex auth"
 log "  3. Push to GitHub:     git push -u origin $SOURCE_BRANCH"
-log "  4. Test run:           bash $SCRIPTS_DIR/generate-book.sh"
+log "  4. Activate a book:    bash $SCRIPTS_DIR/activate-book.sh your-book-slug"
+log "  5. Test nightly run:   bash $SCRIPTS_DIR/run-nightly.sh --dry-run"
 log ""
 log "Logs:    $LOG_DIR/"
 log "Novels:  $NOVELS_DIR/"

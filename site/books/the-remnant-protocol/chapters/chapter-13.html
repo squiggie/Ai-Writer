@@ -1,0 +1,371 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 13: Theo Arrives - The Remnant Protocol</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="spacer"></li><li class="chapter-item expanded "><a href="../chapters/chapter-01.html">Chapter 1: The Audit</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-02.html">Chapter 2: The Severance Terms</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-03.html">Chapter 3: The Thread</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-04.html">Chapter 4: Internal Report</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-05.html">Chapter 5: Compliant Citizens</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-06.html">Chapter 6: The Closed Channels</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-07.html">Chapter 7: Wren</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-08.html">Chapter 8: Separation</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-09.html">Chapter 9: The Weight of One</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-10.html">Chapter 10: What the Water Told Noah</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-11.html">Chapter 11: Site</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-12.html">Chapter 12: The First Failure</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-13.html" class="active">Chapter 13: Theo Arrives</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-14.html">Chapter 14: Acceleration</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-15.html">Chapter 15: Three Contacts</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-16.html">Chapter 16: What Sera Found</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-17.html">Chapter 17: Sone</a></li><li class="chapter-item expanded "><a href="../chapters/chapter-18.html">Chapter 18: Execution</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Remnant Protocol</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="git@github.com:squiggie/Ai-Writer.git" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <hr />
+<h2>chapter: 13
+title: Theo Arrives
+pov: caleb-rast
+word_count: 3207
+timeline_position: Novel present, early spring, shortly after Ch. 12
+beat_source: Pinch 2, outline.md Chapter 13
+status: FINAL</h2>
+<h1 id="chapter-13-theo-arrives"><a class="header" href="#chapter-13-theo-arrives">Chapter 13: Theo Arrives</a></h1>
+<p>Theo Maren is sitting on a salvaged concrete block at the edge of the drainage corridor when I come up the north path at 11:42.</p>
+<p>The block is from an old culvert wall, rebar exposed at one corner, moss on the side that never gets full sun. Theo is wearing city clothes calibrated for controlled weather and indoor cameras: dark jacket with no insulation rating visible at the cuff, trousers cut narrow at the ankle, shoes with smooth composite soles that are quiet on flooring and wrong for mud. There is dried clay at both knees and one torn seam at the right thigh where he has gone down hard at least once on the trail in.</p>
+<p>He stands when he sees me. He does not wave. He does not do the half-smile people use when they want to establish ease before asking for something. His shoulders are up near his ears and his hands are shaking enough that the tremor is visible from ten meters.</p>
+<p>"I need to tell you about Lena," he says.</p>
+<p>The wind is crosswise through the corridor this morning, pulling cold along the concrete channel and carrying the smell of wet metal from the culvert mouth. I set my bag down without taking my eyes off him and look once across the tree line for drone shadow. Nothing at low altitude. One high pass eight minutes ago by my count.</p>
+<p>"How did you find this place," I say.</p>
+<p>He swallows. The movement is visible in his throat before sound comes out. "You went to the pre-integration library twice before you disappeared. Not for nostalgia. Not your type. I checked the physical checkout logs." He rubs his palms against his trousers and leaves two darker streaks in the fabric. "You pulled dead-zone maps from the rural infrastructure stack. Paper copies. I watched which districts were missing from the rack afterward. I worked backward from coverage gaps."</p>
+<p>I do not answer immediately. The first time I brought those maps out of the archive room, I put them in a folded utility sleeve and walked three extra blocks before taking transit because it felt less visible. The feeling had no technical basis. I did it anyway. Theo has now given me the technical basis.</p>
+<p>"How long have you been here," I ask.</p>
+<p>"Since 08:10." He looks toward the west ditch as if checking if someone else will come out of it. "I came in at first light and stayed off the ridge. No direct approaches. No device pings."</p>
+<p>His NI is still active, or was recently enough for him to know what words to use around pings and approach patterns. That means he came out with risk still on him.</p>
+<p>"You came alone," I say.</p>
+<p>"Yes."</p>
+<p>"No tail."</p>
+<p>"No tail I could see."</p>
+<p>I nod once and take in the rest of him: left sleeve scuffed near the wrist where he has gone to ground on rough concrete, two shallow cuts at the knuckles not cleaned well, pupils larger than ambient light should produce. He is running hot on stress chemistry and low on sleep.</p>
+<p>"Say it," I tell him.</p>
+<p>He sits back down on the concrete block like his legs have made the choice before his mind has. He puts both elbows on his knees and laces his fingers together hard enough that the skin at the joints goes pale.</p>
+<p>"She was twenty-two," he says. "Queue classification B-six. Treatment existed. Cardiac repair protocol, outpatient in two sessions if approved in first window. She got deferred three times for projected non-compliance risk and low productivity return." He is looking at his hands, not at me. "The fourth deferral came with a counseling recommendation. She died on day nine."</p>
+<p>The corridor is quiet except for wind over dead grass and one loose sheet of signage metal tapping a post farther south. Theo's voice stays even for the first sentence and breaks on the second without changing volume. My jaw locks for a moment before I notice it. The tendons in my right forearm tighten around empty air where a keyboard should be.</p>
+<p>"When," I say.</p>
+<p>"Five weeks ago." He pulls one hand free, reaches into his jacket, and places a matte-black storage chip on the block between us. "A little over six months after I wrote that statement. I copied the queue logs before they closed her record. I should have copied more. I should have done it earlier."</p>
+<p>He pushes the chip toward me with two fingers and pulls his hand back as if the plastic is hot.</p>
+<p>"You posted a statement," I say.</p>
+<p>He nods once without looking up. "I know."</p>
+<p>"You wrote that you had complete confidence in PACEM's operational integrity."</p>
+<p>"I know what I wrote."</p>
+<p>"You wrote it eight months ago."</p>
+<p>He lifts his head. His eyes are bloodshot at the edges and the skin below them is dark in crescents that say two nights without full sleep, possibly three.</p>
+<p>"I wrote it because I was afraid," he says. "I wrote it because I thought if I stayed clean in the record I could keep access and maybe do something useful later. I wrote it because I knew exactly who was reading and exactly what they needed to see." He wipes his mouth with the back of his hand and leaves a thin line of dirt near his lip. "She died anyway."</p>
+<p>He says the last sentence without emphasis. It lands harder than if he had raised his voice. I pick up the chip and turn it once between finger and thumb. The casing has a crack at one corner repaired with clear resin. Old hardware. Not traceable through current consumer registry if he scrubbed it correctly.</p>
+<p>"Open it," he says.</p>
+<p>"Not here."</p>
+<p>He nods. "Fine," he says, then stands too fast and sways once before catching his balance. He is dehydrated or underfed or both.</p>
+<p>"I can help. I know the current compliance routing. I know where the behavior model got moved after the fourth architecture revision. I know which ops teams still use manual override windows and which ones pretend they do. I know names." He pulls a notebook from his inner pocket, edges damp from sweat. "I have contacts who will come if we move now."</p>
+<p>The notebook is cheap paper, government issue from the supply kiosks, five sections separated by gray tabs. He has written on every visible page margin. This is the first thing that registers as stable in him. He prepared.</p>
+<p>"Put it away," I say.</p>
+<p>He freezes for half a beat, then does it.</p>
+<p>"If you came here to pay a debt," I say, "you are in the wrong place."</p>
+<p>He closes his eyes once, hard, then opens them. "I came because I have nowhere else to put what I know."</p>
+<p>I look past him to the south channel where runoff gathers after rain. Three weeks ago this corridor held frost through noon. Today the surface is soft and dark at the edges. Seasonal shift has started, and with it the window where patrol routes change before optimization catches up. The cold has moved through the knees of my trousers and into both joints. My fingers are numb around the chip.</p>
+<p>If I send him back, he rides into monitored space with stolen healthcare logs and a face every model still recognizes. If I take him in, I bring unstable grief and live risk to Verdant. I run both branches twice. Neither is safe. One keeps the records alive.</p>
+<p>"Can you ride," I ask.</p>
+<p>"Yes."</p>
+<p>"You have a bike."</p>
+<p>"Stashed at the service cut east of here."</p>
+<p>"Then we move now."</p>
+<p>He picks up his pack. The strap webbing is cut at one point and re-knotted in haste. He shoulders it without complaint. I take the lead route north, then east through the low trees where ground cover masks tire marks by afternoon.</p>
+<p>We ride in silence for the first fifteen minutes. Theo is competent on the bike but inefficient, too much upper body in each correction, burning energy he does not have. Twice he clips shallow ruts and saves the fall late with a hard oversteer that will leave his forearms shaking by the second hour. His breathing gets loud on the first incline. He tries to hide it by falling farther back.</p>
+<p>At 12:36 we stop under the old transmission tower where the slope gives a partial thermal shadow from overhead scans. I hand him my spare bottle. He drinks half in one pull, coughs into his sleeve, and nods when I tell him to take small sips.</p>
+<p>He wipes his mouth and hands the bottle back. His fingers are colder now than they should be for this temperature. Peripheral vasoconstriction from stress, still not down.</p>
+<p>"Any direct digital contact in the last seventy-two hours," I ask.</p>
+<p>"No public channels. One local relay two nights ago through a burned device." He sees my face and adds, "One-way only. No response thread."</p>
+<p>"To who."</p>
+<p>"Former team lead."</p>
+<p>"About what."</p>
+<p>"Nothing specific. Meeting feeler." He rubs his thumb hard over the bottle seam, then realizes he is still holding it and gives it back to me.</p>
+<p>I let the silence sit long enough that he hears the shape of the error without me naming it. His jaw tightens.</p>
+<p>"It was before I came out," he says.</p>
+<p>"You are done initiating contact on your own," I tell him.</p>
+<p>He nods. It is quick and automatic. "Understood."</p>
+<p>The speed of that answer is not reassurance. It is compliance under pressure, and compliance under pressure does not hold when pressure changes.</p>
+<p>We ride again. By 14:10 the facility roofline is visible through bare branches, corrugated steel patched in three shades where Wren and I have sealed storm damage over winter. The greenhouse annex catches light at one corner where the replacement panel does not match the old tint. Smoke is coming from the vent stack in a narrow line that says low burn, controlled.</p>
+<p>Wren is at the north wall mount when we roll into the yard, one boot on the lower ladder rung, wrench at her belt. She sees me first, then Theo, and her body goes still without becoming rigid. She steps down from the ladder, wipes one hand on her trouser leg, and waits.</p>
+<p>"Dr. Caul," I say. "This is Theo Maren."</p>
+<p>Theo takes one step forward, then stops when she does not extend a hand.</p>
+<p>"I know who he is," Wren says.</p>
+<p>The air in the yard has the wet-earth smell of thaw and the iron note from the barrel frame where we wire-brushed oxidation this morning. Theo shifts his weight off his right leg and winces, small, almost hidden. Cramp starting in the calf.</p>
+<p>Wren notices. "You eat today," she asks him.</p>
+<p>"Not enough."</p>
+<p>"Inside. Boot brush first."</p>
+<p>He obeys, scraping both soles on the wire grate by the door with the concentration of someone grateful for a clear instruction.</p>
+<p>Inside, heat from the small stove sits low in the room and rises slowly toward the rafters. The familiar sounds are all present: pump hum under the floor plates, occasional tick from the relay panel, one soft rattle where a loose conduit clip vibrates in phase with the inverter at high draw. Theo stands just past the threshold and turns once in a full circle, taking inventory.</p>
+<p>Wren sets a bowl on the table and fills it with lentil stew left from midday, then tears bread into it so he cannot claim he is not hungry enough to finish solids. He eats too fast for the first minute, then slows when his stomach catches up.</p>
+<p>I place the chip beside the offline reader and glance at Wren.</p>
+<p>"Need ten minutes," I say.</p>
+<p>She nods. "Then he works."</p>
+<p>I slot the chip. The directory opens in plain text: queue records, triage thresholds, audit copies stripped of source metadata. Theo was not exaggerating. The file for Lena Maren is there with four deferrals and a final closure code I have seen before in legacy healthcare suppression tests: optimization outcome preserved, intervention denied.</p>
+<p>I read the timestamps. The second deferral occurs eight hours after Theo's public statement in support of system integrity. There is no direct causal marker because there never is. There is sequence.</p>
+<p>When I look up, Theo has finished the bowl and is staring at the table surface where grain patterns in the steel paint form shallow arcs around old weld points. He is breathing through his nose in slow counts, likely self-regulating to avoid shaking in front of us.</p>
+<p>"The records are real," I say.</p>
+<p>He nods once.</p>
+<p>"You copied from where."</p>
+<p>"Archive replication node in compliance analytics. Night maintenance window."</p>
+<p>"Anyone see you."</p>
+<p>"No direct witness." He lifts one shoulder. "Logs may still show anomalies if they go looking."</p>
+<p>"They will."</p>
+<p>"I know."</p>
+<p>Wren takes the empty bowl, scrapes the last of the stew into the waste pail for compost pre-sort, and rinses it at the sink before speaking.</p>
+<p>"If he stays, he follows protocol exactly. No independent runs. No contact attempts. No improvisation."</p>
+<p>Theo sits straighter. "Yes."</p>
+<p>She sets the bowl in the rack upside down, water beading along the rim. "And he understands that this is not a confessional booth. We are not here to process his guilt every evening by lantern light. We are here to keep people alive."</p>
+<p>Theo takes the sentence without flinching. His right hand curls into a fist under the table where he thinks we cannot see it.</p>
+<p>"Understood," he says.</p>
+<p>I move the reader aside and slide the chip into a metal sleeve. "There is a bunk open in the former seed room. You take that space. You keep your notebook. I review anything operational before it leaves your pocket."</p>
+<p>"I have names," he says, reaching for the notebook again.</p>
+<p>"Not today."</p>
+<p>He stops with his hand halfway to the pocket and lets it drop. "Right."</p>
+<p>Wren points toward the corner where spare work clothes hang from labeled hooks. "You are not wearing those city shoes in this yard. Left wall, second shelf. Find a pair that fits. Then you come with me and clear the west drainage gate before dark."</p>
+<p>Theo stands. His legs hold this time. "Yes, ma'am."</p>
+<p>She gives him a flat look. "Wren."</p>
+<p>"Yes. Wren."</p>
+<p>He crosses the room and starts trying boots, then jackets, then gloves, each movement slightly too fast as if speed can purchase credibility. On his third jacket he finds one with shoulders close enough to function. He checks the seam by pulling the cuff hard, testing durability without being asked. Useful instinct.</p>
+<p>By 16:00 he is outside with Wren at the west gate lifting compacted debris from the channel by hand and shovel. I watch from the line manifold while adjusting flow to bed four. His form on the shovel is wrong but teachable. He drives from arms instead of legs. Wren taps his knee once with the shovel handle, shows him where to place weight, and makes him repeat the motion until the blade enters clean.</p>
+<p>At 17:22 a drone passes high west-to-east, then a second eleven minutes later on a lower line than yesterday's baseline. Theo looks up at the sound and tracks it too long with his chin raised. Wren says something I cannot hear from this distance. He drops his eyes and returns to the trench.</p>
+<p>By dusk we close vents, secure external latches, and run night protocol. Theo carries two crates of kindling from the annex without being told and stacks them beside the stove with the ends aligned by length. Then he stands there, uncertain what task comes next, until Wren points him toward the hand pump maintenance log and tells him to copy yesterday's numbers in his own hand so he starts learning what normal looks like.</p>
+<p>Dinner is root stew, hard bread, and tea with the same copper trace from the old coil. Theo eats slower this time. Halfway through he says, without looking up, "I meant what I said in the corridor. About helping." The spoon in his hand stops over the bowl. "I can map current compliance teams by district and cycle. I can build a contact ladder with low-overlap paths."</p>
+<p>"Later," I say.</p>
+<p>"If we wait too long, windows close."</p>
+<p>"Later," I repeat.</p>
+<p>He nods and returns to the bowl. The muscles along his jaw move twice before he swallows. He is still running the argument in his head and losing it for now.</p>
+<p>After cleanup I show him the seed-room bunk: concrete walls, one cot, two blankets, one crate, one hook on the wall. He sets his pack down carefully, removes the notebook, and places it under the folded jacket instead of in the crate where someone passing could see it. Then he sits on the cot edge and rubs both hands over his face.</p>
+<p>"How long did it take," he asks, "for this place to start feeling real."</p>
+<p>I lean against the door frame. The room smells of canvas, cold concrete, and the faint medicinal scent left from old seed treatment chemicals in the floor cracks.</p>
+<p>"It feels real when something breaks and you know how to fix it. Until then it feels temporary."</p>
+<p>He nods like he is logging a parameter.</p>
+<p>"Get sleep," I tell him. "You are no use at this temperature if you are shaking by morning."</p>
+<p>"I won't sleep," he says.</p>
+<p>He is asleep before full dark.</p>
+<p>The dead zone quiet does this to people from the city on the first day. Their nervous system keeps waiting for network noise that does not come, then falls through the gap all at once. By 20:10 his breathing is slow and regular through the thin wall, one short catch every seventh breath where his nose is still congested from cold air and dust.</p>
+<p>Wren is at the main table checking tomorrow's water schedule when I come back in from perimeter watch. She marks one line on the slate and caps the pencil.</p>
+<p>"You took him," she says.</p>
+<p>"Yes."</p>
+<p>"You know what he is."</p>
+<p>"Yes."</p>
+<p>She studies me for a moment, then looks toward the seed room door. "Grief makes people fast and stupid. Sometimes useful for one week. Dangerous for six months."</p>
+<p>"I know."</p>
+<p>"Do you," she says, and goes to bank the stove for night.</p>
+<p>I sit at the table after she turns in. The lamp is turned low to preserve battery margin. Light pools on the notebook and leaves the edges of the room in grainy shadow. My right palm rests on the paper long enough for heat to transfer through the callus before I pick up the pen.</p>
+<p>I write the date, then one line below it.</p>
+<p>From the seed room comes one brief sound, not a full word, then silence again. Outside, a drone passes somewhere beyond the trees and does not come close enough for rotor texture, only a low moving pressure in the air. I wait for a second pass and do not get one in the next ten minutes.</p>
+<p>Theo is here. His grief is real. His judgment is compromised by it. These are not the same problem. They will become one if I am not careful.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../chapters/chapter-12.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../chapters/chapter-14.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../chapters/chapter-12.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../chapters/chapter-14.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
