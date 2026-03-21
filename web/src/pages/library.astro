@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../layouts/Base.astro'
+
+const novels = await getCollection('novels')
+const chapters = await getCollection('chapters')
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+// Attach chapter count to each novel
+const books = novels.map(novel => ({
+  ...novel,
+  chapterCount: chapters.filter(c => c.id.startsWith(novel.data.slug + '/')).length,
+}))
+---
+
+<Base title="Library — The Daily Novel" description="All published novels from The Daily Novel project.">
+  <div class="container--wide">
+    <div class="page-heading">
+      <div class="page-heading__eyebrow">The Daily Novel</div>
+      <h1>Library</h1>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+        {books.length} {books.length === 1 ? 'novel' : 'novels'} published
+      </p>
+    </div>
+
+    {books.length === 0 && (
+      <p style="color: var(--text-muted); margin-top: 2rem;">No novels published yet. Check back soon.</p>
+    )}
+
+    <div class="book-grid">
+      {books.map(book => (
+        <a href={`${base}/${book.data.slug}`} style="text-decoration: none;">
+          <div class="book-card">
+            <div class="book-card__meta">{book.data.genre} &bull; {book.data.tone}</div>
+            <div class="book-card__title">{book.data.title}</div>
+            {book.data.comp_authors && (
+              <div class="book-card__comp">In the tradition of {book.data.comp_authors}</div>
+            )}
+            <div class="book-card__footer">
+              <span>{book.chapterCount} {book.chapterCount === 1 ? 'chapter' : 'chapters'}</span>
+              <span class="book-card__link">Read &rarr;</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

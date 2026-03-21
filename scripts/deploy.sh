@@ -9,6 +9,8 @@ source "$(dirname "$0")/config.sh"
 
 BOOK_SLUG="${1:?Usage: deploy.sh <book_slug>}"
 
+[ -d "$DIST_DIR" ] || fail "Astro dist/ not found at $DIST_DIR — run build-site.sh first"
+
 log "[deploy] Deploying: $BOOK_SLUG"
 
 # ── Verify git is configured ───────────────────────────────────────────────
@@ -46,23 +48,16 @@ trap cleanup EXIT
 
 git worktree add "$WORKTREE_DIR" "$PAGES_BRANCH"
 
-# ── Copy built site files into worktree ───────────────────────────────────
-log "[deploy] Copying site output..."
+# ── Copy Astro dist into worktree ─────────────────────────────────────────
+log "[deploy] Copying Astro dist output..."
 
-# Copy site index and library
-cp -f "$SITE_DIR/index.html" "$WORKTREE_DIR/"
-cp -f "$SITE_DIR/library.json" "$WORKTREE_DIR/"
+# Clear previous build from worktree (keep .git)
+find "$WORKTREE_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
 
-# Copy this book's built HTML
-BOOK_BUILD_SRC="$SITE_DIR/books/$BOOK_SLUG"
-BOOK_BUILD_DST="$WORKTREE_DIR/books/$BOOK_SLUG"
-[ -d "$BOOK_BUILD_SRC" ] || fail "Built book site not found at $BOOK_BUILD_SRC — run build-site.sh first"
+# Copy full Astro output
+cp -r "$DIST_DIR/." "$WORKTREE_DIR/"
 
-mkdir -p "$WORKTREE_DIR/books"
-rm -rf "$BOOK_BUILD_DST"
-cp -r "$BOOK_BUILD_SRC" "$BOOK_BUILD_DST"
-
-# Add .nojekyll so GitHub Pages serves files starting with underscore
+# Ensure .nojekyll so GitHub Pages serves files starting with underscore
 touch "$WORKTREE_DIR/.nojekyll"
 
 # ── Commit and push from worktree ─────────────────────────────────────────

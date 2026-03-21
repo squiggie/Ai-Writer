@@ -8,7 +8,8 @@
 AIWRITER_DIR="/storage/backup/landen/source/aiwriter"
 NOVELS_DIR="$AIWRITER_DIR/novels"
 SCRIPTS_DIR="$AIWRITER_DIR/scripts"
-SITE_DIR="$AIWRITER_DIR/site"
+WEB_DIR="$AIWRITER_DIR/web"
+DIST_DIR="$WEB_DIR/dist"
 LOG_DIR="$AIWRITER_DIR/logs"
 STATE_DIR="$AIWRITER_DIR/state"
 ACTIVE_BOOK_FILE="$STATE_DIR/active-book.env"
@@ -209,10 +210,10 @@ final_review_status() {
     sed -n 's/^status: //p' "$review_file" | head -1
 }
 
-# ── Guard: abort if codex not found ───────────────────────────────────────────
+# ── Guard: abort if required tools not found ──────────────────────────────────
 check_deps() {
     command -v codex  >/dev/null 2>&1 || fail "codex not found. Run setup.sh first."
-    command -v mdbook >/dev/null 2>&1 || fail "mdbook not found. Run setup.sh first."
-    command -v python3 >/dev/null 2>&1 || fail "python3 not found."
+    command -v node   >/dev/null 2>&1 || fail "node not found. Install Node.js 18+ and re-run setup.sh."
+    command -v npm    >/dev/null 2>&1 || fail "npm not found. Install Node.js 18+ and re-run setup.sh."
     command -v git    >/dev/null 2>&1 || fail "git not found."
 }

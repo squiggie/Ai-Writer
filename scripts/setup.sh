@@ -27,28 +27,9 @@ log "[1/6] Checking dependencies..."
 
 MISSING=0
 require git    "install via system package manager" || MISSING=1
-require python3 "install via system package manager" || MISSING=1
+require node   "install Node.js 18+ from https://nodejs.org or via nvm" || MISSING=1
+require npm    "included with Node.js" || MISSING=1
 require codex  "install: npm install -g @openai/codex" || MISSING=1
-
-# Install mdbook if not present
-if ! require mdbook "installing now..."; then
-    log "  Installing mdbook via cargo..."
-    if command -v cargo >/dev/null 2>&1; then
-        cargo install mdbook
-    else
-        # Fallback: download prebuilt binary
-        MDBOOK_VERSION="v0.4.40"
-        MDBOOK_URL="https://github.com/rust-lang/mdBook/releases/download/${MDBOOK_VERSION}/mdbook-${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-        TMP=$(mktemp -d)
-        curl -sSL "$MDBOOK_URL" | tar -xz -C "$TMP"
-        mkdir -p "$HOME/.local/bin"
-        mv "$TMP/mdbook" "$HOME/.local/bin/"
-        rm -rf "$TMP"
-        export PATH="$HOME/.local/bin:$PATH"
-        log "  mdbook installed to ~/.local/bin/"
-        log "  Add to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
-    fi
-fi
 
 if [ "$MISSING" -eq 1 ]; then
     fail "One or more required tools are missing. Install them and re-run setup.sh."
@@ -60,29 +41,26 @@ log "[2/6] Creating directory structure..."
 
 mkdir -p \
     "$NOVELS_DIR" \
-    "$SITE_DIR/books" \
+    "$WEB_DIR" \
     "$SCRIPTS_DIR" \
     "$LOG_DIR" \
     "$STATE_DIR"
 
 log "  Created: $NOVELS_DIR"
-log "  Created: $SITE_DIR"
+log "  Created: $WEB_DIR"
 log "  Created: $LOG_DIR"
 log "  Created: $STATE_DIR"
 
-# ── 3. Initialize library.json if not present ─────────────────────────────
-LIBRARY_JSON="$SITE_DIR/library.json"
-if [ ! -f "$LIBRARY_JSON" ]; then
-    cat > "$LIBRARY_JSON" <<'JSON'
-{
-  "books": [],
-  "last_updated": "",
-  "total_books": 0
-}
-JSON
-    log "  Initialized: $LIBRARY_JSON"
+# ── 3. Install Astro dependencies ──────────────────────────────────────────
+log ""
+log "[3/6] Installing Astro dependencies..."
+
+if [ -f "$WEB_DIR/package.json" ]; then
+    cd "$WEB_DIR"
+    npm install
+    log "  npm install complete"
 else
-    log "  Exists: $LIBRARY_JSON"
+    log "  web/package.json not found — skipping npm install"
 fi
 
 # ── 4. Initialize git repository ──────────────────────────────────────────
@@ -171,5 +149,6 @@ log "  5. Test nightly run:   bash $SCRIPTS_DIR/run-nightly.sh --dry-run"
 log ""
 log "Logs:    $LOG_DIR/"
 log "Novels:  $NOVELS_DIR/"
-log "Site:    $SITE_DIR/"
+log "Web:     $WEB_DIR/"
+log "Dist:    $DIST_DIR/ (created on first build)"
 log ""

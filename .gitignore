@@ -1,6 +1,22 @@
+# macOS metadata
+.DS_Store
+._.DS_Store
+._*
+
 /var/log/
 *.log
 *.tmp
 __pycache__/
 *.py[cod]
 state/
+
+# Astro build output — published to gh-pages, never committed to main
+web/dist/
+web/node_modules/
+web/.astro/
+
+# mdBook generated source dirs — no longer used
+novels/*/mdsrc/
+
+# Old mdBook site output
+site/

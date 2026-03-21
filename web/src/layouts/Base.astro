@@ -1,0 +1,41 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'A daily AI-written science fiction novel project.' } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href={`${base}/`} class="site-header__brand">The Daily Novel</a>
+        <nav class="site-header__nav">
+          <a href={`${base}/`}>Home</a>
+          <a href={`${base}/library`}>Library</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>Built one chapter at a time. Science fiction with a Christian worldview.</p>
+    </footer>
+  </body>
+</html>

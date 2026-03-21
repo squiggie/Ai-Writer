@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+
+export async function getStaticPaths() {
+  const novels = await getCollection('novels')
+  const chapters = await getCollection('chapters')
+
+  return novels.map(novel => {
+    const slug = novel.data.slug
+    const bookChapters = chapters
+      .filter(c => c.id.startsWith(slug + '/chapters/'))
+      .sort((a, b) => a.data.chapter - b.data.chapter)
+    return { params: { slug }, props: { novel, chapters: bookChapters } }
+  })
+}
+
+const { novel, chapters } = Astro.props
+const { Content } = await render(novel)
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+const slug = novel.data.slug
+
+function chapterParam(entryId: string) {
+  // entryId: "the-remnant-protocol/chapters/chapter-01"
+  return entryId.split('/').at(-1)!
+}
+---
+
+<Base
+  title={`${novel.data.title} — The Daily Novel`}
+  description={`${novel.data.genre} novel by The Daily Novel. ${novel.data.tone}.`}
+>
+  <div class="container">
+    <div class="page-heading">
+      <div class="page-heading__eyebrow">
+        <a href={`${base}/library`}>Library</a>
+      </div>
+      <h1>{novel.data.title}</h1>
+      <p class="book-meta">
+        {novel.data.genre} &bull; {novel.data.pov} &bull; {novel.data.tone}
+        {novel.data.comp_authors && <> &bull; <em>In the tradition of {novel.data.comp_authors}</em></>}
+      </p>
+    </div>
+
+    <div class="book-body">
+      <Content />
+    </div>
+
+    <hr />
+
+    <h2>Chapters</h2>
+
+    {chapters.length === 0 && (
+      <p style="color: var(--text-muted); margin-top: 1rem;">No chapters published yet.</p>
+    )}
+
+    <ul class="chapter-list">
+      {chapters.map(chapter => (
+        <li class="chapter-list__item">
+          <a href={`${base}/${slug}/${chapterParam(chapter.id)}`} class="chapter-list__link">
+            <span class="chapter-list__num">{String(chapter.data.chapter).padStart(2, '0')}</span>
+            <span>{chapter.data.title}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .book-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+  }
+
+  .book-body {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+  }
+
+  /* Suppress the h1 that idea.md doesn't have, style the section headings */
+  .book-body :global(h2) {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-muted);
+    margin-top: 1.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .book-body :global(p) { margin-bottom: 0.75rem; }
+</style>

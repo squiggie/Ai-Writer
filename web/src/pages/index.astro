@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../layouts/Base.astro'
+
+const novels = await getCollection('novels')
+const chapters = await getCollection('chapters')
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+const bookCount = novels.length
+const chapterCount = chapters.length
+---
+
+<Base title="The Daily Novel">
+  <div class="hero">
+    <p class="hero__eyebrow">Science fiction &bull; Christian worldview</p>
+    <h1 class="hero__title">The Daily Novel</h1>
+    <p class="hero__sub">
+      A fully automated multi-agent writing pipeline producing science fiction novels,
+      one chapter at a time.
+    </p>
+    <a href={`${base}/library`} class="btn">Browse the library</a>
+  </div>
+
+  <div class="container" style="padding-bottom: 4rem;">
+    <div style="display: flex; gap: 3rem; justify-content: center; text-align: center; margin-bottom: 3rem;">
+      <div>
+        <div style="font-size: 2.5rem; color: var(--accent); font-family: Georgia, serif;">{bookCount}</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.06em;">
+          {bookCount === 1 ? 'Novel' : 'Novels'}
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 2.5rem; color: var(--accent); font-family: Georgia, serif;">{chapterCount}</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.06em;">
+          {chapterCount === 1 ? 'Chapter' : 'Chapters'}
+        </div>
+      </div>
+    </div>
+
+    {novels.length > 0 && (
+      <div>
+        <h2 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Helvetica Neue', Arial, sans-serif; margin-bottom: 1rem;">
+          Latest
+        </h2>
+        {novels.slice(0, 1).map(novel => (
+          <a href={`${base}/${novel.data.slug}`} style="text-decoration: none;">
+            <div class="book-card" style="max-width: 520px;">
+              <div class="book-card__meta">{novel.data.genre} &bull; {novel.data.tone}</div>
+              <div class="book-card__title">{novel.data.title}</div>
+              {novel.data.comp_authors && (
+                <div class="book-card__comp">In the tradition of {novel.data.comp_authors}</div>
+              )}
+              <div class="book-card__footer">
+                <span>
+                  {chapters.filter(c => c.id.startsWith(novel.data.slug + '/')).length} chapters
+                </span>
+                <span class="book-card__link">Read &rarr;</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</Base>
+
+<style>
+  .hero__eyebrow {
+    font-size: 0.8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+</style>
