@@ -3,7 +3,8 @@
     "allow": [
       "Bash(curl -s https://portfolio.ricoui.com/)",
       "Bash(grep -oP '\\(background|color|font-family|font-size|padding|margin|border-radius|rgba?\\\\\\([^\\)]+\\\\\\)|#[0-9a-fA-F]{3,6}|--[a-z-]+:\\\\s*[^;]+\\)')",
-      "Bash(curl -s https://portfolio.ricoui.com/_astro/index.BJex1l3i.css)"
+      "Bash(curl -s https://portfolio.ricoui.com/_astro/index.BJex1l3i.css)",
+      "Bash(npm run:*)"
     ]
   }
 }
