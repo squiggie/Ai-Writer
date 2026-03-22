@@ -4,22 +4,22 @@
 
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  --bg:             #0c0c0e;
-  --surface:        #141417;
-  --surface-raised: #1c1c20;
-  --surface-hover:  #222227;
+  --bg:             #0d1117;
+  --surface:        #131d2e;
+  --surface-raised: #1a2744;
+  --surface-hover:  #1f2f54;
   --border:         rgba(255, 255, 255, 0.07);
-  --border-strong:  rgba(255, 255, 255, 0.13);
-  --border-accent:  rgba(201, 169, 110, 0.35);
+  --border-strong:  rgba(255, 255, 255, 0.12);
+  --border-accent:  rgba(51, 84, 255, 0.55);
 
-  --accent:         #c9a96e;
-  --accent-bright:  #e0c48e;
-  --accent-dim:     #a8834d;
-  --accent-subtle:  rgba(201, 169, 110, 0.08);
+  --accent:         #3354FF;
+  --accent-bright:  #5b7fff;
+  --accent-dim:     #2240cc;
+  --accent-subtle:  rgba(51, 84, 255, 0.1);
 
-  --text:           #edeae4;
-  --text-muted:     #7a7670;
-  --text-subtle:    #46433f;
+  --text:           #f0f2f5;
+  --text-muted:     #8b96a8;
+  --text-subtle:    #3d4f6e;
 
   --font-sans:      'Inter', system-ui, -apple-system, sans-serif;
   --font-serif:     'Crimson Pro', Georgia, 'Times New Roman', serif;
@@ -267,7 +267,7 @@ hr {
   cursor: pointer;
   transition: transform 0.22s var(--ease-out), box-shadow 0.22s ease, background 0.18s ease;
   background: var(--accent);
-  color: #111;
+  color: #fff;
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -275,7 +275,7 @@ hr {
 .btn:hover {
   background: var(--accent-bright);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(201, 169, 110, 0.22);
+  box-shadow: 0 6px 20px rgba(51, 84, 255, 0.35);
 }
 
 .btn:active { transform: translateY(0); }
