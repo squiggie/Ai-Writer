@@ -36,7 +36,9 @@ function chapterParam(entryId: string) {
   <div class="container">
     <!-- Book hero -->
     <div class="book-hero">
-      <CoverPlaceholder title={novel.data.title} />
+      {novel.data.cover
+        ? <img src={novel.data.cover} alt={`Cover of ${novel.data.title}`} class="book-hero__cover-img" />
+        : <CoverPlaceholder title={novel.data.title} />}
 
       <div class="book-hero__meta">
         <p class="eyebrow">

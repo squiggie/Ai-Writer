@@ -6,6 +6,7 @@ pov: First person
 tone: Grave, precise
 setting_type: Near-future urban
 comp_authors: Kazuo Ishiguro, Cormac McCarthy, Walter M. Miller Jr., George Orwell
+cover: /covers/the-remnant-protocol-cover.png
 ---
 
 ## Premise

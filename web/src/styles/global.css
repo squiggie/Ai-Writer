@@ -419,6 +419,23 @@ hr {
   box-shadow: none;
 }
 
+.book-card__cover-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border);
+}
+
+.book-hero__cover-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
 .book-card__body {
   padding: 1.25rem 1.25rem 1.5rem;
   display: flex;
