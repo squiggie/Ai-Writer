@@ -5,7 +5,8 @@
 # =============================================================================
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-AIWRITER_DIR="/storage/backup/landen/source/aiwriter"
+# Derive repo root from this file's location so the scripts work on any machine
+AIWRITER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 NOVELS_DIR="$AIWRITER_DIR/novels"
 SCRIPTS_DIR="$AIWRITER_DIR/scripts"
 WEB_DIR="$AIWRITER_DIR/web"
