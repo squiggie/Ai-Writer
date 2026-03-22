@@ -33,8 +33,6 @@ const featuredChapters = featured
         </a>
       )}
     </div>
-    <hr class="hero__divider" />
-
     <!-- Stats -->
     {(novels.length > 0 || totalChapters > 0) && (
       <div class="stats-bar" style="margin-bottom: 4rem; opacity:0; animation: fadeUp 0.7s var(--ease-out) 0.65s forwards;">
@@ -62,15 +60,12 @@ const featuredChapters = featured
         <p class="section-label">Featured work</p>
         <a href={`${base}/${featured.data.slug}`} style="display: block; text-decoration: none;">
           <article class="featured-book">
-            <CoverPlaceholder title={featured.data.title} />
+            {featured.data.cover
+              ? <img src={`${base}${featured.data.cover}`} alt={`Cover of ${featured.data.title}`} class="featured-book__cover-img" />
+              : <CoverPlaceholder title={featured.data.title} />}
             <div class="featured-book__meta">
               <p class="featured-book__genre">{featured.data.genre}</p>
               <h2 class="featured-book__title">{featured.data.title}</h2>
-              {featured.data.comp_authors && (
-                <p class="featured-book__comp">
-                  In the tradition of {featured.data.comp_authors}
-                </p>
-              )}
               {featured.data.synopsis ? (
                 <p class="featured-book__synopsis">{featured.data.synopsis}</p>
               ) : (

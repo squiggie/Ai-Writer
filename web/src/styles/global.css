@@ -607,6 +607,14 @@ hr {
   box-shadow: var(--shadow-lg);
 }
 
+.featured-book__cover-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 .featured-book__meta { display: flex; flex-direction: column; gap: 0.75rem; }
 
 .featured-book__genre {
@@ -652,7 +660,6 @@ hr {
   gap: 3rem;
   align-items: start;
   padding-top: calc(var(--header-h) + 3rem);
-  padding-bottom: 3rem;
 }
 
 .book-hero__meta { display: flex; flex-direction: column; gap: 1rem; }
@@ -687,23 +694,15 @@ hr {
 
 /* ── Book body (prose from idea.md) ────────────────────────────────────── */
 .book-body {
-  border-top: 1px solid var(--border);
-  padding-top: 2.5rem;
   margin-top: 0.5rem;
 }
 
-.book-body :global(h2) {
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-subtle);
-  margin-top: 2rem;
-  margin-bottom: 0.65rem;
+.book-body h2 {
+  margin-top: 3rem;
+  margin-bottom: 0.75rem;
 }
 
-.book-body :global(p) {
+.book-body p {
   font-size: 0.95rem;
   line-height: 1.75;
   color: var(--text-muted);
@@ -711,12 +710,12 @@ hr {
   max-width: 65ch;
 }
 
-.book-body :global(ul), .book-body :global(ol) {
+.book-body ul, .book-body ol {
   padding-left: 1.25rem;
   margin-bottom: 0.85rem;
 }
 
-.book-body :global(li) {
+.book-body li {
   font-size: 0.95rem;
   color: var(--text-muted);
   margin-bottom: 0.3rem;
@@ -814,20 +813,20 @@ hr {
 }
 
 /* The markdown body starts with an h1 which is already rendered above */
-.chapter-prose :global(h1:first-child) { display: none; }
+.chapter-prose h1:first-child { display: none; }
 
-.chapter-prose :global(p) { margin-bottom: 1.4rem; }
+.chapter-prose p { margin-bottom: 1.4rem; }
 
 /* Scene breaks */
-.chapter-prose :global(hr) {
+.chapter-prose hr {
   margin: 2.5rem auto;
   width: 5rem;
   border-top: 1px solid var(--border-strong);
 }
 
 /* Headings in prose should be dark text, not blue */
-.chapter-prose :global(h2),
-.chapter-prose :global(h3) {
+.chapter-prose h2,
+.chapter-prose h3 {
   color: var(--text);
   font-family: var(--font-display);
 }
@@ -999,7 +998,8 @@ hr {
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .featured-book { grid-template-columns: 1fr; }
-  .featured-book .cover-placeholder { max-width: 140px; }
+  .featured-book .cover-placeholder,
+  .featured-book .featured-book__cover-img { max-width: 140px; }
 
   .book-hero {
     grid-template-columns: 1fr;

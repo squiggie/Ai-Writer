@@ -45,7 +45,7 @@ const books = novels.map(novel => ({
           <article class="book-card" style="width: 100%;">
             <div class="book-card__cover">
               {book.data.cover
-                ? <img src={book.data.cover} alt={`Cover of ${book.data.title}`} class="book-card__cover-img" />
+                ? <img src={`${base}${book.data.cover}`} alt={`Cover of ${book.data.title}`} class="book-card__cover-img" />
                 : <CoverPlaceholder title={book.data.title} />}
             </div>
             <div class="book-card__body">

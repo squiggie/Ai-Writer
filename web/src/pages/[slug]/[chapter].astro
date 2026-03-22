@@ -59,20 +59,6 @@ function chapterParam(entryId: string) {
     <p class="chapter-header__num">Chapter {entry.data.chapter}</p>
     <h1 class="chapter-header__title">{entry.data.title}</h1>
 
-    <div class="chapter-header__meta">
-      {entry.data.pov && <span>{entry.data.pov}</span>}
-      {entry.data.pov && entry.data.word_count && <span class="chapter-header__meta-sep"></span>}
-      {entry.data.word_count && (
-        <span>{entry.data.word_count.toLocaleString()} words</span>
-      )}
-      {entry.data.timeline_position && (
-        <>
-          <span class="chapter-header__meta-sep"></span>
-          <span>{entry.data.timeline_position}</span>
-        </>
-      )}
-    </div>
-
     <div class="chapter-header__rule"></div>
   </div>
 

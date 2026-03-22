@@ -37,7 +37,7 @@ function chapterParam(entryId: string) {
     <!-- Book hero -->
     <div class="book-hero">
       {novel.data.cover
-        ? <img src={novel.data.cover} alt={`Cover of ${novel.data.title}`} class="book-hero__cover-img" />
+        ? <img src={`${base}${novel.data.cover}`} alt={`Cover of ${novel.data.title}`} class="book-hero__cover-img" />
         : <CoverPlaceholder title={novel.data.title} />}
 
       <div class="book-hero__meta">
@@ -54,12 +54,6 @@ function chapterParam(entryId: string) {
           {novel.data.setting_type && <span class="tag">{novel.data.setting_type}</span>}
         </div>
 
-        {novel.data.comp_authors && (
-          <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: var(--text-muted);">
-            In the tradition of {novel.data.comp_authors}
-          </p>
-        )}
-
         {novel.data.synopsis && (
           <p class="book-hero__synopsis">{novel.data.synopsis}</p>
         )}
@@ -67,7 +61,6 @@ function chapterParam(entryId: string) {
         <p style="font-size: 0.78rem; color: var(--text-subtle);">
           {chapters.length} {chapters.length === 1 ? 'chapter' : 'chapters'}
           {totalWords > 0 && ` · ~${Math.round(totalWords / 1000)}k words`}
-          &nbsp;&mdash;&nbsp; Noman Stiles
         </p>
 
         <div class="book-hero__actions">
