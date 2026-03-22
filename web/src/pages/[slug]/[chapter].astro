@@ -6,17 +6,14 @@ export async function getStaticPaths() {
   const novels = await getCollection('novels')
   const chapters = await getCollection('chapters')
 
-  // Build a slug lookup from novel data
   const novelBySlug = Object.fromEntries(novels.map(n => [n.data.slug, n]))
 
   return chapters.map(entry => {
-    // entry.id: "the-remnant-protocol/chapters/chapter-01"
     const parts = entry.id.split('/')
     const slug = parts[0]
-    const chapterParam = parts.at(-1)! // "chapter-01"
+    const chapterParam = parts.at(-1)!
     const novel = novelBySlug[slug]
 
-    // Sorted sibling chapters for prev/next
     const siblings = chapters
       .filter(c => c.id.startsWith(slug + '/chapters/'))
       .sort((a, b) => a.data.chapter - b.data.chapter)
@@ -37,6 +34,7 @@ const { Content } = await render(entry)
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 const slug = novel?.data.slug ?? entry.id.split('/')[0]
+const bookTitle = novel?.data.title ?? slug
 
 function chapterParam(entryId: string) {
   return entryId.split('/').at(-1)!
@@ -44,42 +42,96 @@ function chapterParam(entryId: string) {
 ---
 
 <Base
-  title={`Chapter ${entry.data.chapter}: ${entry.data.title} — ${novel?.data.title ?? slug}`}
-  description={`Chapter ${entry.data.chapter} of ${novel?.data.title ?? slug}.`}
+  title={`Ch. ${entry.data.chapter}: ${entry.data.title} — ${bookTitle}`}
+  description={`Chapter ${entry.data.chapter} of ${bookTitle} by Noman Stiles.`}
 >
-  <div class="chapter-prose">
+  <!-- Reading progress bar (controlled by scroll script below) -->
+  <div class="reading-progress-bar" id="rp-bar" aria-hidden="true"></div>
+
+  <!-- Chapter header -->
+  <div class="chapter-header">
     <div class="chapter-breadcrumb">
       <a href={`${base}/library`}>Library</a>
-      {' / '}
-      <a href={`${base}/${slug}`}>{novel?.data.title ?? slug}</a>
+      <span class="chapter-breadcrumb__sep">/</span>
+      <a href={`${base}/${slug}`}>{bookTitle}</a>
     </div>
 
-    <Content />
+    <p class="chapter-header__num">Chapter {entry.data.chapter}</p>
+    <h1 class="chapter-header__title">{entry.data.title}</h1>
 
-    <nav class="chapter-nav">
-      {prev
-        ? <a href={`${base}/${slug}/${chapterParam(prev.id)}`}>
-            &larr; Chapter {prev.data.chapter}: {prev.data.title}
-          </a>
-        : <span />
-      }
-      {next && (
-        <a href={`${base}/${slug}/${chapterParam(next.id)}`} class="chapter-nav__next">
-          Chapter {next.data.chapter}: {next.data.title} &rarr;
-        </a>
+    <div class="chapter-header__meta">
+      {entry.data.pov && <span>{entry.data.pov}</span>}
+      {entry.data.pov && entry.data.word_count && <span class="chapter-header__meta-sep"></span>}
+      {entry.data.word_count && (
+        <span>{entry.data.word_count.toLocaleString()} words</span>
       )}
-    </nav>
+      {entry.data.timeline_position && (
+        <>
+          <span class="chapter-header__meta-sep"></span>
+          <span>{entry.data.timeline_position}</span>
+        </>
+      )}
+    </div>
+
+    <div class="chapter-header__rule"></div>
   </div>
+
+  <!-- Prose body -->
+  <article class="chapter-prose">
+    <Content />
+  </article>
+
+  <!-- Prev / Next navigation -->
+  <nav class="chapter-nav" aria-label="Chapter navigation">
+    {prev ? (
+      <a href={`${base}/${slug}/${chapterParam(prev.id)}`} class="chapter-nav__card chapter-nav__card--prev">
+        <span class="chapter-nav__dir">&larr; Previous</span>
+        <span class="chapter-nav__title">
+          Ch. {prev.data.chapter}: {prev.data.title}
+        </span>
+      </a>
+    ) : (
+      <div class="chapter-nav__card chapter-nav__card--empty"></div>
+    )}
+
+    {next ? (
+      <a href={`${base}/${slug}/${chapterParam(next.id)}`} class="chapter-nav__card chapter-nav__card--next">
+        <span class="chapter-nav__dir">Next &rarr;</span>
+        <span class="chapter-nav__title">
+          Ch. {next.data.chapter}: {next.data.title}
+        </span>
+      </a>
+    ) : (
+      <a href={`${base}/${slug}`} class="chapter-nav__card chapter-nav__card--next">
+        <span class="chapter-nav__dir">Finished &rarr;</span>
+        <span class="chapter-nav__title">Back to {bookTitle}</span>
+      </a>
+    )}
+  </nav>
 </Base>
 
 <style>
-  .chapter-breadcrumb {
-    font-size: 0.8rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
+  .reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: var(--progress, 0%);
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.08s linear;
   }
-
-  .chapter-breadcrumb a { color: var(--text-muted); }
-  .chapter-breadcrumb a:hover { color: var(--accent); text-decoration: none; }
 </style>
+
+<script>
+  const bar = document.getElementById('rp-bar') as HTMLElement | null
+  if (bar) {
+    function update() {
+      const doc = document.documentElement
+      const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight)
+      bar!.style.setProperty('--progress', (Math.min(scrolled, 1) * 100).toFixed(1) + '%')
+    }
+    window.addEventListener('scroll', update, { passive: true })
+    update()
+  }
+</script>

@@ -1,47 +1,73 @@
 ---
 import { getCollection } from 'astro:content'
 import Base from '../layouts/Base.astro'
+import CoverPlaceholder from '../components/CoverPlaceholder.astro'
 
 const novels = await getCollection('novels')
 const chapters = await getCollection('chapters')
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-// Attach chapter count to each novel
 const books = novels.map(novel => ({
   ...novel,
-  chapterCount: chapters.filter(c => c.id.startsWith(novel.data.slug + '/')).length,
+  chapterCount: chapters.filter(c => c.id.startsWith(novel.data.slug + '/chapters/')).length,
+  wordCount: chapters
+    .filter(c => c.id.startsWith(novel.data.slug + '/chapters/'))
+    .reduce((sum, c) => sum + (c.data.word_count ?? 0), 0),
 }))
 ---
 
-<Base title="Library — The Daily Novel" description="All published novels from The Daily Novel project.">
+<Base
+  title="Library — Nobody Publishing"
+  description="All published novels by Noman Stiles. Science fiction with a Christian worldview."
+>
   <div class="container--wide">
-    <div class="page-heading">
-      <div class="page-heading__eyebrow">The Daily Novel</div>
-      <h1>Library</h1>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
-        {books.length} {books.length === 1 ? 'novel' : 'novels'} published
+    <div class="page-header">
+      <p class="eyebrow">Nobody Publishing</p>
+      <h1 class="page-header__title">Library</h1>
+      <p class="page-header__sub">
+        {books.length} {books.length === 1 ? 'novel' : 'novels'} by Noman Stiles
       </p>
     </div>
 
     {books.length === 0 && (
-      <p style="color: var(--text-muted); margin-top: 2rem;">No novels published yet. Check back soon.</p>
+      <div style="text-align: center; padding: 6rem 0; color: var(--text-subtle);">
+        <p style="font-family: var(--font-serif); font-style: italic; font-size: 1.25rem;">
+          Nothing published yet.
+        </p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Check back soon.</p>
+      </div>
     )}
 
     <div class="book-grid">
       {books.map(book => (
-        <a href={`${base}/${book.data.slug}`} style="text-decoration: none;">
-          <div class="book-card">
-            <div class="book-card__meta">{book.data.genre} &bull; {book.data.tone}</div>
-            <div class="book-card__title">{book.data.title}</div>
-            {book.data.comp_authors && (
-              <div class="book-card__comp">In the tradition of {book.data.comp_authors}</div>
-            )}
-            <div class="book-card__footer">
-              <span>{book.chapterCount} {book.chapterCount === 1 ? 'chapter' : 'chapters'}</span>
-              <span class="book-card__link">Read &rarr;</span>
+        <a href={`${base}/${book.data.slug}`} style="text-decoration: none; display: flex;">
+          <article class="book-card" style="width: 100%;">
+            <div class="book-card__cover">
+              <CoverPlaceholder title={book.data.title} />
             </div>
-          </div>
+            <div class="book-card__body">
+              <p class="book-card__genre">{book.data.genre}</p>
+              <h2 class="book-card__title">{book.data.title}</h2>
+              {book.data.comp_authors && (
+                <p class="book-card__comp">In the tradition of {book.data.comp_authors}</p>
+              )}
+              {book.data.synopsis && (
+                <p style="font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; flex: 1;">
+                  {book.data.synopsis.length > 120
+                    ? book.data.synopsis.slice(0, 120) + '…'
+                    : book.data.synopsis}
+                </p>
+              )}
+              <div class="book-card__footer">
+                <span class="book-card__stat">
+                  {book.chapterCount} {book.chapterCount === 1 ? 'chapter' : 'chapters'}
+                  {book.wordCount > 0 && ` · ${Math.round(book.wordCount / 1000)}k words`}
+                </span>
+                <span class="book-card__cta">Read &rarr;</span>
+              </div>
+            </div>
+          </article>
         </a>
       ))}
     </div>

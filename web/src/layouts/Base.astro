@@ -4,9 +4,15 @@ import '../styles/global.css'
 interface Props {
   title: string
   description?: string
+  bodyClass?: string
 }
 
-const { title, description = 'A daily AI-written science fiction novel project.' } = Astro.props
+const {
+  title,
+  description = 'Literary science fiction by Noman Stiles. Published by Nobody Publishing.',
+  bodyClass = '',
+} = Astro.props
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 ---
 
@@ -16,17 +22,42 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600&display=swap"
+    />
   </head>
-  <body>
-    <header class="site-header">
+  <body class={bodyClass}>
+    <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+
+    <header class="site-header" id="site-header">
       <div class="site-header__inner">
-        <a href={`${base}/`} class="site-header__brand">The Daily Novel</a>
-        <nav class="site-header__nav">
+        <a href={`${base}/`} class="site-header__brand">
+          <span class="site-header__brand-name">Nobody Publishing</span>
+          <span class="site-header__brand-sub">Noman Stiles</span>
+        </a>
+
+        <nav class="site-header__nav" id="site-nav" aria-label="Main navigation">
           <a href={`${base}/`}>Home</a>
           <a href={`${base}/library`}>Library</a>
         </nav>
+
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+        </button>
       </div>
     </header>
 
@@ -35,7 +66,43 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     </main>
 
     <footer class="site-footer">
-      <p>Built one chapter at a time. Science fiction with a Christian worldview.</p>
+      <div class="site-footer__inner">
+        <span class="site-footer__brand">Nobody Publishing</span>
+        <span class="site-footer__copy">
+          Fiction by Noman Stiles &mdash; Science fiction with a Christian worldview
+        </span>
+      </div>
     </footer>
+
+    <script is:inline>
+      // Fixed header scroll state
+      const header = document.getElementById('site-header')
+      if (header) {
+        window.addEventListener('scroll', () => {
+          header.classList.toggle('is-scrolled', window.scrollY > 10)
+        }, { passive: true })
+        // Set initial state in case the page loads scrolled
+        header.classList.toggle('is-scrolled', window.scrollY > 10)
+      }
+
+      // Mobile nav toggle
+      const navToggle = document.getElementById('nav-toggle')
+      if (navToggle && header) {
+        navToggle.addEventListener('click', () => {
+          const isOpen = header.classList.toggle('nav-open')
+          navToggle.setAttribute('aria-expanded', isOpen.toString())
+          document.body.style.overflow = isOpen ? 'hidden' : ''
+        })
+
+        // Close nav when a link is tapped
+        document.querySelectorAll('.site-header__nav a').forEach(link => {
+          link.addEventListener('click', () => {
+            header.classList.remove('nav-open')
+            navToggle.setAttribute('aria-expanded', 'false')
+            document.body.style.overflow = ''
+          })
+        })
+      }
+    </script>
   </body>
 </html>

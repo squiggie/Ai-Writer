@@ -12,6 +12,8 @@ const novels = defineCollection({
     tone: z.string(),
     setting_type: z.string().optional(),
     comp_authors: z.string().optional(),
+    synopsis: z.string().optional(),
+    buy_url: z.string().optional(),
   }),
 })
 

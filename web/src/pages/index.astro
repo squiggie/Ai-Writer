@@ -1,77 +1,95 @@
 ---
 import { getCollection } from 'astro:content'
 import Base from '../layouts/Base.astro'
+import CoverPlaceholder from '../components/CoverPlaceholder.astro'
 
 const novels = await getCollection('novels')
 const chapters = await getCollection('chapters')
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-const bookCount = novels.length
-const chapterCount = chapters.length
+const totalChapters = chapters.length
+const totalWords = chapters.reduce((sum, c) => sum + (c.data.word_count ?? 0), 0)
+const featured = novels[0]
+const featuredChapters = featured
+  ? chapters.filter(c => c.id.startsWith(featured.data.slug + '/chapters/')).length
+  : 0
 ---
 
-<Base title="The Daily Novel">
-  <div class="hero">
-    <p class="hero__eyebrow">Science fiction &bull; Christian worldview</p>
-    <h1 class="hero__title">The Daily Novel</h1>
-    <p class="hero__sub">
-      A fully automated multi-agent writing pipeline producing science fiction novels,
-      one chapter at a time.
+<Base title="Nobody Publishing — Noman Stiles">
+  <!-- Hero -->
+  <section class="hero container--wide">
+    <p class="hero__publisher">Nobody Publishing</p>
+    <h1 class="hero__name">Noman Stiles</h1>
+    <p class="hero__tagline">
+      Science fiction with a Christian worldview. Novels written at the intersection of
+      conscience, consequence, and quiet grace.
     </p>
-    <a href={`${base}/library`} class="btn">Browse the library</a>
-  </div>
-
-  <div class="container" style="padding-bottom: 4rem;">
-    <div style="display: flex; gap: 3rem; justify-content: center; text-align: center; margin-bottom: 3rem;">
-      <div>
-        <div style="font-size: 2.5rem; color: var(--accent); font-family: Georgia, serif;">{bookCount}</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.06em;">
-          {bookCount === 1 ? 'Novel' : 'Novels'}
-        </div>
-      </div>
-      <div>
-        <div style="font-size: 2.5rem; color: var(--accent); font-family: Georgia, serif;">{chapterCount}</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted); font-family: 'Helvetica Neue', Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.06em;">
-          {chapterCount === 1 ? 'Chapter' : 'Chapters'}
-        </div>
-      </div>
+    <div class="hero__actions">
+      <a href={`${base}/library`} class="btn">Browse the library</a>
+      {featured && (
+        <a href={`${base}/${featured.data.slug}`} class="btn btn--ghost">
+          Latest novel &rarr;
+        </a>
+      )}
     </div>
+    <hr class="hero__divider" />
 
-    {novels.length > 0 && (
-      <div>
-        <h2 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Helvetica Neue', Arial, sans-serif; margin-bottom: 1rem;">
-          Latest
-        </h2>
-        {novels.slice(0, 1).map(novel => (
-          <a href={`${base}/${novel.data.slug}`} style="text-decoration: none;">
-            <div class="book-card" style="max-width: 520px;">
-              <div class="book-card__meta">{novel.data.genre} &bull; {novel.data.tone}</div>
-              <div class="book-card__title">{novel.data.title}</div>
-              {novel.data.comp_authors && (
-                <div class="book-card__comp">In the tradition of {novel.data.comp_authors}</div>
-              )}
-              <div class="book-card__footer">
-                <span>
-                  {chapters.filter(c => c.id.startsWith(novel.data.slug + '/')).length} chapters
-                </span>
-                <span class="book-card__link">Read &rarr;</span>
-              </div>
-            </div>
-          </a>
-        ))}
+    <!-- Stats -->
+    {(novels.length > 0 || totalChapters > 0) && (
+      <div class="stats-bar" style="margin-bottom: 4rem;">
+        <div class="stats-bar__item">
+          <span class="stats-bar__num">{novels.length}</span>
+          <span class="stats-bar__label">{novels.length === 1 ? 'Novel' : 'Novels'}</span>
+        </div>
+        <div class="stats-bar__item">
+          <span class="stats-bar__num">{totalChapters}</span>
+          <span class="stats-bar__label">{totalChapters === 1 ? 'Chapter' : 'Chapters'}</span>
+        </div>
+        {totalWords > 0 && (
+          <div class="stats-bar__item">
+            <span class="stats-bar__num">{Math.round(totalWords / 1000)}k</span>
+            <span class="stats-bar__label">Words</span>
+          </div>
+        )}
       </div>
     )}
-  </div>
-</Base>
 
-<style>
-  .hero__eyebrow {
-    font-size: 0.8rem;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-</style>
+    <!-- Featured novel -->
+    {featured && (
+      <div style="margin-bottom: 2rem;">
+        <p class="section-label">Featured work</p>
+        <a href={`${base}/${featured.data.slug}`} style="display: block; text-decoration: none;">
+          <article class="featured-book">
+            <CoverPlaceholder title={featured.data.title} />
+            <div class="featured-book__meta">
+              <p class="featured-book__genre">{featured.data.genre}</p>
+              <h2 class="featured-book__title">{featured.data.title}</h2>
+              {featured.data.comp_authors && (
+                <p class="featured-book__comp">
+                  In the tradition of {featured.data.comp_authors}
+                </p>
+              )}
+              {featured.data.synopsis ? (
+                <p class="featured-book__synopsis">{featured.data.synopsis}</p>
+              ) : (
+                <p class="featured-book__synopsis" style="color: var(--text-subtle); font-style: italic;">
+                  {featured.data.tone} &mdash; {featured.data.setting_type}
+                </p>
+              )}
+              <div class="featured-book__actions">
+                <span class="btn btn--sm">Read now</span>
+                {featured.data.buy_url && (
+                  <span class="btn btn--ghost btn--sm">Buy in print</span>
+                )}
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-subtle); margin-top: 0.25rem;">
+                {featuredChapters} {featuredChapters === 1 ? 'chapter' : 'chapters'} available
+              </p>
+            </div>
+          </article>
+        </a>
+      </div>
+    )}
+  </section>
+</Base>

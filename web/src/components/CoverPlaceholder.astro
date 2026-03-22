@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string
+  class?: string
+}
+
+const { title, class: className = '' } = Astro.props
+
+const initials = title
+  .split(' ')
+  .filter(w => w.length > 2)
+  .slice(0, 2)
+  .map(w => w[0].toUpperCase())
+  .join('')
+---
+
+<div class={`cover-placeholder ${className}`} aria-hidden="true">
+  <span class="cover-placeholder__initials">{initials || title[0]}</span>
+</div>

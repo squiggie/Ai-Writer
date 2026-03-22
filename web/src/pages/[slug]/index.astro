@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
+import CoverPlaceholder from '../../components/CoverPlaceholder.astro'
 
 export async function getStaticPaths() {
   const novels = await getCollection('novels')
@@ -21,77 +22,113 @@ const { Content } = await render(novel)
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 const slug = novel.data.slug
 
+const totalWords = chapters.reduce((sum, c) => sum + (c.data.word_count ?? 0), 0)
+
 function chapterParam(entryId: string) {
-  // entryId: "the-remnant-protocol/chapters/chapter-01"
   return entryId.split('/').at(-1)!
 }
 ---
 
 <Base
-  title={`${novel.data.title} — The Daily Novel`}
-  description={`${novel.data.genre} novel by The Daily Novel. ${novel.data.tone}.`}
+  title={`${novel.data.title} — Nobody Publishing`}
+  description={novel.data.synopsis ?? `${novel.data.genre} novel by Noman Stiles. ${novel.data.tone}.`}
 >
   <div class="container">
-    <div class="page-heading">
-      <div class="page-heading__eyebrow">
-        <a href={`${base}/library`}>Library</a>
+    <!-- Book hero -->
+    <div class="book-hero">
+      <CoverPlaceholder title={novel.data.title} />
+
+      <div class="book-hero__meta">
+        <p class="eyebrow">
+          <a href={`${base}/library`} style="color: var(--text-subtle); transition: color 0.15s ease;">
+            Library
+          </a>
+          &nbsp;/&nbsp; {novel.data.genre}
+        </p>
+
+        <h1 class="book-hero__title">{novel.data.title}</h1>
+
+        <div class="book-hero__tags">
+          <span class="tag">{novel.data.pov}</span>
+          <span class="tag">{novel.data.tone}</span>
+          {novel.data.setting_type && <span class="tag">{novel.data.setting_type}</span>}
+        </div>
+
+        {novel.data.comp_authors && (
+          <p style="font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: var(--text-muted);">
+            In the tradition of {novel.data.comp_authors}
+          </p>
+        )}
+
+        {novel.data.synopsis && (
+          <p class="book-hero__synopsis">{novel.data.synopsis}</p>
+        )}
+
+        <p style="font-size: 0.78rem; color: var(--text-subtle);">
+          {chapters.length} {chapters.length === 1 ? 'chapter' : 'chapters'}
+          {totalWords > 0 && ` · ~${Math.round(totalWords / 1000)}k words`}
+          &nbsp;&mdash;&nbsp; Noman Stiles
+        </p>
+
+        <div class="book-hero__actions">
+          {chapters.length > 0 && (
+            <a
+              href={`${base}/${slug}/${chapterParam(chapters[0].id)}`}
+              class="btn"
+            >
+              Start reading
+            </a>
+          )}
+          {novel.data.buy_url && (
+            <a
+              href={novel.data.buy_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--ghost"
+            >
+              Buy in print &nearr;
+            </a>
+          )}
+        </div>
       </div>
-      <h1>{novel.data.title}</h1>
-      <p class="book-meta">
-        {novel.data.genre} &bull; {novel.data.pov} &bull; {novel.data.tone}
-        {novel.data.comp_authors && <> &bull; <em>In the tradition of {novel.data.comp_authors}</em></>}
-      </p>
     </div>
 
+    <!-- Premise / full synopsis from idea.md body -->
     <div class="book-body">
       <Content />
     </div>
 
-    <hr />
-
-    <h2>Chapters</h2>
-
-    {chapters.length === 0 && (
-      <p style="color: var(--text-muted); margin-top: 1rem;">No chapters published yet.</p>
+    <!-- Chapter list -->
+    {chapters.length > 0 && (
+      <div style="margin-top: 3rem; margin-bottom: 2rem;">
+        <p class="section-label">Chapters</p>
+        <ul class="chapter-list">
+          {chapters.map(chapter => (
+            <li class="chapter-list__item">
+              <a
+                href={`${base}/${slug}/${chapterParam(chapter.id)}`}
+                class="chapter-list__link"
+              >
+                <span class="chapter-list__num">
+                  {String(chapter.data.chapter).padStart(2, '0')}
+                </span>
+                <span class="chapter-list__title">{chapter.data.title}</span>
+                {chapter.data.word_count && (
+                  <span class="chapter-list__words">
+                    {chapter.data.word_count.toLocaleString()} words
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     )}
-
-    <ul class="chapter-list">
-      {chapters.map(chapter => (
-        <li class="chapter-list__item">
-          <a href={`${base}/${slug}/${chapterParam(chapter.id)}`} class="chapter-list__link">
-            <span class="chapter-list__num">{String(chapter.data.chapter).padStart(2, '0')}</span>
-            <span>{chapter.data.title}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
   </div>
 </Base>
 
 <style>
-  .book-meta {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin-top: 0.4rem;
-    margin-bottom: 0;
-  }
+  .book-hero .cover-placeholder { width: 100%; }
 
-  .book-body {
-    margin-top: 2rem;
-    font-size: 0.95rem;
-  }
-
-  /* Suppress the h1 that idea.md doesn't have, style the section headings */
-  .book-body :global(h2) {
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-muted);
-    margin-top: 1.75rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .book-body :global(p) { margin-bottom: 0.75rem; }
+  .book-hero__meta a:hover { color: var(--accent) !important; }
 </style>
