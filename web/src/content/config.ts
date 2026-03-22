@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders'
 
 // One entry per novel — reads novels/<slug>/idea.md
 const novels = defineCollection({
-  loader: glob({ pattern: '*/idea.md', base: '../../novels' }),
+  loader: glob({ pattern: '*/idea.md', base: '../novels' }),
   schema: z.object({
     title: z.string(),
     slug: z.string(),
@@ -19,7 +19,7 @@ const novels = defineCollection({
 // Draft and review files (chapter-NN-draft.md, chapter-NN-dev-review.md) are
 // excluded by the pattern: only chapter-NN.md (exactly two digits) matches.
 const chapters = defineCollection({
-  loader: glob({ pattern: '*/chapters/chapter-[0-9][0-9].md', base: '../../novels' }),
+  loader: glob({ pattern: '*/chapters/chapter-[0-9][0-9].md', base: '../novels' }),
   schema: z.object({
     chapter: z.number(),
     title: z.string(),
