@@ -40,9 +40,7 @@ function chapterParam(entryId: string) {
 
       <div class="book-hero__meta">
         <p class="eyebrow">
-          <a href={`${base}/library`} style="color: var(--text-subtle); transition: color 0.15s ease;">
-            Library
-          </a>
+          <a href={`${base}/library`} class="breadcrumb-link">Library</a>
           &nbsp;/&nbsp; {novel.data.genre}
         </p>
 
@@ -129,6 +127,6 @@ function chapterParam(entryId: string) {
 
 <style>
   .book-hero .cover-placeholder { width: 100%; }
-
-  .book-hero__meta a:hover { color: var(--accent) !important; }
+  .breadcrumb-link { color: var(--text-subtle); transition: color 0.15s ease; }
+  .breadcrumb-link:hover { color: var(--accent); }
 </style>
