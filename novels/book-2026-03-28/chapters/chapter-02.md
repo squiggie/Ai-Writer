@@ -1,0 +1,211 @@
+---
+chapter: 2
+title: Known Variables
+pov: Mara Vale
+word_count: 3139
+timeline_position: Day 0, later the same shift
+beat_source: "outline.md - Chapter 2: Known Variables"
+status: FINAL
+---
+
+I started a false-periodicity log before the station had finished digesting what we had already seen. That was partly procedure and partly self-defense. If an anomaly could be reduced to a known failure mode quickly enough, it stayed inside engineering. It did not become language that command could weaponize or dismiss at convenience. It did not become one more point on the line between caution and paralysis where I had once already chosen wrong.
+
+At the top of the slate I entered the only heading that mattered: **KNOWN CAUSES**.
+
+Contamination. Orbital aliasing. Transform error. Thermal cycling. Vibration crossfeed. Processor lane corruption. Archived preprocessing artifact. Timing slip between sampler and attitude correction. Bad cartridge seal. Dirty capillary. Mislabeled sterile medium. Residue in the purge manifold. Software library mismatch hidden under approved checksum. Quantization noise promoted by smoothing assumptions. Pattern-seeking in exhausted personnel. The last item did not belong in a formal log. I kept it anyway.
+
+Linh floated beside the cryoline rack with her boot hooked under a restraint strap, working through a hardware audit that was less likely to produce a satisfying answer with every clean result. Pavel had claimed the spare console and was pulling apart the archive metadata one field at a time, offended on principle by anything that refused to collapse under scrutiny. The three of us had stopped saying obvious things. Every new negative made them harder to say without consequence attached.
+
+I opened the passive bank D file again and reran the alignment from raw counts. Lower gain, different geometry, different preprocessing lane. The same nested relation emerged under the noise floor if I separated the band by hand and refused the software's urge to sand down anything inconvenient. Not a duplicate of A-primary. Not the same amplitude either. That almost bothered me more. A copied artifact would have been consistent in all the wrong ways. This thing shifted with the instrument that observed it while keeping its internal spacing.
+
+Pavel rubbed both hands over his face, then looked at the result as if fatigue might still be the most charitable explanation. "We should freeze assumptions before we contaminate the interpretation."
+
+"I am freezing them," I said.
+
+"You are writing them down in an order that implies preference."
+
+"I prefer explanations that still exist after the data."
+
+Linh did not turn from the rack. "I prefer breakfast. We are all disappointed."
+
+I split the display into three panes: known salt peaks on the left, the A-primary calibration rerun in the center, passive bank D on the right. Under ordinary conditions the comparison would have been almost insulting. Different collection contexts, different confidence limits, different reasons not to overread structure. Under ordinary conditions I would have closed the exercise and forced myself back to more disciplined work. Instead I pulled the anomalous band out of each dataset and annotated every way the comparison could be misleading.
+
+Windowing choice affects apparent periodicity.
+
+Weak signal inflation under manual separation.
+
+Human tendency to preserve desired ratios under noisy decomposition.
+
+Uncorrected orbital motion may introduce beat-frequency illusions.
+
+I typed fast when I was trying not to notice my own body. The lab had warmed by less than a degree since dawn, but the skin across the back of my neck stayed cold. My shoulders had gone hard from hunching over the console, and each time I straightened I felt the small pull under my left ribs that came from too much caffeine and too little real food. I logged all of that mentally too. Instrument state was never independent of operator state, no matter how much science liked to pretend otherwise.
+
+The door indicator flashed. I assumed it was another tech from environmental wanting the cryoline pressure numbers Linh had borrowed from their queue. Instead Chaplain Tomas Orlov eased himself through the hatch with both hands on the rails and a packet of maintenance seals clamped under one arm. He moved like a man who had spent a long time respecting injury without granting it authority. His right knee brace made a faint mechanical click each time he shifted under partial spin.
+
+He took in the room in one sweep, not intrusive, not ignorant either. A person could spend enough years aboard stations to learn the shape of concentration under strain even without understanding the instruments that caused it.
+
+"I was told the storage drawer under your sink had my missing sealant," he said. "This appears to be true and also a poor time."
+
+Linh glanced up. "If you find the packet marked for valve twelve, it defected from me without authorization."
+
+Orlov crouched carefully by the underbench compartment. "Then I will consider myself in active recovery operations."
+
+I should have told him to come back later. Instead I returned to the screen, because ordinary interruptions were easier to tolerate than people asking whether we were all right. No one on *Anselm* asked that unless they wanted a confession or a blood panel. Pavel gave the chaplain a brief nod and went back to his metadata. Linh started listing item codes from memory while Orlov sorted through a drift of maintenance odds that had collected under the sink over three personnel rotations and one unforgivable labeling standard.
+
+The lab's environmental systems exhaled dry filtered air across my hands. I loaded a control from nine weeks earlier, before certification traffic, before Serran's latest demand forecasts, before the station had reason to care what language we used about the plumes beyond yield and tolerance. Flat baseline. No interval. Good. I set it beside the active files and began a difference map.
+
+Orlov held up a seal packet. "This one?"
+
+"If it's cracked at the corner, yes," Linh said.
+
+He studied it. "Cracked exactly where hope leaks first."
+
+Pavel looked up, expression thin. "Do all repair metaphors come through your office before distribution?"
+
+Orlov smiled without showing much of it. "Only the ones no one else wants."
+
+He found Linh's packet, set two other missing items on the counter, and stayed by the hatch as if he understood from long practice that sometimes people needed another body in the room who had no authority over the outcome. I disliked that he was good at it.
+
+He watched the displays for a moment and said, "You're making a list of what the signal is not."
+
+"Yes."
+
+"Useful?"
+
+"More useful than naming what it is too early."
+
+"That sounds true."
+
+I waited for the rest and resented myself for doing it.
+
+He rubbed one thumb against the edge of the packet in his hand. "On cargo routes we used to teach junior mechanics to classify every vibration by probable cause before they took apart a pump. Most problems were ordinary. Bearing wear. Trapped gas. Bad mountings. That discipline kept them from inventing disasters out of noise."
+
+"A sensible policy."
+
+"It was. The flaw came later." He glanced at the screen again. "Once in a while a machine shook in a way none of the standard causes covered. The good mechanics still made their lists. The dangerous ones decided that if a thing had not yet been named, responsibility had not yet begun."
+
+Pavel turned back to his console before the sentence was finished. Linh's hands went still inside the service panel. My stylus paused above the slate. Not a dramatic stop, just enough for the tip to press a shallow crescent into the pad of my thumb before I realized I was holding it too hard. The cold at the back of my neck spread downward between my shoulders. For one beat the room seemed to narrow around the amber certification field waiting in the corner of my display.
+
+I saved the difference map and kept my voice level. "Responsibility for what?"
+
+"For proceeding carefully around what they did not understand."
+
+"We are proceeding carefully."
+
+"Yes," he said. "You are." There was no accusation in it. That made it harder to dismiss.
+
+I highlighted the A-primary band because I needed my eyes somewhere exact. "Caution without threshold criteria is just piety with instrumentation."
+
+Orlov inclined his head as if the objection were fair. "Then I trust you'll define your threshold."
+
+"I intend to."
+
+"Before or after someone asks you to ignore it?"
+
+Linh exhaled through her nose. Not amusement. A controlled release, like venting pressure from a line before the gasket failed. Pavel shut one metadata pane harder than necessary and then left his hand on the console as if surprised by the force. My jaw had locked; I only noticed because it hurt when I answered.
+
+Orlov, having placed the question where it would do the most damage, pushed himself back toward the hatch. "Valve twelve thanks you," he said to Linh. Then, to no one specifically, "I have chapel duty at ten. If any of you discover that caffeine is not a sacrament after all, there is bread in the galley."
+
+When he left, the room did not get quieter. It got more precise. Even the relay clicks near the sample bay seemed sharper, as if the station had tightened its tolerances around us.
+
+Pavel was first to break the silence. "He should not do that."
+
+"Do what?" Linh asked.
+
+"Walk in for sealant and leave behind an ethics hearing."
+
+"He did not use the word ethics."
+
+"He didn't need to."
+
+I reopened the local memo I had drafted and still not sent. The certification field waited in the corner of the display, amber and patient. My thumb hovered over it once before I minimized the pane again. The motion was small. My forearm still felt it.
+
+"Threshold first," I said. "We have not isolated orbital aliasing."
+
+Pavel seized on the sentence with visible relief. "Good. Then we do that before anything else contaminates the decision."
+
+He moved to the guidance link and began pulling station attitude data in finer granularity than the automatic package had provided earlier. I took reaction wheel corrections and ring vibration logs, resampled them against the anomalous bands, and built a synthetic interference model that should have reproduced the apparent relation if ordinary motion were generating it. It did not. The wheel chatter created broad smearing. Structural vibration produced jagged sidebands. Neither gave me the clean nested intervals in the live files.
+
+I adjusted assumptions until the model became absurd: drift higher than the hardware could sustain without declaring faults, timing slips large enough to trigger half the station's alarms, hidden prefiltering rules that did not exist in the approved libraries. Each attempt failed in a different direction. Failure was information. I wrote it down.
+
+At 08:06 station time, command broadcast the first readiness reminder for afternoon review. Serran's voice came over the ceiling speakers stripped of image and therefore harder, just a controlled human signal moving through aluminum and air.
+
+"All certification teams are reminded that unresolved anomalies must be categorized by operational impact before thirteen hundred. Preliminary readiness packets lock at twelve thirty. Delays require written basis."
+
+No one in the lab answered because there was no channel for answering. That was one of command's more refined habits. I looked at the lower task bar where extraction sequencing had already populated the shared station queue: tug alignments, intake sterilization windows, reservoir spin-up, crew transfers, legal sign-offs. Twelve thirty was not a number on its own. It was the point at which the rest of the station stopped treating caution as analysis and started treating it as obstruction.
+
+Linh pulled herself toward my station and peered over the band map. "If this were aliasing, the sidebands would walk when the wheel corrections shift."
+
+"They don't."
+
+"If it were contamination, the passive bank relation should wander with the background chemistry."
+
+"It doesn't."
+
+"If it were my cryoline manifold, I would at least get the satisfaction of seeing one ugly mechanical reason."
+
+"You are getting nothing today."
+
+She tapped the lower interval with one fingernail. "I dislike that it behaves better than we do."
+
+That was close enough to my own thought that I did not answer. Pavel sent over a new timing table.
+
+"I have something," he said, and for half a second my body prepared for relief. My shoulders loosened. Air came in deeper. Then he added, "Not enough."
+
+The table showed a narrow synchronization wobble between the sampler clock and a station-wide timing beacon during the first calibration run. Under other circumstances it might have explained the initial emergence. It did not survive contact with the controlled rerun, where the wobble was absent and the interval remained. Nor did it fit passive bank D, whose timing architecture was separate. We stared at the table anyway, giving it the respect due a failed hope.
+
+"Log it and kill it," I said.
+
+Pavel did, jaw tight.
+
+By then the station had swung into a geometry where Saturn's reflected light pooled blue-white along the edge of the forward port. The plume itself was mostly out of view from the lab, just a pale flare at the lower corner when I leaned far enough. I used the port once to unknot my back and saw cargo tugs moving against the distant extraction rig, all clean angles and scheduled intent. Readiness week had changed the traffic pattern around *Anselm*. More movement. More locked timing. A propellant tender was already easing into position near the transfer spine hours ahead of the review, as if the station had decided that tomorrow's harvest was real enough to cast a shadow backward across today.
+
+When I turned back, my own reflection hovered faintly in the glass over Enceladus. Hollowed eyes. Hair coming loose at the temple where I had tucked it back too many times. A face I recognized most clearly when systems were narrowing. Elias used to say I became easier to trust and harder to talk to in the same ten minutes. He had said it smiling, grease on his knuckles, as if he found the contradiction useful. The memory arrived whole enough to change the room for a second, then left the familiar absence behind.
+
+I sat before it could propagate into something less useful than work. "Manual decomposition," I said.
+
+Pavel frowned. "We already have transform output."
+
+"We have automated decomposition making choices I no longer trust."
+
+"Manual separation on a weak band invites confirmation bias."
+
+"Then we do it independently."
+
+Linh shoved off the rail at once. "Three lanes?"
+
+"Three lanes. Raw counts only. No smoothing. Fixed windows agreed in advance."
+
+Pavel considered, then nodded once. "And blind labels for the control set."
+
+"Yes."
+
+That was enough structure to restore us. We selected six files: the two anomaly-bearing active runs, passive bank D, two older controls, and one near-threshold noise set from a month earlier. Linh relabeled them with neutral tags and distributed the raw count arrays. Then the room settled into the specific silence of people trying very hard not to lie to themselves.
+
+Manual Fourier work is less glamorous than anyone outside a lab imagines. There is no cinematic revelation in it, no sudden choir of numbers aligning for human benefit. There is only the repeated subtraction of assumption. Window, isolate, decompose, check leakage, reconstruct, repeat. The hand gets involved in a way that software shields you from. You feel each interpretive choice because you have to make it openly.
+
+I started with file C, not knowing whether it was anomaly or control. At first the band offered nothing except a broad low-frequency rise and two spikes I dismissed as residue. On the second pass, after tightening the window and correcting for baseline skew, one spike split. Not one peak but relation. I marked the interval and moved on without naming it.
+
+File D gave me flatness with minor edge noise. File A looked busy until I stripped out the sodium contribution and found that the apparent clutter was mostly chemical background. No structure. Good. A clean negative mattered almost as much as a positive. Across from me Pavel had leaned so close to his console that his forehead nearly touched the shield. Linh worked faster than either of us, muttering window values under her breath like someone counting bolts during decompression.
+
+Twenty-three minutes passed that way. The lab smell sharpened as the environmental loop switched filters. My right hand cramped between thumb and first finger from too much stylus pressure. I flexed once, saw the tremor I did not want, and went back in.
+
+File F. Broad rise. Secondary shoulder. Ignore both. Narrow band in the lower third. Too weak. Re-center. Run decomposition. Leakage on first pass. Correct. Run again.
+
+The interval emerged not as a dramatic peak but as a refusal to blur. Three units to two. Under it, offset and weaker, the related spacing we had been seeing all shift. I stripped the band apart twice more, trying to break the relation by method. It held. Not perfectly, because nothing real ever does. Clean enough.
+
+I looked up. Linh was already looking at me. She had the expression she wore when a component failed exactly the way she'd warned it would. Pavel still worked his file, face unreadable, until he stopped so abruptly that his chair restraint creaked.
+
+"Labels," he said.
+
+Linh cross-checked the tags against her slate. Her finger moved down the list once, then again more slowly. "C was passive bank D. F was the controlled rerun. D and A were controls."
+
+No one spoke for several seconds. The station's ordinary sounds returned at full scale: coolant flow through the wall channels, a relay clicking near the sample bay, distant foot traffic in the corridor outside the lab. Every one of them belonged to a system that assumed the plumes were matter first and only matter.
+
+Pavel turned his screen toward me. His decomposition matched mine within tolerance. Linh sent hers a moment later. The same nested relation, independently separated, surviving blind labels, different files, different hands.
+
+Not random periodicity. Not a convenient artifact promoted by software. Structure.
+
+I opened the unsent memo again. The amber field no longer looked patient. It looked timed. My thumb settled against the send control and stayed there. I could feel my pulse in the pad of it, a hard fine beat against the glass. Breathing through my nose no longer seemed sufficient, so I took air in carefully through parted lips and held my hand still until the urge to press became a physical ache running from thumb to wrist.
+
+On the lower pane of the display the interval sat inside the noise with the steadiness of something that had been there before we found the right way to look. Above us, readiness packets were already moving toward command review, and below the hull Enceladus kept venting its ocean into vacuum while the extraction schedule tightened around us. Proof was no longer the part we lacked. What we lacked was any safe use for it.

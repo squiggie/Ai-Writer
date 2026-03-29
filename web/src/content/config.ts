@@ -7,11 +7,16 @@ const novels = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string(),
+    source_slug: z.string().optional(),
+    category: z.string().optional(),
     genre: z.string(),
     pov: z.string(),
     tone: z.string(),
     setting_type: z.string().optional(),
-    comp_authors: z.string().optional(),
+    comp_authors: z
+      .union([z.string(), z.array(z.string())])
+      .transform((value) => Array.isArray(value) ? value.join(', ') : value)
+      .optional(),
     synopsis: z.string().optional(),
     buy_url: z.string().optional(),
     cover: z.string().optional(),

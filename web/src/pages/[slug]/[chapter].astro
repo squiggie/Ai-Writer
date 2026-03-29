@@ -1,21 +1,27 @@
 ---
 import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
+import {
+  chaptersForNovel,
+  compareNovelsNewestFirst,
+  routeSlugForNovel,
+  sourceBookKey,
+} from '../../lib/novels'
 
 export async function getStaticPaths() {
-  const novels = await getCollection('novels')
+  const novels = (await getCollection('novels')).sort(compareNovelsNewestFirst)
   const chapters = await getCollection('chapters')
 
-  const novelBySlug = Object.fromEntries(novels.map(n => [n.data.slug, n]))
+  const novelBySourceKey = Object.fromEntries(novels.map((novel) => [sourceBookKey(novel), novel]))
 
   return chapters.map(entry => {
+    const sourceKey = sourceBookKey(entry)
     const parts = entry.id.split('/')
-    const slug = parts[0]
     const chapterParam = parts.at(-1)!
-    const novel = novelBySlug[slug]
-
-    const siblings = chapters
-      .filter(c => c.id.startsWith(slug + '/chapters/'))
+    const novel = novelBySourceKey[sourceKey]
+    const slug = novel ? routeSlugForNovel(novel) : sourceKey
+    const siblings = novel ? chaptersForNovel(novel, chapters) : chapters
+      .filter((chapter) => sourceBookKey(chapter) === sourceKey)
       .sort((a, b) => a.data.chapter - b.data.chapter)
 
     const idx = siblings.findIndex(c => c.id === entry.id)
@@ -33,7 +39,7 @@ const { entry, novel, prev, next } = Astro.props
 const { Content } = await render(entry)
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-const slug = novel?.data.slug ?? entry.id.split('/')[0]
+const slug = novel ? routeSlugForNovel(novel) : sourceBookKey(entry)
 const bookTitle = novel?.data.title ?? slug
 
 function chapterParam(entryId: string) {

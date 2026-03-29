@@ -2,18 +2,23 @@
 import { getCollection } from 'astro:content'
 import Base from '../layouts/Base.astro'
 import CoverPlaceholder from '../components/CoverPlaceholder.astro'
+import {
+  chaptersForNovel,
+  compareNovelsNewestFirst,
+  routeSlugForNovel,
+  totalWordsForChapters,
+} from '../lib/novels'
 
-const novels = await getCollection('novels')
+const novels = (await getCollection('novels')).sort(compareNovelsNewestFirst)
 const chapters = await getCollection('chapters')
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 const totalChapters = chapters.length
-const totalWords = chapters.reduce((sum, c) => sum + (c.data.word_count ?? 0), 0)
+const totalWords = totalWordsForChapters(chapters)
 const featured = novels[0]
-const featuredChapters = featured
-  ? chapters.filter(c => c.id.startsWith(featured.data.slug + '/chapters/')).length
-  : 0
+const featuredSlug = featured ? routeSlugForNovel(featured) : null
+const featuredChapters = featured ? chaptersForNovel(featured, chapters).length : 0
 ---
 
 <Base title="Nobody Publishing — Noman Stiles">
@@ -28,7 +33,7 @@ const featuredChapters = featured
     <div class="hero__actions">
       <a href={`${base}/library`} class="btn">Browse the library</a>
       {featured && (
-        <a href={`${base}/${featured.data.slug}`} class="btn btn--ghost">
+        <a href={`${base}/${featuredSlug}`} class="btn btn--ghost">
           Latest novel &rarr;
         </a>
       )}
@@ -58,7 +63,7 @@ const featuredChapters = featured
       <div style="margin-bottom: 2rem;">
         <h2 class="explore-heading">Explore &darr;</h2>
         <p class="section-label">Featured work</p>
-        <a href={`${base}/${featured.data.slug}`} style="display: block; text-decoration: none;">
+        <a href={`${base}/${featuredSlug}`} style="display: block; text-decoration: none;">
           <article class="featured-book">
             {featured.data.cover
               ? <img src={`${base}${featured.data.cover}`} alt={`Cover of ${featured.data.title}`} class="featured-book__cover-img" />

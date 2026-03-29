@@ -96,7 +96,6 @@ fi
 DATE=$(date +%Y-%m-%d)
 log "[finalize-book] Final audit PASS — rebuilding and publishing"
 bash "$SCRIPTS_DIR/build-site.sh" "$NOVEL_DIR" "$BOOK_SLUG"
-python3 "$SCRIPTS_DIR/update-library.py" "$NOVEL_DIR" "$BOOK_SLUG" "$DATE"
 bash "$SCRIPTS_DIR/deploy.sh" "$BOOK_SLUG"
 
 log "[finalize-book] Complete: $BOOK_SLUG"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# generate-book.sh — Full pipeline: idea → architect → write → build → deploy
+# generate-book.sh — Full pipeline: idea → architect → write → Astro build → deploy
 #
 # Usage: generate-book.sh [book-slug] [--chapters-per-run N|--all]
 #   If no slug is given, uses today's date: book-YYYY-MM-DD
@@ -81,7 +81,7 @@ log "================================================================"
 # ── Phase 1: Ideation ─────────────────────────────────────────────────────────
 if [ ! -f "$NOVEL_DIR/idea.md" ]; then
     log ""
-    log "[Phase 1/6] Generating novel concept..."
+    log "[Phase 1/5] Generating novel concept..."
 
     run_codex "$NOVELS_DIR" \
         "Read $AIWRITER_DIR/genres.md in full — all approved genre profiles, their category labels, comp authors, POV, rhythm, tone, and Christian worldview integration approach.
@@ -99,7 +99,8 @@ Generate a completely original novel concept with a Christian worldview woven na
 Save to $BOOK_SLUG/idea.md with exactly this structure:
 ---
 title: [Novel Title]
-slug: $BOOK_SLUG
+slug: [URL-safe title slug, lowercase with hyphens, based on the novel title and not the dated folder name]
+source_slug: $BOOK_SLUG
 category: [Sci-Fi / Fantasy / Thriller / Military SF / Space]
 genre: [exact genre profile name from genres.md]
 pov: [First person / Third limited / Third omniscient / Multiple / Epistolary]
@@ -140,7 +141,7 @@ fi
 # ── Phase 2: Architect ────────────────────────────────────────────────────────
 if [ ! -f "$NOVEL_DIR/memory.md" ]; then
     log ""
-    log "[Phase 2/6] Running Architect..."
+    log "[Phase 2/5] Running Architect..."
 
     log "  Generating style guide..."
     run_codex "$NOVEL_DIR" \
@@ -287,7 +288,7 @@ Save both files. Output nothing else."
         "Read diversity-tracker.md. Find the entry for $BOOK_SLUG and update the structure field to: $STRUCTURE. Save the updated file. Output nothing else." \
         "$CODEX_FAST_SLEEP"
 else
-    log "[Phase 2/6] Architect files exist — skipping"
+    log "[Phase 2/5] Architect files exist — skipping"
 fi
 
 # ── Phase 3: Write all chapters ───────────────────────────────────────────────
@@ -301,9 +302,9 @@ fi
 
 log ""
 if [ "$CHAPTERS_PER_RUN_LIMIT" -eq 0 ]; then
-    log "[Phase 3/6] Writing remaining chapters (up to $CHAPTERS_PER_BOOK total)..."
+    log "[Phase 3/5] Writing remaining chapters (up to $CHAPTERS_PER_BOOK total)..."
 else
-    log "[Phase 3/6] Writing up to $CHAPTERS_PER_RUN_LIMIT unfinished chapters this run..."
+    log "[Phase 3/5] Writing up to $CHAPTERS_PER_RUN_LIMIT unfinished chapters this run..."
 fi
 
 CHAPTERS_WRITTEN_THIS_RUN=0
@@ -331,24 +332,19 @@ done
 
 log ""
 if [ "$CHAPTERS_WRITTEN_THIS_RUN" -eq 0 ]; then
-    log "[Phase 3/6] No unfinished chapters processed"
+    log "[Phase 3/5] No unfinished chapters processed"
 else
-    log "[Phase 3/6] Completed $CHAPTERS_WRITTEN_THIS_RUN chapter(s) this run"
+    log "[Phase 3/5] Completed $CHAPTERS_WRITTEN_THIS_RUN chapter(s) this run"
 fi
 
 # ── Phase 4: Build site ───────────────────────────────────────────────────────
 log ""
-log "[Phase 4/6] Building book site..."
+log "[Phase 4/5] Building Astro site..."
 bash "$SCRIPTS_DIR/build-site.sh" "$NOVEL_DIR" "$BOOK_SLUG"
 
-# ── Phase 5: Update library ───────────────────────────────────────────────────
+# ── Phase 5: Deploy ───────────────────────────────────────────────────────────
 log ""
-log "[Phase 5/6] Updating library..."
-python3 "$SCRIPTS_DIR/update-library.py" "$NOVEL_DIR" "$BOOK_SLUG" "$DATE"
-
-# ── Phase 6: Deploy ───────────────────────────────────────────────────────────
-log ""
-log "[Phase 6/6] Deploying to GitHub Pages..."
+log "[Phase 5/5] Deploying to GitHub Pages..."
 bash "$SCRIPTS_DIR/deploy.sh" "$BOOK_SLUG"
 
 log ""

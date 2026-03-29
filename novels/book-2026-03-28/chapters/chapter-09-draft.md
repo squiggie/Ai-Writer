@@ -1,0 +1,299 @@
+---
+chapter: 9
+title: Peer Review
+pov: Mara Vale
+word_count: 3196
+timeline_position: Day 3, immediately after
+beat_source: outline.md - Chapter 9: Peer Review
+status: draft
+---
+
+At 06:01 station time I was still staring at the transformed return when Linh said, "Wake Pavel now," in the tone people use for pressure breaches and cardiac alarms.
+
+I exported the aligned windows from comms lane three into a sealed review bundle, added the raw carrier log, the contamination checks, and Rafi's lane-isolation diagnostics, then hesitated over the recipient field long enough to notice my own thumb resting against the send icon without moving. The skin there had gone pale from pressure.
+
+Rafi watched from the relay rack with his mug cupped in both hands, no longer pretending he was too busy to understand what kind of room he had been caught in.
+
+"If you need the lane report signed," he said, "send it before someone higher up decides this branch never happened."
+
+"I need it signed."
+
+He gave a short nod. "Then send it now."
+
+I sent the bundle to Linh first because she was already awake and to Pavel second because he was not. For him I marked the header urgent scientific review, independent assessment requested, no command channel. It was too much language for a message that should have contained only data. I stripped two qualifiers and sent the leaner version.
+
+The station clock kept advancing in the corner of the display. 06:02. 06:03. Somewhere in command, my constrained assessment had already started doing its smaller, safer work.
+
+Pavel answered on the fourth call, face blurred by berth dark and sleep compression.
+
+"If this is about the procurement hold," he said, "I have nothing useful to say before coffee."
+
+"Comms lab. I ran the induced-response branch before they revoked it."
+
+His face sharpened without changing expression. "You what."
+
+"I used the live authorization while it still existed. The return is in your inbox."
+
+He sat up far enough that the camera caught the berth wall behind him and the folded thermal blanket trapped against one shoulder. "Are you telling me you stimulated the plume field under an active anomaly review without command present."
+
+"I am telling you the data are waiting."
+
+"Mara."
+
+"Look first."
+
+His jaw moved once. Not anger yet. Reorganization. "Ten minutes."
+
+"Five."
+
+"You are not in a position to negotiate with arithmetic."
+
+"Neither are we."
+
+I cut the call before he could refuse on principle and pushed off from the comms console so fast the room tipped for half a second. Rafi caught the edge of the chair I had failed to stabilize.
+
+"You want me attached to this formally," he said.
+
+It was not really a question. Formal attachment meant risk for him. Informal witness meant command could later decide he had misunderstood his own equipment.
+
+"Yes," I said. "Only the lane conditions. Nothing interpretive."
+
+"Good." He set the mug down with excessive care. "I do not have an interpretive budget before breakfast."
+
+I transferred his signed isolation report into the bundle, copied the whole set to a local wafer, and headed for plume analytics before the station could close another door.
+
+The corridor between comms and the sensor spine had begun to fill with day-cycle traffic. A cart floated past loaded with filter bricks. Two geology techs argued in low voices over a bore model. A medic in blue moved fast enough to make everyone else look staged. The ordinary station morning had the wrong scale now. Every display I passed still belonged to the mission that had existed an hour ago. Flow rates. harvest timing. relay lag. If anything had changed below the ice, *Anselm* had not admitted it to the walls yet.
+
+My body had begun accounting in places my mind had deferred. My forearms still held the fine residual tremor from the comms chair. The tendons at the base of my thumbs ached from too much grip against too little sleep. I flexed my right hand twice while waiting through a hatch cycle and watched the fingers close slightly out of order.
+
+Linh was already in plume analytics when I arrived. She had not changed clothes. The same slate thermal layer she had slept in was zipped wrong at the throat, and one side of her hair still carried the flattened angle of a pillow restraint. She had three displays open across the central bench, the induced windows on one, the near-field particulate phase maps on another, and the old acoustic stress correlations on the wall behind her as if she intended to force every piece of the last two days into the same argument until it broke or held.
+
+"Tell me you kept the raw carrier clean," she said instead of hello.
+
+"Rafi signed lane three isolation."
+
+"Useful man."
+
+"Reluctantly."
+
+She took the wafer from my hand and loaded it into the local partition. "I reran the interval extraction on the six windows you sent me. Same answer. The added spacing stabilizes in windows three through six, then decays back into the baseline architecture."
+
+"What did you use for contamination rejection."
+
+"Everything rude."
+
+That was close enough to an answer from her. She brought up her scratch work anyway, layers of manual subtraction, carrier-strip rejection, blind relabeling, and a comparison against housekeeping rhythms she had downloaded from station maintenance logs while I was in transit.
+
+"Nothing local is singing in that band," she said. "Nothing in housekeeping, nothing in relay mesh chatter, nothing in the comms spine. If this is an artifact, it has developed better operational discipline than command."
+
+I looked at the transformed windows again, waiting for some defensive part of me to step forward and insist on collapse. The old 3:2 relation persisted, shifted but intact. The added interval sat where it had sat in comms, not repeated, not random, not ours.
+
+"Did you wake Pavel," Linh asked.
+
+"He is coming."
+
+"Good. I would like an independent witness before Serran decides this is sleep deprivation with formatting."
+
+She said it harshly, but I heard the strain under it. Her hands kept moving across the interface faster than necessary, opening and closing panes she had already checked. She was not trying to find a new result. She was trying to inhabit procedure hard enough that consequence would stay outside the room a little longer.
+
+I routed the review package into three partitions, one for each of us. Raw first. Then the alignment tools. Then a blank annotation field with no shared comments visible. We had done blind work before on the original anomaly. It mattered more now. Once one of us used the wrong noun, the others would spend hours proving they had not inherited it.
+
+Pavel entered seven minutes later carrying a sealed coffee bulb and the expression of a man who had dressed on resentment alone. He stopped just inside the door when he saw the wall already populated with the induced-response windows.
+
+"You actually did it," he said.
+
+"Yes."
+
+"Under whose authority."
+
+"Workflow authority."
+
+"That is not the same answer."
+
+Linh turned from the bench. "Do you want to litigate the branch hash first, or do you want the thing it returned."
+
+He set the coffee bulb against the bench without drinking from it. "I want the exact test conditions before either of you tell me what you think happened."
+
+That, at least, was him. Annoyance expressed as protocol. I walked him through the injection path, power ceiling, interval structure, lane isolation, contamination checks, and return timing. I omitted nothing except my own moment in the chair when the word *exchange* had arrived before I allowed it. That was not data.
+
+Pavel listened with his eyes on the windows, not on me. When I finished, he said, "No annotations. No conclusions. Partition the raw and let me work."
+
+"Already built," Linh said.
+
+He gave her a brief look that in another room might have carried gratitude. Here it passed as recognition that his colleagues remained dangerous in the useful direction.
+
+For the next forty-three minutes the lab went almost silent. Not because silence helped, but because every word risked loading the result. Pavel took partition two at the side console and worked standing, head slightly bowed, one hand braced flat against the bench as the other moved through the analysis panes. Linh sat cross-legged on the deck by the wall display with her tablet anchored to one knee, running her own extraction from the raw carrier rather than from the package I had prepared. I stayed at the central station and rebuilt the return from first principles one more time because repetition was the only moral shape my mind trusted under pressure.
+
+Observation. Qualification. Implication. Strip the carrier. Confirm timing integrity. Compare live return to modeled dissipation. Reject station housekeeping. Reject relay bleed. Reject mesh echo. Blind-label the windows and rerun interval detection without the transmission sequence visible. Check whether the added spacing survives stricter thresholds. It did. Tighten again. It survived narrower, uglier, but still there.
+
+My neck had gone stiff from leaning too long into the same angle. When I straightened, vertebrae clicked softly up the spine. I rolled my shoulders once and caught my reflection in the blank edge of a dormant side monitor. Bloodless face. Eyes too focused to count as rested. The look of someone already being disbelieved by a future room.
+
+Pavel broke the quiet first.
+
+"The transformed interval is real in the return windows," he said without turning around.
+
+Linh let out a breath through her nose. "That is the most dramatic sentence you have ever spoken."
+
+"Do not make me regret saying it."
+
+I pushed my chair back from the console. "Same conclusion here."
+
+He finally turned. "The conclusion here is narrower than whatever is happening in your head."
+
+"Try me."
+
+Pavel touched the wall and brought up his extraction results beside mine. The fit was not identical in every window, but the same structure emerged: transmitted prime spacing absent as direct mirror, relational preservation present in altered form, added interval near 4:3 inserted within the response architecture.
+
+"It is not a passive reflection," he said. "It is not random turbulence. It is not ordinary lane contamination. And it is not the original anomaly merely continuing unchanged after stimulus."
+
+Linh rose from the deck in one controlled motion. "You are taking the long road to the obvious."
+
+"I am taking the defensible road."
+
+"The obvious can be defensible."
+
+"Not if you contaminate it with hunger."
+
+That landed harder than I expected because it was aimed in both directions. Hunger for proof. Hunger for a category that would stop the skimmers. Hunger for one clean thing in a system built to blur it to death.
+
+I kept my voice even. "Then say what the data support."
+
+Pavel looked at the wall again before answering, as if he preferred the windows to our faces. "They support an induced transformation by a system capable of preserving relation under stimulus while altering form."
+
+Linh stared at him. "That is intelligence written in cowardly handwriting."
+
+"No. That is the line before intelligence. A line command cannot dismiss as easily."
+
+"Command will dismiss anything it needs."
+
+"Yes," he said. "Which is why we cannot help them by overreaching."
+
+The old fracture between them opened on schedule. Linh with the result already pressing against consequence. Pavel with consequence already shaping the wording of the result. I understood both too well to enjoy either.
+
+I walked to the wall and expanded the model divergence curves until the failed passive return sat plainly beside the actual data. "If a simple patterned probe goes in and a mathematically transformed relation comes back, preserving order without mirroring shape, what language do you think is left."
+
+"Not language borrowed from ourselves too early."
+
+"You mean not *response*."
+
+"I mean not *communication*," he said. "Not *message*. Not *someone.* We have one induced trial, under extreme context pressure, in a medium we still do not understand."
+
+Linh folded her arms so hard the tendons stood in her wrists. "Nobody said message."
+
+"You didn't need to."
+
+She took one step toward him, then stopped. The room had enough charge already. "If the station had run this cleanly, with ten committees and a ceremonial checklist, you would be using stronger nouns."
+
+"If the station had run it cleanly, I would trust the institutional record more than I trust the three of us at six in the morning after three days without proper sleep."
+
+That was fair. It also made me want to strike something expensive.
+
+I pulled up the near-field particulate maps from the skiff sortie and overlaid them with the transformed return. "Then widen the frame. The induced result does not stand alone. We have timing structure across separate paths, stress-coupled reorganization after the icequake, phase-linked particulate sorting in near-field transport, and now stimulus transformation. At what point does reluctance stop being rigor."
+
+Pavel's face changed then, not softer, but more exposed. "At the point where I can sign something that survives first contact with a hostile review board."
+
+That brought us back to the actual question. Not what we privately believed. What could enter the record before Serran enclosed it.
+
+I opened a blank statement and typed a header.
+
+**Joint preliminary finding regarding induced harmonic transformation event**
+
+The title looked bureaucratic enough to live. I began with the narrow claims Pavel had already accepted. At 05:39 station time an approved active-sensing calibration branch transmitted a low-energy prime-interval stimulus through the plume-interaction path. Subsequent return windows diverged from current passive geophysical model expectations. Independent reanalysis by three investigators confirmed preservation of relational order in altered form, including emergence of a secondary interval near 4:3 not present in the transmitted sequence as such.
+
+Linh watched over my shoulder. "Add that standard contamination paths were rejected independently."
+
+I added it.
+
+"Add that the transformed return is materially consistent with adaptive system behavior," she said.
+
+Pavel made a sound low in his throat. "No."
+
+"Why not."
+
+"Because consistent with is where bad scientists smuggle their conclusions past their own standards."
+
+"And where honest scientists start when the category arrives before the proof structure."
+
+I kept typing before the argument could harden into posture. The statement went on to say that the event raised the probability of organized, nonrandom subsurface process beyond what passive anomaly framing could adequately capture. That language made Pavel exhale once through his nose, but he did not object. I added that existing extraction readiness assumptions should be considered scientifically unstable pending urgent further review. Linh approved instantly. Pavel still stayed quiet.
+
+When I reached the final paragraph, my fingers slowed over the keys.
+
+Pending current evidence, the most responsible interpretation is that the Enceladus plume field may be coupled to a distributed adaptive system best treated, provisionally, as probable nonhuman intelligence.
+
+The sentence sat on the screen with all its weight in the adverb and the noun. *Provisionally* was the last shelter. *Intelligence* was the word command would fight hardest because once it entered the room the rest of the mission would stop pretending it was only handling chemistry and law.
+
+Linh said, "Yes."
+
+Pavel said nothing.
+
+I turned from the display. "You agree the line of evidence has crossed from anomaly to adaptive system."
+
+"Probable adaptive system," he said.
+
+"And you agree the transformed return is not honestly reducible to passive geology under current models."
+
+"Under current models, yes."
+
+"Then what is left."
+
+He picked up the coffee bulb, found it unopened, and put it back down again. His hand stayed resting on the metal for a second too long, as if he needed the cooler surface to regulate something more useful than temperature.
+
+"One geophysical edge case," he said.
+
+Linh's eyes narrowed. "There is always one geophysical edge case. That is how cowards breed them."
+
+"This one is real."
+
+I waited. Pavel did not invent alternatives for sport. If he was holding the line here, it would be because he had found something ugly enough to slow him.
+
+He brought up a subsurface coupling sketch from the acoustic bay archives and layered my induced windows over it. Beneath the shell, the known vent geometry dissolved quickly into inference, but certain load pathways remained plausible: fracture columns, brine pockets, pressure chambers, tidal forcing across repeating stresses. He highlighted three cavity zones we had used before in the passive model and then modified the simulation boundary conditions.
+
+"If the subsurface vent network contains nonlinear resonant chambers with metastable brine interfaces," he said, "a patterned input could undergo mode conversion rather than reflection. The system would preserve relational structure, alter interval expression, and return a secondary spacing not present in the original stimulus as a direct copy."
+
+Linh stared at the model. "That is grotesquely specific."
+
+"Specific is good."
+
+"Specific is convenient when you need another month."
+
+"I need one test," he said. "A proper shell-ocean coupling simulation under active input, using the updated cavity conditions we never had time to run because command wanted a clearance memo instead."
+
+I looked from his model to the statement still open on the main display. The body understands delay before the mind consents to it. My stomach had tightened into a hard, narrow line. Not fear exactly. More like the moment before signing a certification field when you know one missing term will survive you.
+
+"Do you believe that model," I asked.
+
+Pavel answered too carefully for comfort. "I believe it is the last nonadaptive explanation I can name without embarrassing myself."
+
+"And if it fails."
+
+"Then I will sign your sentence."
+
+Linh laughed once, without humor. "By then command will have six new ways to bury it."
+
+"Maybe," he said. "But if I sign now and the edge case survives first pass, Serran gets to label all of us compromised in one stroke."
+
+The statement remained open between us. Joint preliminary finding. Independent rejection of contamination. Extraction readiness scientifically unstable. Probable nonhuman intelligence. Every line in it felt both late and too early.
+
+I could hear the station through the lab walls again. Vent fans. A lift motor somewhere down-corridor. Morning work beginning in other compartments whose occupants still believed this day belonged to scheduling, not witness. On the wall behind Pavel, the transformed return held its altered relation and refused to become simpler for us.
+
+"I'm circulating the narrower version now," I said.
+
+Linh turned sharply. "Without the last paragraph."
+
+"With the instability language and the independent confirmations."
+
+"That is not enough."
+
+"It is what all three of us can defend at once."
+
+She looked at Pavel as if deciding whether contempt was a useful expenditure. Then she looked back at me. The anger in her face was not only at him. It was at the machine that kept forcing us to choose between speed and proof as though harm waited politely for paperwork.
+
+Pavel said, quieter than before, "Mara, do not hand them a sentence they can kill on one survivable objection."
+
+I looked again at the unsent line on the screen, at the noun waiting there like a door I could not force open alone.
+
+"Then help me kill the objection," I said.
+
+He held my gaze for a moment, then shook his head once.
+
+"Not until we run the mode-conversion test."

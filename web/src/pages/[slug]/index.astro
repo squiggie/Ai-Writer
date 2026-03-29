@@ -2,16 +2,20 @@
 import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import CoverPlaceholder from '../../components/CoverPlaceholder.astro'
+import {
+  chaptersForNovel,
+  compareNovelsNewestFirst,
+  routeSlugForNovel,
+  totalWordsForChapters,
+} from '../../lib/novels'
 
 export async function getStaticPaths() {
-  const novels = await getCollection('novels')
+  const novels = (await getCollection('novels')).sort(compareNovelsNewestFirst)
   const chapters = await getCollection('chapters')
 
   return novels.map(novel => {
-    const slug = novel.data.slug
-    const bookChapters = chapters
-      .filter(c => c.id.startsWith(slug + '/chapters/'))
-      .sort((a, b) => a.data.chapter - b.data.chapter)
+    const slug = routeSlugForNovel(novel)
+    const bookChapters = chaptersForNovel(novel, chapters)
     return { params: { slug }, props: { novel, chapters: bookChapters } }
   })
 }
@@ -20,9 +24,9 @@ const { novel, chapters } = Astro.props
 const { Content } = await render(novel)
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-const slug = novel.data.slug
+const slug = routeSlugForNovel(novel)
 
-const totalWords = chapters.reduce((sum, c) => sum + (c.data.word_count ?? 0), 0)
+const totalWords = totalWordsForChapters(chapters)
 
 function chapterParam(entryId: string) {
   return entryId.split('/').at(-1)!
