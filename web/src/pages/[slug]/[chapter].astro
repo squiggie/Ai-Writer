@@ -151,6 +151,16 @@ function chapterParam(entryId: string) {
         <p class="chapter-narration__status" id="tts-status">
           Narration is off.
         </p>
+
+        <details class="chapter-narration__debug" id="tts-debug">
+          <summary>Debug narration</summary>
+          <div class="chapter-narration__debug-body">
+            <p class="chapter-narration__debug-line"><strong>Phase:</strong> <span id="tts-debug-phase">idle</span></p>
+            <p class="chapter-narration__debug-line"><strong>Engine:</strong> <span id="tts-debug-engine">not loaded</span></p>
+            <p class="chapter-narration__debug-line"><strong>Audio:</strong> <span id="tts-debug-audio">stopped</span></p>
+            <pre class="chapter-narration__debug-log" id="tts-debug-log">Waiting for narration events...</pre>
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -321,6 +331,48 @@ function chapterParam(entryId: string) {
     line-height: 1.6;
   }
 
+  .chapter-narration__debug {
+    margin-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.85rem;
+  }
+
+  .chapter-narration__debug summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .chapter-narration__debug-body {
+    margin-top: 0.75rem;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .chapter-narration__debug-line {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .chapter-narration__debug-line strong {
+    color: var(--text);
+  }
+
+  .chapter-narration__debug-log {
+    margin-top: 0.35rem;
+    max-height: 220px;
+    overflow: auto;
+    padding: 0.85rem;
+    border-radius: 12px;
+    background: rgba(22, 26, 31, 0.95);
+    color: #dbe4ff;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
   .chapter-narration__player-bar {
     display: flex;
     flex-wrap: wrap;
@@ -448,6 +500,10 @@ function chapterParam(entryId: string) {
     const pauseButton = document.getElementById('tts-pause') as HTMLButtonElement
     const stopButton = document.getElementById('tts-stop') as HTMLButtonElement
     const status = document.getElementById('tts-status') as HTMLElement
+    const debugPhase = document.getElementById('tts-debug-phase') as HTMLElement
+    const debugEngine = document.getElementById('tts-debug-engine') as HTMLElement
+    const debugAudio = document.getElementById('tts-debug-audio') as HTMLElement
+    const debugLog = document.getElementById('tts-debug-log') as HTMLElement
 
     const chapterProse = document.querySelector('.chapter-prose') as HTMLElement | null
     const chapterText = chapterProse?.innerText?.trim() ?? ''
@@ -501,6 +557,27 @@ function chapterParam(entryId: string) {
 
     function setStatus(message: string) {
       status.textContent = message
+      logDebug(`status: ${message}`)
+    }
+
+    function logDebug(message: string) {
+      const timestamp = new Date().toLocaleTimeString()
+      debugLog.textContent = `[${timestamp}] ${message}\n${debugLog.textContent}`.trim()
+    }
+
+    function setDebugPhase(phase: string) {
+      debugPhase.textContent = phase
+      logDebug(`phase -> ${phase}`)
+    }
+
+    function setDebugEngineState(state: string) {
+      debugEngine.textContent = state
+      logDebug(`engine -> ${state}`)
+    }
+
+    function setDebugAudioState(state: string) {
+      debugAudio.textContent = state
+      logDebug(`audio -> ${state}`)
     }
 
     function setFallback(message: string, detail = 'Browser voice is still available and does not require any model download.') {
@@ -532,6 +609,7 @@ function chapterParam(entryId: string) {
     function hideLoading() {
       loadingBox.hidden = true
       progressBar.style.width = '0%'
+      setDebugPhase('idle')
     }
 
     function syncUi(mode: NarrationMode) {
@@ -561,6 +639,7 @@ function chapterParam(entryId: string) {
         audioUrl = null
       }
       audioElement = null
+      setDebugAudioState('stopped')
     }
 
     function stopNativePlayback() {
@@ -568,6 +647,7 @@ function chapterParam(entryId: string) {
         window.speechSynthesis.cancel()
       }
       nativeUtterance = null
+      setDebugAudioState('stopped')
     }
 
     function stopAllPlayback() {
@@ -676,6 +756,8 @@ function chapterParam(entryId: string) {
       if (enhancedRequested) return false
 
       enhancedRequested = true
+      setDebugPhase('loading-engine')
+      setDebugEngineState('loading')
       setLoading(2, 'Preparing AI narration...', 'Downloading the Kokoro voice engine in your browser.')
       setStatus('Loading AI narration...')
 
@@ -700,6 +782,7 @@ function chapterParam(entryId: string) {
             const total = typeof event.total === 'number' && event.total > 0 ? event.total : 0
             const loaded = typeof event.loaded === 'number' ? event.loaded : 0
             const progress = total > 0 ? Math.round((loaded / total) * 100) : null
+            logDebug(`download progress: ${progress === null ? 'unknown' : `${progress}%`}`)
             setLoading(
               progress,
               'Loading AI narration...',
@@ -713,12 +796,15 @@ function chapterParam(entryId: string) {
 
         enhancedReady = true
         hideLoading()
+        setDebugEngineState('ready')
         setStatus('AI narration is ready on this device.')
         return true
       } catch (error) {
         console.error(error)
         enhancedRequested = false
         hideLoading()
+        setDebugEngineState('failed')
+        logDebug(`engine error: ${error instanceof Error ? error.message : String(error)}`)
         setFallback(
           'AI narration could not start in this browser.',
           'Browser voice is still available and avoids the large model download.',
@@ -809,6 +895,7 @@ function chapterParam(entryId: string) {
       }
 
       stopAllPlayback()
+      setDebugPhase('synthesizing')
       setStatus('Generating chapter audio...')
       setLoading(null, 'Generating chapter audio...', 'This happens entirely in your browser.')
 
@@ -819,27 +906,41 @@ function chapterParam(entryId: string) {
           speed: Number(speedInput.value),
           audioEncoding: 'wav',
         })
+        logDebug(`setup voice=${voiceSelect.value || 'af_bella'} speed=${Number(speedInput.value).toFixed(2)}`)
 
         const messages = await headtts.synthesize({ input: narrationText })
+        logDebug(`synthesize returned ${Array.isArray(messages) ? messages.length : 0} message(s)`)
         const audioMessage = messages.find((message: any) => message.type === 'audio' && message.data?.audio)
         const blob = audioBlobFromPayload(audioMessage?.data?.audio, audioMessage?.data?.audioEncoding || 'wav')
 
         hideLoading()
 
         if (!blob) {
+          logDebug('no playable audio payload found')
           throw new Error('No playable audio payload returned from AI narration engine.')
         }
 
+        logDebug(`audio blob size=${blob.size}`)
         audioUrl = URL.createObjectURL(blob)
         audioElement = new Audio(audioUrl)
+        audioElement.onplay = () => setDebugAudioState('playing')
+        audioElement.onpause = () => setDebugAudioState('paused')
+        audioElement.onerror = () => {
+          setDebugAudioState('error')
+          logDebug('audio element error fired')
+        }
         audioElement.onended = () => {
+          setDebugAudioState('ended')
           setStatus('AI narration finished.')
         }
         await audioElement.play()
+        setDebugPhase('playing')
         setStatus('Playing AI narration.')
       } catch (error) {
         console.error(error)
         hideLoading()
+        setDebugPhase('fallback-native')
+        logDebug(`synthesis error: ${error instanceof Error ? error.message : String(error)}`)
         setStatus('AI narration failed for this chapter. Falling back to browser voice.')
         updateStoredMode('native')
         updateVoiceOptions('native')
@@ -854,15 +955,26 @@ function chapterParam(entryId: string) {
       }
 
       stopAllPlayback()
+      setDebugPhase('native-speaking')
       const utterance = new SpeechSynthesisUtterance(narrationText)
       utterance.rate = Number(speedInput.value)
       const voice = nativeVoices().find((item) => item.name === voiceSelect.value)
       if (voice) {
         utterance.voice = voice
       }
-      utterance.onstart = () => setStatus('Playing browser voice.')
-      utterance.onend = () => setStatus('Browser voice finished.')
-      utterance.onerror = () => setStatus('Browser voice playback failed.')
+      utterance.onstart = () => {
+        setDebugAudioState('playing')
+        setStatus('Playing browser voice.')
+      }
+      utterance.onend = () => {
+        setDebugAudioState('ended')
+        setStatus('Browser voice finished.')
+      }
+      utterance.onerror = (event) => {
+        setDebugAudioState('error')
+        logDebug(`browser voice error: ${String((event as SpeechSynthesisErrorEvent).error || 'unknown')}`)
+        setStatus('Browser voice playback failed.')
+      }
       nativeUtterance = utterance
       window.speechSynthesis.cancel()
       window.speechSynthesis.speak(utterance)
@@ -947,9 +1059,11 @@ function chapterParam(entryId: string) {
       if (modeSelect.value === 'native' && 'speechSynthesis' in window) {
         if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
           window.speechSynthesis.pause()
+          setDebugAudioState('paused')
           setStatus('Browser voice paused.')
         } else if (window.speechSynthesis.paused) {
           window.speechSynthesis.resume()
+          setDebugAudioState('playing')
           setStatus('Browser voice resumed.')
         }
         return
@@ -958,8 +1072,10 @@ function chapterParam(entryId: string) {
       if (audioElement) {
         if (audioElement.paused) {
           audioElement.play().catch(() => {
+            setDebugAudioState('error')
             setStatus('Could not resume AI narration.')
           })
+          setDebugAudioState('playing')
           setStatus('Playing AI narration.')
         } else {
           audioElement.pause()
@@ -970,6 +1086,7 @@ function chapterParam(entryId: string) {
 
     stopButton.addEventListener('click', () => {
       stopAllPlayback()
+      setDebugPhase('idle')
       setStatus('Narration stopped.')
     })
 
@@ -996,12 +1113,15 @@ function chapterParam(entryId: string) {
     if (prefs.mode === 'native' || !aiModeAllowed) {
       updateStoredMode('native')
       updateVoiceOptions('native')
+      setDebugEngineState(aiModeAllowed ? 'optional' : 'unavailable')
       setStatus('Browser voice is enabled.')
     } else if (prefs.mode === 'ai') {
       updateVoiceOptions('ai')
+      setDebugEngineState('not loaded')
       setStatus('AI narration is enabled. Press play to load the voice engine.')
     } else {
       updateVoiceOptions('ai')
+      setDebugEngineState(aiModeAllowed ? 'not loaded' : 'unavailable')
       setStatus('Narration is off.')
     }
   }
