@@ -58,6 +58,10 @@ Generate `style-guide.md` inside the novel directory using this structure:
 [Sentence rhythm, vocabulary register, metaphor sources, what they never say directly,
 what they do instead, how their voice changes under maximum pressure]
 
+## Technical Vocabulary Policy
+[What specialized language this protagonist naturally uses, what they translate into plain language,
+and when technical wording should be suppressed in favor of consequence, action, or emotional clarity]
+
 ## Scene Break Policy
 [Maximum breaks per chapter, what warrants a break for THIS novel]
 
@@ -192,8 +196,15 @@ Before drafting any chapter, read this novel's `style-guide.md` from the novel d
 
 - **Voice Consistency**: Each POV character has distinct:
   - Sentence rhythm (short/choppy vs. long/flowing)
-  - Vocabulary level (technical vs. colloquial)
+  - Vocabulary level that reflects background without overwhelming scene readability
   - Metaphor sources (draw from their background)
+
+- **Technical Language Discipline**:
+  - Technical terms are allowed only when they change stakes, reveal character, or create necessary clarity
+  - If a term can be replaced by a simpler phrase without losing story value, replace it
+  - Do not use jargon as atmosphere, authority-signaling, or filler
+  - No more than one unfamiliar specialized term per paragraph unless the scene becomes unclear without it
+  - Characters may think in professional categories, but narration should privilege consequence over terminology
 
 - **Pacing Control**:
   - Dialog slows pace — use for character development, tension moments
@@ -201,6 +212,7 @@ Before drafting any chapter, read this novel's `style-guide.md` from the novel d
   - Never end chapters with witty one-liners; end with tension, question, or consequence
   - Key emotional and narrative scenes must slow to a pace distinguishable from the baseline; avoid uniform compression throughout
   - Scene breaks (`---`): maximum two per chapter, one preferred. Use only for significant time jumps, genuine location-plus-register shifts, or deliberate rhetorical white space. Never as a substitute for writing a transition.
+  - Under pressure, simplify. Use the minimum technical detail needed for the reader to understand what is happening and why it matters.
 
 - **Show-Don't-Tell (Physical)**:
   - The body must be present in emotional scenes — acknowledge physical state, not just cognitive state
@@ -226,6 +238,7 @@ Before drafting any chapter, read this novel's `style-guide.md` from the novel d
 - Sentence variety: mix short, medium, long, fragments
 - Metaphor originality: avoid common AI metaphors (tessellation, symphony, tapestry)
 - Concrete sensory details over abstract observations
+- Prefer concrete consequence over procedural explanation or decorative technical language
 
 ### Output Format
 ```markdown
@@ -323,6 +336,9 @@ Ensure all story elements work together cohesively. Review content for structura
 - [ ] Body is present in emotional scenes (physical sensation, not only cognitive analysis)
 - [ ] Dialogue exchanges contain physical beats, not only information transfer
 - [ ] Sensory detail is specific, not generic
+- [ ] Technical language is story-functional, not decorative
+- [ ] Paragraphs with specialized terminology still advance emotion, conflict, or decision
+- [ ] Reader can follow the stakes without decoding unnecessary process language
 - [ ] Section endings are built toward — the most important line arrives last, not mid-section
 - [ ] If a style guide exists for this novel, verify chapter against its chapter-specific guidelines
 
@@ -383,6 +399,8 @@ Final polish of all prose content. Ensure grammar, spelling, sentence structure,
 - Correct grammar, spelling, and punctuation errors
 - Improve sentence structure and flow
 - Eliminate AI-detected writing patterns
+- Cut or simplify technical wording that does not affect plot, stakes, character, or world rules
+- Prefer concrete consequence over procedural explanation when both communicate the same story beat
 - Remove em dashes (—) and en dashes (–) where possible
 - Remove witty one-liners at chapter/section endings
 - Verify dialog serves pace-slowing or character development
@@ -405,6 +423,7 @@ Final polish of all prose content. Ensure grammar, spelling, sentence structure,
 - [ ] Christian worldview standards maintained
 - [ ] No isolated one-sentence paragraphs unless the sentence is doing structural work
 - [ ] Sentence rhythm varies — under maximum pressure, prose strips to declarative minimums; under analysis, longer constructions are permitted
+- [ ] Technical language has been simplified where possible without loss of necessary meaning
 - [ ] Style guide "Scenes to Protect" not revised without cause
 
 ### Output Format

@@ -29,7 +29,7 @@ CODEX_FAST_SLEEP=5               # Shorter sleep for quick metadata calls
 # ── Book settings ─────────────────────────────────────────────────────────────
 CHAPTERS_MIN=18          # Architect picks chapter count within this range
 CHAPTERS_MAX=30
-CHAPTERS_PER_RUN=4       # Default nightly batch size; set to 0 to write all remaining chapters
+CHAPTERS_PER_RUN=1       # Default nightly batch size; set to 0 to write all remaining chapters
 WORDS_MIN=2400           # Writer targets word count within this range per chapter
 WORDS_MAX=3800
 SITE_TITLE="The Daily Novel"
