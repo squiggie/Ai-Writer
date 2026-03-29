@@ -716,19 +716,9 @@ function chapterParam(entryId: string) {
 
     function detectAiNarrationSupport() {
       const nav = navigator as Navigator & { deviceMemory?: number; gpu?: unknown }
-      const touchHeavy = nav.maxTouchPoints > 1
-      const mobileUA = /Android|iPhone|iPad|iPod/i.test(nav.userAgent)
       const lowCpu = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency > 0 && nav.hardwareConcurrency < 6
       const lowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory > 0 && nav.deviceMemory < 6
       const lacksWebGpu = !('gpu' in nav)
-
-      if (mobileUA || touchHeavy) {
-        return {
-          allowed: false,
-          reason: 'AI narration is disabled on mobile and tablet devices for now.',
-          detail: 'The browser voice option is lighter and more reliable on touch devices.',
-        }
-      }
 
       if (lacksWebGpu && (lowCpu || lowMemory)) {
         return {
@@ -742,7 +732,7 @@ function chapterParam(entryId: string) {
         return {
           allowed: true,
           reason: 'AI narration may be slower here because WebGPU is unavailable.',
-          detail: 'It can still attempt a WASM fallback, but browser voice will usually feel faster.',
+          detail: 'It can still attempt a WASM fallback, but browser voice will usually feel faster on mobile and older hardware.',
         }
       }
 
