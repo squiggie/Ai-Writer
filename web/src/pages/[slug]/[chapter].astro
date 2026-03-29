@@ -732,6 +732,10 @@ function chapterParam(entryId: string) {
       const mime = encoding === 'wav' ? 'audio/wav' : 'application/octet-stream'
       if (!payload) return null
       if (payload instanceof Blob) return payload
+      if (typeof AudioBuffer !== 'undefined' && payload instanceof AudioBuffer) {
+        const wav = audioBufferToWav(payload)
+        return new Blob([wav], { type: 'audio/wav' })
+      }
       if (payload instanceof ArrayBuffer) return new Blob([payload], { type: mime })
       if (ArrayBuffer.isView(payload)) {
         return new Blob([payload.buffer.slice(payload.byteOffset, payload.byteOffset + payload.byteLength)], { type: mime })
@@ -749,6 +753,50 @@ function chapterParam(entryId: string) {
         return parts.length ? new Blob(parts as BlobPart[], { type: mime }) : null
       }
       return null
+    }
+
+    function audioBufferToWav(buffer: AudioBuffer) {
+      const channels = buffer.numberOfChannels
+      const sampleRate = buffer.sampleRate
+      const frameCount = buffer.length
+      const bytesPerSample = 2
+      const dataSize = frameCount * channels * bytesPerSample
+      const wavBuffer = new ArrayBuffer(44 + dataSize)
+      const view = new DataView(wavBuffer)
+
+      function writeString(offset: number, value: string) {
+        for (let index = 0; index < value.length; index += 1) {
+          view.setUint8(offset + index, value.charCodeAt(index))
+        }
+      }
+
+      writeString(0, 'RIFF')
+      view.setUint32(4, 36 + dataSize, true)
+      writeString(8, 'WAVE')
+      writeString(12, 'fmt ')
+      view.setUint32(16, 16, true)
+      view.setUint16(20, 1, true)
+      view.setUint16(22, channels, true)
+      view.setUint32(24, sampleRate, true)
+      view.setUint32(28, sampleRate * channels * bytesPerSample, true)
+      view.setUint16(32, channels * bytesPerSample, true)
+      view.setUint16(34, bytesPerSample * 8, true)
+      writeString(36, 'data')
+      view.setUint32(40, dataSize, true)
+
+      let offset = 44
+      const channelData = Array.from({ length: channels }, (_, channel) => buffer.getChannelData(channel))
+
+      for (let frame = 0; frame < frameCount; frame += 1) {
+        for (let channel = 0; channel < channels; channel += 1) {
+          const sample = Math.max(-1, Math.min(1, channelData[channel]![frame] ?? 0))
+          const int16 = sample < 0 ? sample * 0x8000 : sample * 0x7fff
+          view.setInt16(offset, int16, true)
+          offset += bytesPerSample
+        }
+      }
+
+      return wavBuffer
     }
 
     async function playEnhancedNarration() {
