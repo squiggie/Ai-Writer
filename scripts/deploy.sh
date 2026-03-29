@@ -35,6 +35,15 @@ if ! git ls-remote --exit-code --heads origin "$PAGES_BRANCH" >/dev/null 2>&1; t
     git checkout "$SOURCE_BRANCH"
 fi
 
+# Sync the local publish branch to the latest remote tip before creating
+# the worktree so pushes stay fast-forward even after remote-only updates.
+git fetch origin "$PAGES_BRANCH" >/dev/null 2>&1 || true
+if git show-ref --verify --quiet "refs/remotes/origin/$PAGES_BRANCH"; then
+    git branch -f "$PAGES_BRANCH" "origin/$PAGES_BRANCH" >/dev/null 2>&1 || \
+        git checkout -B "$PAGES_BRANCH" "origin/$PAGES_BRANCH" >/dev/null 2>&1
+    git checkout "$CURRENT_BRANCH" >/dev/null 2>&1
+fi
+
 # ── Set up worktree for gh-pages ──────────────────────────────────────────
 WORKTREE_DIR=$(mktemp -d)
 log "[deploy] Worktree: $WORKTREE_DIR"
