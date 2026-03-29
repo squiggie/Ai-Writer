@@ -287,6 +287,10 @@ function chapterParam(entryId: string) {
     margin-top: 0.1rem;
   }
 
+  .chapter-narration__loading[hidden] {
+    display: none;
+  }
+
   .chapter-narration__loading-head,
   .chapter-narration__status-row {
     display: flex;
@@ -937,7 +941,7 @@ function chapterParam(entryId: string) {
       return merged
     }
 
-    function splitNarrationIntoChunks(input: string, maxChars = 380) {
+    function splitNarrationIntoChunks(input: string, maxChars = 650) {
       const normalized = input.replace(/\s+/g, ' ').trim()
       if (!normalized) return []
 
@@ -1055,8 +1059,14 @@ function chapterParam(entryId: string) {
           }
 
           const chunk = chunks[index]!
-          const chunkLabel = `Synthesizing part ${index + 1} of ${chunks.length}`
-          setLoading(Math.round((index / chunks.length) * 100), chunkLabel, 'Smaller chunks avoid browser stalls on long chapters.')
+          const chunkLabel = `Preparing audio for part ${index + 1} of ${chunks.length}`
+          setLoading(
+            Math.round((index / chunks.length) * 100),
+            chunkLabel,
+            index === 0
+              ? 'The first segment usually takes longest while the browser warms up the model.'
+              : 'Generating the next segment. Brief pauses between parts are expected.',
+          )
           setStatus(`${chunkLabel}...`)
           logDebug(`chunk ${index + 1}/${chunks.length} chars=${chunk.length}`)
 
@@ -1088,13 +1098,13 @@ function chapterParam(entryId: string) {
             logDebug(`audio element error on chunk ${index + 1}`)
           }
 
-          hideLoading()
           setDebugPhase('playing')
           setStatus(`Playing part ${index + 1} of ${chunks.length}...`)
           await audioElement.play()
           await waitForAudioToFinish(audioElement, token)
         }
 
+        hideLoading()
         setDebugAudioState('ended')
         setStatus('AI narration finished.')
       } catch (error) {
