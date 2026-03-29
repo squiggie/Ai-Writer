@@ -523,6 +523,7 @@ function chapterParam(entryId: string) {
     let aiModeAllowed = true
     let aiModeReason = ''
     let playbackToken = 0
+    let decodeAudioContext: AudioContext | null = null
 
     const defaultPrefs: StoredPrefs = {
       mode: 'off',
@@ -843,6 +844,33 @@ function chapterParam(entryId: string) {
       return null
     }
 
+    function getDecodeAudioContext() {
+      if (!decodeAudioContext) {
+        const AudioContextCtor = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+        if (!AudioContextCtor) {
+          throw new Error('AudioContext is not available for decoding narration audio.')
+        }
+        decodeAudioContext = new AudioContextCtor()
+      }
+      return decodeAudioContext
+    }
+
+    async function payloadToAudioBuffer(payload: any, encoding = 'wav') {
+      if (!payload) return null
+      if (typeof AudioBuffer !== 'undefined' && payload instanceof AudioBuffer) {
+        return payload
+      }
+
+      const blob = audioBlobFromPayload(payload, encoding)
+      if (!blob) {
+        return null
+      }
+
+      const arrayBuffer = await blob.arrayBuffer()
+      const audioContext = getDecodeAudioContext()
+      return await audioContext.decodeAudioData(arrayBuffer.slice(0))
+    }
+
     function audioBufferToWav(buffer: AudioBuffer) {
       const channels = buffer.numberOfChannels
       const sampleRate = buffer.sampleRate
@@ -885,6 +913,38 @@ function chapterParam(entryId: string) {
       }
 
       return wavBuffer
+    }
+
+    async function mergeAudioMessages(messages: any[]) {
+      const audioMessages = messages.filter((message: any) => message.type === 'audio' && message.data?.audio)
+      const buffers = (
+        await Promise.all(
+          audioMessages.map((message: any) => payloadToAudioBuffer(message.data.audio, message.data?.audioEncoding || 'wav')),
+        )
+      ).filter(Boolean) as AudioBuffer[]
+
+      if (!buffers.length) {
+        return null
+      }
+
+      if (buffers.length === 1) {
+        return buffers[0]!
+      }
+
+      const sampleRate = buffers[0]!.sampleRate
+      const channels = buffers[0]!.numberOfChannels
+      const totalLength = buffers.reduce((sum, buffer) => sum + buffer.length, 0)
+      const merged = new AudioBuffer({ length: totalLength, numberOfChannels: channels, sampleRate })
+
+      let offset = 0
+      for (const buffer of buffers) {
+        for (let channel = 0; channel < channels; channel += 1) {
+          merged.getChannelData(channel).set(buffer.getChannelData(Math.min(channel, buffer.numberOfChannels - 1)), offset)
+        }
+        offset += buffer.length
+      }
+
+      return merged
     }
 
     function splitNarrationIntoChunks(input: string, maxChars = 380) {
@@ -1016,14 +1076,15 @@ function chapterParam(entryId: string) {
           ]) as any[]
 
           logDebug(`chunk ${index + 1} returned ${Array.isArray(messages) ? messages.length : 0} message(s)`)
-          const audioMessage = messages.find((message: any) => message.type === 'audio' && message.data?.audio)
-          const blob = audioBlobFromPayload(audioMessage?.data?.audio, audioMessage?.data?.audioEncoding || 'wav')
+          const mergedAudio = await mergeAudioMessages(messages)
 
-          if (!blob) {
+          if (!mergedAudio) {
             logDebug(`chunk ${index + 1} had no playable audio payload`)
             throw new Error(`Chunk ${index + 1} returned no playable audio.`)
           }
 
+          const blob = new Blob([audioBufferToWav(mergedAudio)], { type: 'audio/wav' })
+          logDebug(`chunk ${index + 1} merged ${messages.filter((message: any) => message.type === 'audio' && message.data?.audio).length} audio segment(s)`)
           logDebug(`chunk ${index + 1} audio blob size=${blob.size}`)
           if (audioUrl) {
             URL.revokeObjectURL(audioUrl)
