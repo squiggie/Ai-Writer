@@ -68,6 +68,82 @@ function chapterParam(entryId: string) {
     <div class="chapter-header__rule"></div>
   </div>
 
+  <section
+    class="chapter-narration"
+    id="chapter-narration"
+    data-book-title={bookTitle}
+    data-chapter-title={entry.data.title}
+    data-chapter-number={String(entry.data.chapter)}
+  >
+    <div class="chapter-narration__intro">
+      <p class="chapter-narration__eyebrow">Optional narration</p>
+      <h2 class="chapter-narration__title">Listen to this chapter</h2>
+      <p class="chapter-narration__copy">
+        Enable AI narration to load a higher-quality voice in your browser, or use your device's
+        built-in speech engine instead. AI narration is optional and only downloads when you ask for it.
+      </p>
+    </div>
+
+    <div class="chapter-narration__controls">
+      <div class="chapter-narration__toggles">
+        <button type="button" class="btn" id="tts-enable-ai">Enable AI narration</button>
+        <button type="button" class="btn btn--ghost" id="tts-enable-native">Use browser voice</button>
+        <button type="button" class="btn btn--ghost" id="tts-disable" hidden>Turn narration off</button>
+      </div>
+
+      <div class="chapter-narration__loading" id="tts-loading" hidden>
+        <div class="chapter-narration__loading-head">
+          <strong id="tts-loading-label">Preparing voice engine...</strong>
+          <span id="tts-loading-value">0%</span>
+        </div>
+        <div class="chapter-narration__progress">
+          <span id="tts-progress-bar"></span>
+        </div>
+        <p class="chapter-narration__hint" id="tts-loading-hint">
+          First load can take a while and uses extra device memory.
+        </p>
+      </div>
+
+      <div class="chapter-narration__player" id="tts-player" hidden>
+        <div class="chapter-narration__settings">
+          <label class="chapter-narration__field">
+            <span>Mode</span>
+            <select id="tts-mode">
+              <option value="ai">AI narration</option>
+              <option value="native">Browser voice</option>
+            </select>
+          </label>
+
+          <label class="chapter-narration__field">
+            <span>Voice</span>
+            <select id="tts-voice">
+              <option value="af_bella">Bella</option>
+              <option value="af_sarah">Sarah</option>
+              <option value="am_fenrir">Fenrir</option>
+              <option value="am_michael">Michael</option>
+            </select>
+          </label>
+
+          <label class="chapter-narration__field">
+            <span>Speed</span>
+            <input id="tts-speed" type="range" min="0.8" max="1.3" step="0.05" value="1" />
+            <output id="tts-speed-value">1.00x</output>
+          </label>
+        </div>
+
+        <div class="chapter-narration__actions">
+          <button type="button" class="btn" id="tts-play">Play chapter</button>
+          <button type="button" class="btn btn--ghost" id="tts-pause">Pause</button>
+          <button type="button" class="btn btn--ghost" id="tts-stop">Stop</button>
+        </div>
+
+        <p class="chapter-narration__status" id="tts-status">
+          Narration is off.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Prose body -->
   <article class="chapter-prose">
     <Content />
@@ -113,6 +189,149 @@ function chapterParam(entryId: string) {
     z-index: 200;
     transition: width 0.08s linear;
   }
+
+  .chapter-narration {
+    max-width: var(--max-prose);
+    margin: 0 auto 2.5rem;
+    padding: 0 1.5rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .chapter-narration__intro,
+  .chapter-narration__controls {
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,244,255,0.92));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    padding: 1.2rem 1.25rem;
+  }
+
+  .chapter-narration__eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .chapter-narration__title {
+    margin-top: 0.4rem;
+    color: var(--text);
+    font-size: clamp(1.25rem, 3vw, 1.7rem);
+    letter-spacing: -0.03em;
+  }
+
+  .chapter-narration__copy {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .chapter-narration__toggles,
+  .chapter-narration__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .chapter-narration__loading,
+  .chapter-narration__player {
+    margin-top: 1rem;
+  }
+
+  .chapter-narration__loading-head,
+  .chapter-narration__status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .chapter-narration__loading-head strong {
+    color: var(--text);
+    font-size: 0.92rem;
+  }
+
+  .chapter-narration__loading-head span {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .chapter-narration__progress {
+    height: 8px;
+    margin-top: 0.65rem;
+    background: rgba(51, 84, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .chapter-narration__progress span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    border-radius: inherit;
+    transition: width 0.2s ease;
+  }
+
+  .chapter-narration__hint,
+  .chapter-narration__status {
+    margin-top: 0.65rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .chapter-narration__settings {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .chapter-narration__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .chapter-narration__field span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+
+  .chapter-narration__field select,
+  .chapter-narration__field input {
+    width: 100%;
+  }
+
+  .chapter-narration__field select {
+    height: 42px;
+    padding: 0 0.8rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+  }
+
+  .chapter-narration__field output {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 720px) {
+    .chapter-narration__settings {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <script>
@@ -125,5 +344,442 @@ function chapterParam(entryId: string) {
     }
     window.addEventListener('scroll', update, { passive: true })
     update()
+  }
+
+  type NarrationMode = 'off' | 'ai' | 'native'
+
+  type StoredPrefs = {
+    mode: NarrationMode
+    voice: string
+    speed: number
+  }
+
+  const STORAGE_KEY = 'aiwriter:tts-prefs'
+  const narrationRoot = document.getElementById('chapter-narration') as HTMLElement | null
+
+  if (narrationRoot) {
+    const enableAiButton = document.getElementById('tts-enable-ai') as HTMLButtonElement
+    const enableNativeButton = document.getElementById('tts-enable-native') as HTMLButtonElement
+    const disableButton = document.getElementById('tts-disable') as HTMLButtonElement
+    const loadingBox = document.getElementById('tts-loading') as HTMLElement
+    const loadingLabel = document.getElementById('tts-loading-label') as HTMLElement
+    const loadingValue = document.getElementById('tts-loading-value') as HTMLElement
+    const loadingHint = document.getElementById('tts-loading-hint') as HTMLElement
+    const progressBar = document.getElementById('tts-progress-bar') as HTMLElement
+    const player = document.getElementById('tts-player') as HTMLElement
+    const modeSelect = document.getElementById('tts-mode') as HTMLSelectElement
+    const voiceSelect = document.getElementById('tts-voice') as HTMLSelectElement
+    const speedInput = document.getElementById('tts-speed') as HTMLInputElement
+    const speedValue = document.getElementById('tts-speed-value') as HTMLOutputElement
+    const playButton = document.getElementById('tts-play') as HTMLButtonElement
+    const pauseButton = document.getElementById('tts-pause') as HTMLButtonElement
+    const stopButton = document.getElementById('tts-stop') as HTMLButtonElement
+    const status = document.getElementById('tts-status') as HTMLElement
+
+    const chapterProse = document.querySelector('.chapter-prose') as HTMLElement | null
+    const chapterText = chapterProse?.innerText?.trim() ?? ''
+    const chapterHeading = [
+      narrationRoot.dataset.bookTitle,
+      `Chapter ${narrationRoot.dataset.chapterNumber}`,
+      narrationRoot.dataset.chapterTitle,
+    ].filter(Boolean).join('. ')
+    const narrationText = [chapterHeading, chapterText].filter(Boolean).join('. ')
+
+    let audioUrl: string | null = null
+    let audioElement: HTMLAudioElement | null = null
+    let headtts: any = null
+    let enhancedReady = false
+    let enhancedRequested = false
+    let nativeUtterance: SpeechSynthesisUtterance | null = null
+
+    const defaultPrefs: StoredPrefs = {
+      mode: 'off',
+      voice: 'af_bella',
+      speed: 1,
+    }
+
+    function readPrefs(): StoredPrefs {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY)
+        if (!raw) return defaultPrefs
+        const parsed = JSON.parse(raw)
+        return {
+          mode: parsed.mode === 'ai' || parsed.mode === 'native' ? parsed.mode : 'off',
+          voice: typeof parsed.voice === 'string' ? parsed.voice : defaultPrefs.voice,
+          speed: typeof parsed.speed === 'number' ? parsed.speed : defaultPrefs.speed,
+        }
+      } catch {
+        return defaultPrefs
+      }
+    }
+
+    function writePrefs(next: StoredPrefs) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+    }
+
+    let prefs = readPrefs()
+
+    voiceSelect.value = prefs.voice
+    speedInput.value = String(prefs.speed)
+    speedValue.value = `${prefs.speed.toFixed(2)}x`
+    modeSelect.value = prefs.mode === 'off' ? 'ai' : prefs.mode
+
+    function setStatus(message: string) {
+      status.textContent = message
+    }
+
+    function setLoading(progress: number | null, label: string, hint?: string) {
+      loadingBox.hidden = false
+      loadingLabel.textContent = label
+      if (progress === null) {
+        loadingValue.textContent = '...'
+        progressBar.style.width = '18%'
+      } else {
+        const clamped = Math.max(0, Math.min(progress, 100))
+        loadingValue.textContent = `${clamped}%`
+        progressBar.style.width = `${clamped}%`
+      }
+      if (hint) {
+        loadingHint.textContent = hint
+      }
+    }
+
+    function hideLoading() {
+      loadingBox.hidden = true
+      progressBar.style.width = '0%'
+    }
+
+    function syncUi(mode: NarrationMode) {
+      const active = mode !== 'off'
+      player.hidden = !active
+      disableButton.hidden = !active
+      enableAiButton.hidden = active
+      enableNativeButton.hidden = active
+      modeSelect.value = mode === 'off' ? 'ai' : mode
+    }
+
+    function stopAudioPlayback() {
+      if (audioElement) {
+        audioElement.pause()
+        audioElement.currentTime = 0
+      }
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl)
+        audioUrl = null
+      }
+      audioElement = null
+    }
+
+    function stopNativePlayback() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
+      }
+      nativeUtterance = null
+    }
+
+    function stopAllPlayback() {
+      stopAudioPlayback()
+      stopNativePlayback()
+    }
+
+    function updateStoredMode(mode: NarrationMode) {
+      prefs = {
+        ...prefs,
+        mode,
+        voice: voiceSelect.value,
+        speed: Number(speedInput.value),
+      }
+      writePrefs(prefs)
+      syncUi(mode)
+    }
+
+    function nativeVoices() {
+      if (!('speechSynthesis' in window)) return []
+      return window.speechSynthesis.getVoices().filter((voice) => /^en(-|_|$)/i.test(voice.lang))
+    }
+
+    function updateVoiceOptions(forMode: NarrationMode) {
+      const previous = voiceSelect.value
+      if (forMode === 'native') {
+        const voices = nativeVoices()
+        voiceSelect.innerHTML = ''
+        for (const voice of voices) {
+          const option = document.createElement('option')
+          option.value = voice.name
+          option.textContent = `${voice.name} (${voice.lang})`
+          voiceSelect.append(option)
+        }
+        if (!voices.length) {
+          const option = document.createElement('option')
+          option.value = ''
+          option.textContent = 'System default'
+          voiceSelect.append(option)
+        }
+        voiceSelect.value = voices.find((voice) => voice.name === previous)?.name || voiceSelect.options[0]?.value || ''
+      } else {
+        const aiVoices = [
+          ['af_bella', 'Bella'],
+          ['af_sarah', 'Sarah'],
+          ['am_fenrir', 'Fenrir'],
+          ['am_michael', 'Michael'],
+        ]
+        voiceSelect.innerHTML = ''
+        for (const [value, label] of aiVoices) {
+          const option = document.createElement('option')
+          option.value = value
+          option.textContent = label
+          voiceSelect.append(option)
+        }
+        voiceSelect.value = aiVoices.some(([value]) => value === previous) ? previous : prefs.voice
+      }
+    }
+
+    async function ensureEnhancedEngine() {
+      if (enhancedReady) return true
+      if (enhancedRequested) return false
+
+      enhancedRequested = true
+      setLoading(2, 'Preparing AI narration...', 'Downloading the Kokoro voice engine in your browser.')
+      setStatus('Loading AI narration...')
+
+      try {
+        const module = await import('https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.1/+esm')
+        const { HeadTTS } = module
+        headtts = new HeadTTS({
+          endpoints: ['webgpu', 'wasm'],
+          languages: ['en-us'],
+          voices: [voiceSelect.value || 'af_bella'],
+          defaultVoice: voiceSelect.value || 'af_bella',
+          defaultLanguage: 'en-us',
+          defaultSpeed: Number(speedInput.value),
+          defaultAudioEncoding: 'wav',
+          workerModule: 'https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.1/modules/worker-tts.mjs',
+          dictionaryURL: 'https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.1/dictionaries/',
+        })
+
+        await headtts.connect(
+          null,
+          (event: ProgressEvent<EventTarget>) => {
+            const total = typeof event.total === 'number' && event.total > 0 ? event.total : 0
+            const loaded = typeof event.loaded === 'number' ? event.loaded : 0
+            const progress = total > 0 ? Math.round((loaded / total) * 100) : null
+            setLoading(
+              progress,
+              'Loading AI narration...',
+              'First load can take a while. WebGPU is fastest; WASM is slower but more compatible.',
+            )
+          },
+          () => {
+            setLoading(null, 'Still loading AI narration...', 'This can take a while on slower devices.')
+          },
+        )
+
+        enhancedReady = true
+        hideLoading()
+        setStatus('AI narration is ready on this device.')
+        return true
+      } catch (error) {
+        console.error(error)
+        enhancedRequested = false
+        hideLoading()
+        setStatus('AI narration could not start on this device. Browser voice is still available.')
+        return false
+      }
+    }
+
+    function audioBlobFromPayload(payload: any, encoding = 'wav') {
+      const mime = encoding === 'wav' ? 'audio/wav' : 'application/octet-stream'
+      if (!payload) return null
+      if (payload instanceof Blob) return payload
+      if (payload instanceof ArrayBuffer) return new Blob([payload], { type: mime })
+      if (ArrayBuffer.isView(payload)) {
+        return new Blob([payload.buffer.slice(payload.byteOffset, payload.byteOffset + payload.byteLength)], { type: mime })
+      }
+      if (Array.isArray(payload)) {
+        const parts = payload
+          .map((item) => {
+            if (item instanceof ArrayBuffer) return item
+            if (ArrayBuffer.isView(item)) {
+              return item.buffer.slice(item.byteOffset, item.byteOffset + item.byteLength)
+            }
+            return null
+          })
+          .filter(Boolean)
+        return parts.length ? new Blob(parts as BlobPart[], { type: mime }) : null
+      }
+      return null
+    }
+
+    async function playEnhancedNarration() {
+      const ready = await ensureEnhancedEngine()
+      if (!ready || !headtts) {
+        updateStoredMode('native')
+        updateVoiceOptions('native')
+        await playNativeNarration()
+        return
+      }
+
+      stopAllPlayback()
+      setStatus('Generating chapter audio...')
+      setLoading(null, 'Generating chapter audio...', 'This happens entirely in your browser.')
+
+      try {
+        await headtts.setup({
+          voice: voiceSelect.value || 'af_bella',
+          language: 'en-us',
+          speed: Number(speedInput.value),
+          audioEncoding: 'wav',
+        })
+
+        const messages = await headtts.synthesize({ input: narrationText })
+        const audioMessage = messages.find((message: any) => message.type === 'audio' && message.data?.audio)
+        const blob = audioBlobFromPayload(audioMessage?.data?.audio, audioMessage?.data?.audioEncoding || 'wav')
+
+        hideLoading()
+
+        if (!blob) {
+          throw new Error('No playable audio payload returned from AI narration engine.')
+        }
+
+        audioUrl = URL.createObjectURL(blob)
+        audioElement = new Audio(audioUrl)
+        audioElement.onended = () => {
+          setStatus('AI narration finished.')
+        }
+        await audioElement.play()
+        setStatus('Playing AI narration.')
+      } catch (error) {
+        console.error(error)
+        hideLoading()
+        setStatus('AI narration failed for this chapter. Falling back to browser voice.')
+        updateStoredMode('native')
+        updateVoiceOptions('native')
+        await playNativeNarration()
+      }
+    }
+
+    async function playNativeNarration() {
+      if (!('speechSynthesis' in window)) {
+        setStatus('This browser does not support speech synthesis.')
+        return
+      }
+
+      stopAllPlayback()
+      const utterance = new SpeechSynthesisUtterance(narrationText)
+      utterance.rate = Number(speedInput.value)
+      const voice = nativeVoices().find((item) => item.name === voiceSelect.value)
+      if (voice) {
+        utterance.voice = voice
+      }
+      utterance.onstart = () => setStatus('Playing browser voice.')
+      utterance.onend = () => setStatus('Browser voice finished.')
+      utterance.onerror = () => setStatus('Browser voice playback failed.')
+      nativeUtterance = utterance
+      window.speechSynthesis.cancel()
+      window.speechSynthesis.speak(utterance)
+    }
+
+    enableAiButton.addEventListener('click', async () => {
+      updateStoredMode('ai')
+      updateVoiceOptions('ai')
+      setStatus('AI narration enabled. Press play to download the voice engine.')
+      await ensureEnhancedEngine()
+    })
+
+    enableNativeButton.addEventListener('click', () => {
+      updateStoredMode('native')
+      updateVoiceOptions('native')
+      setStatus('Browser voice enabled.')
+    })
+
+    disableButton.addEventListener('click', () => {
+      stopAllPlayback()
+      updateStoredMode('off')
+      hideLoading()
+      setStatus('Narration is off.')
+    })
+
+    modeSelect.addEventListener('change', async () => {
+      const mode = modeSelect.value === 'native' ? 'native' : 'ai'
+      updateStoredMode(mode)
+      updateVoiceOptions(mode)
+      if (mode === 'ai') {
+        setStatus('AI narration enabled. Press play to begin.')
+      } else {
+        setStatus('Browser voice enabled.')
+      }
+    })
+
+    voiceSelect.addEventListener('change', () => {
+      prefs = { ...prefs, voice: voiceSelect.value }
+      writePrefs({ ...prefs, speed: Number(speedInput.value), mode: prefs.mode })
+    })
+
+    speedInput.addEventListener('input', () => {
+      const speed = Number(speedInput.value)
+      speedValue.value = `${speed.toFixed(2)}x`
+      prefs = { ...prefs, speed }
+      writePrefs({ ...prefs, voice: voiceSelect.value, mode: prefs.mode })
+    })
+
+    playButton.addEventListener('click', async () => {
+      const mode = (modeSelect.value === 'native' ? 'native' : 'ai') as NarrationMode
+      updateStoredMode(mode)
+      if (mode === 'ai') {
+        await playEnhancedNarration()
+      } else {
+        await playNativeNarration()
+      }
+    })
+
+    pauseButton.addEventListener('click', () => {
+      if (modeSelect.value === 'native' && 'speechSynthesis' in window) {
+        if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+          window.speechSynthesis.pause()
+          setStatus('Browser voice paused.')
+        } else if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume()
+          setStatus('Browser voice resumed.')
+        }
+        return
+      }
+
+      if (audioElement) {
+        if (audioElement.paused) {
+          audioElement.play().catch(() => {
+            setStatus('Could not resume AI narration.')
+          })
+          setStatus('Playing AI narration.')
+        } else {
+          audioElement.pause()
+          setStatus('AI narration paused.')
+        }
+      }
+    })
+
+    stopButton.addEventListener('click', () => {
+      stopAllPlayback()
+      setStatus('Narration stopped.')
+    })
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        if ((modeSelect.value as NarrationMode) === 'native') {
+          updateVoiceOptions('native')
+        }
+      }
+    }
+
+    syncUi(prefs.mode)
+    if (prefs.mode === 'native') {
+      updateVoiceOptions('native')
+      setStatus('Browser voice is enabled.')
+    } else if (prefs.mode === 'ai') {
+      updateVoiceOptions('ai')
+      setStatus('AI narration is enabled. Press play to load the voice engine.')
+    } else {
+      updateVoiceOptions('ai')
+      setStatus('Narration is off.')
+    }
   }
 </script>
