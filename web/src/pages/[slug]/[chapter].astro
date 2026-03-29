@@ -85,6 +85,13 @@ function chapterParam(entryId: string) {
     </div>
 
     <div class="chapter-narration__controls">
+      <div class="chapter-narration__fallback" id="tts-fallback" hidden>
+        <strong id="tts-fallback-title">AI narration is unavailable on this device.</strong>
+        <p id="tts-fallback-copy">
+          Browser voice is still available and does not require any model download.
+        </p>
+      </div>
+
       <div class="chapter-narration__toggles">
         <button type="button" class="btn" id="tts-enable-ai">Enable AI narration</button>
         <button type="button" class="btn btn--ghost" id="tts-enable-native">Use browser voice</button>
@@ -105,36 +112,40 @@ function chapterParam(entryId: string) {
       </div>
 
       <div class="chapter-narration__player" id="tts-player" hidden>
-        <div class="chapter-narration__settings">
-          <label class="chapter-narration__field">
-            <span>Mode</span>
-            <select id="tts-mode">
-              <option value="ai">AI narration</option>
-              <option value="native">Browser voice</option>
-            </select>
-          </label>
+        <div class="chapter-narration__player-bar">
+          <div class="chapter-narration__actions">
+            <button type="button" class="btn" id="tts-play">Play</button>
+            <button type="button" class="btn btn--ghost" id="tts-pause">Pause</button>
+            <button type="button" class="btn btn--ghost" id="tts-stop">Stop</button>
+          </div>
 
-          <label class="chapter-narration__field">
-            <span>Voice</span>
-            <select id="tts-voice">
-              <option value="af_bella">Bella</option>
-              <option value="af_sarah">Sarah</option>
-              <option value="am_fenrir">Fenrir</option>
-              <option value="am_michael">Michael</option>
-            </select>
-          </label>
+          <div class="chapter-narration__meta">
+            <label class="chapter-narration__field chapter-narration__field--mode">
+              <span>Mode</span>
+              <select id="tts-mode">
+                <option value="ai">AI narration</option>
+                <option value="native">Browser voice</option>
+              </select>
+            </label>
 
-          <label class="chapter-narration__field">
-            <span>Speed</span>
-            <input id="tts-speed" type="range" min="0.8" max="1.3" step="0.05" value="1" />
-            <output id="tts-speed-value">1.00x</output>
-          </label>
-        </div>
+            <label class="chapter-narration__field">
+              <span>Voice</span>
+              <select id="tts-voice">
+                <option value="af_bella">Bella</option>
+                <option value="af_sarah">Sarah</option>
+                <option value="am_fenrir">Fenrir</option>
+                <option value="am_michael">Michael</option>
+              </select>
+            </label>
 
-        <div class="chapter-narration__actions">
-          <button type="button" class="btn" id="tts-play">Play chapter</button>
-          <button type="button" class="btn btn--ghost" id="tts-pause">Pause</button>
-          <button type="button" class="btn btn--ghost" id="tts-stop">Stop</button>
+            <label class="chapter-narration__field chapter-narration__field--speed">
+              <span>Speed</span>
+              <div class="chapter-narration__speed">
+                <input id="tts-speed" type="range" min="0.8" max="1.3" step="0.05" value="1" />
+                <output id="tts-speed-value">1.00x</output>
+              </div>
+            </label>
+          </div>
         </div>
 
         <p class="chapter-narration__status" id="tts-status">
@@ -207,6 +218,11 @@ function chapterParam(entryId: string) {
     padding: 1.2rem 1.25rem;
   }
 
+  .chapter-narration__controls {
+    display: grid;
+    gap: 0.9rem;
+  }
+
   .chapter-narration__eyebrow {
     font-size: 0.72rem;
     font-weight: 700;
@@ -236,9 +252,29 @@ function chapterParam(entryId: string) {
     gap: 0.75rem;
   }
 
+  .chapter-narration__fallback {
+    border: 1px solid rgba(214, 102, 57, 0.18);
+    background: linear-gradient(180deg, rgba(255, 248, 242, 0.96), rgba(255, 243, 233, 0.92));
+    border-radius: 16px;
+    padding: 0.95rem 1rem;
+  }
+
+  .chapter-narration__fallback strong {
+    display: block;
+    color: #9c4f2e;
+    font-size: 0.92rem;
+  }
+
+  .chapter-narration__fallback p {
+    margin-top: 0.35rem;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
   .chapter-narration__loading,
   .chapter-narration__player {
-    margin-top: 1rem;
+    margin-top: 0.1rem;
   }
 
   .chapter-narration__loading-head,
@@ -285,11 +321,20 @@ function chapterParam(entryId: string) {
     line-height: 1.6;
   }
 
-  .chapter-narration__settings {
+  .chapter-narration__player-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .chapter-narration__meta {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: auto auto minmax(180px, 220px);
     gap: 0.9rem;
-    margin-bottom: 1rem;
+    align-items: end;
+    flex: 1;
   }
 
   .chapter-narration__field {
@@ -311,6 +356,14 @@ function chapterParam(entryId: string) {
     width: 100%;
   }
 
+  .chapter-narration__field--mode {
+    max-width: 150px;
+  }
+
+  .chapter-narration__field--speed {
+    min-width: 180px;
+  }
+
   .chapter-narration__field select {
     height: 42px;
     padding: 0 0.8rem;
@@ -321,15 +374,32 @@ function chapterParam(entryId: string) {
     font: inherit;
   }
 
+  .chapter-narration__speed {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
   .chapter-narration__field output {
     color: var(--text-muted);
     font-size: 0.82rem;
     font-variant-numeric: tabular-nums;
+    min-width: 3.1rem;
+    text-align: right;
   }
 
   @media (max-width: 720px) {
-    .chapter-narration__settings {
+    .chapter-narration__player-bar,
+    .chapter-narration__meta {
       grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .chapter-narration__field--mode,
+    .chapter-narration__field--speed {
+      max-width: none;
+      min-width: 0;
     }
   }
 </style>
@@ -366,6 +436,9 @@ function chapterParam(entryId: string) {
     const loadingValue = document.getElementById('tts-loading-value') as HTMLElement
     const loadingHint = document.getElementById('tts-loading-hint') as HTMLElement
     const progressBar = document.getElementById('tts-progress-bar') as HTMLElement
+    const fallbackBox = document.getElementById('tts-fallback') as HTMLElement
+    const fallbackTitle = document.getElementById('tts-fallback-title') as HTMLElement
+    const fallbackCopy = document.getElementById('tts-fallback-copy') as HTMLElement
     const player = document.getElementById('tts-player') as HTMLElement
     const modeSelect = document.getElementById('tts-mode') as HTMLSelectElement
     const voiceSelect = document.getElementById('tts-voice') as HTMLSelectElement
@@ -391,6 +464,8 @@ function chapterParam(entryId: string) {
     let enhancedReady = false
     let enhancedRequested = false
     let nativeUtterance: SpeechSynthesisUtterance | null = null
+    let aiModeAllowed = true
+    let aiModeReason = ''
 
     const defaultPrefs: StoredPrefs = {
       mode: 'off',
@@ -428,6 +503,16 @@ function chapterParam(entryId: string) {
       status.textContent = message
     }
 
+    function setFallback(message: string, detail = 'Browser voice is still available and does not require any model download.') {
+      fallbackBox.hidden = false
+      fallbackTitle.textContent = message
+      fallbackCopy.textContent = detail
+    }
+
+    function clearFallback() {
+      fallbackBox.hidden = true
+    }
+
     function setLoading(progress: number | null, label: string, hint?: string) {
       loadingBox.hidden = false
       loadingLabel.textContent = label
@@ -453,9 +538,17 @@ function chapterParam(entryId: string) {
       const active = mode !== 'off'
       player.hidden = !active
       disableButton.hidden = !active
-      enableAiButton.hidden = active
+      enableAiButton.hidden = active || !aiModeAllowed
       enableNativeButton.hidden = active
       modeSelect.value = mode === 'off' ? 'ai' : mode
+      const nativeOnly = !aiModeAllowed
+      const aiOption = modeSelect.querySelector('option[value="ai"]') as HTMLOptionElement | null
+      if (aiOption) {
+        aiOption.disabled = nativeOnly
+      }
+      if (nativeOnly && modeSelect.value === 'ai') {
+        modeSelect.value = 'native'
+      }
     }
 
     function stopAudioPlayback() {
@@ -483,14 +576,15 @@ function chapterParam(entryId: string) {
     }
 
     function updateStoredMode(mode: NarrationMode) {
+      const safeMode = mode === 'ai' && !aiModeAllowed ? 'native' : mode
       prefs = {
         ...prefs,
-        mode,
+        mode: safeMode,
         voice: voiceSelect.value,
         speed: Number(speedInput.value),
       }
       writePrefs(prefs)
-      syncUi(mode)
+      syncUi(safeMode)
     }
 
     function nativeVoices() {
@@ -499,6 +593,9 @@ function chapterParam(entryId: string) {
     }
 
     function updateVoiceOptions(forMode: NarrationMode) {
+      if (forMode === 'ai' && !aiModeAllowed) {
+        forMode = 'native'
+      }
       const previous = voiceSelect.value
       if (forMode === 'native') {
         const voices = nativeVoices()
@@ -534,7 +631,47 @@ function chapterParam(entryId: string) {
       }
     }
 
+    function detectAiNarrationSupport() {
+      const nav = navigator as Navigator & { deviceMemory?: number; gpu?: unknown }
+      const touchHeavy = nav.maxTouchPoints > 1
+      const mobileUA = /Android|iPhone|iPad|iPod/i.test(nav.userAgent)
+      const lowCpu = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency > 0 && nav.hardwareConcurrency < 6
+      const lowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory > 0 && nav.deviceMemory < 6
+      const lacksWebGpu = !('gpu' in nav)
+
+      if (mobileUA || touchHeavy) {
+        return {
+          allowed: false,
+          reason: 'AI narration is disabled on mobile and tablet devices for now.',
+          detail: 'The browser voice option is lighter and more reliable on touch devices.',
+        }
+      }
+
+      if (lacksWebGpu && (lowCpu || lowMemory)) {
+        return {
+          allowed: false,
+          reason: 'AI narration is disabled on lower-power devices.',
+          detail: 'This chapter can still be read aloud with your browser voice without downloading the AI model.',
+        }
+      }
+
+      if (lacksWebGpu) {
+        return {
+          allowed: true,
+          reason: 'AI narration may be slower here because WebGPU is unavailable.',
+          detail: 'It can still attempt a WASM fallback, but browser voice will usually feel faster.',
+        }
+      }
+
+      return { allowed: true, reason: '', detail: '' }
+    }
+
     async function ensureEnhancedEngine() {
+      if (!aiModeAllowed) {
+        setFallback(aiModeReason || 'AI narration is unavailable on this device.')
+        setStatus('Browser voice is available instead.')
+        return false
+      }
       if (enhancedReady) return true
       if (enhancedRequested) return false
 
@@ -582,6 +719,10 @@ function chapterParam(entryId: string) {
         console.error(error)
         enhancedRequested = false
         hideLoading()
+        setFallback(
+          'AI narration could not start in this browser.',
+          'Browser voice is still available and avoids the large model download.',
+        )
         setStatus('AI narration could not start on this device. Browser voice is still available.')
         return false
       }
@@ -680,6 +821,14 @@ function chapterParam(entryId: string) {
     }
 
     enableAiButton.addEventListener('click', async () => {
+      if (!aiModeAllowed) {
+        updateStoredMode('native')
+        updateVoiceOptions('native')
+        setFallback(aiModeReason || 'AI narration is unavailable on this device.')
+        setStatus('Browser voice enabled instead.')
+        return
+      }
+      clearFallback()
       updateStoredMode('ai')
       updateVoiceOptions('ai')
       setStatus('AI narration enabled. Press play to download the voice engine.')
@@ -689,6 +838,11 @@ function chapterParam(entryId: string) {
     enableNativeButton.addEventListener('click', () => {
       updateStoredMode('native')
       updateVoiceOptions('native')
+      if (!aiModeAllowed) {
+        setFallback(aiModeReason || 'AI narration is unavailable on this device.')
+      } else {
+        clearFallback()
+      }
       setStatus('Browser voice enabled.')
     })
 
@@ -696,16 +850,25 @@ function chapterParam(entryId: string) {
       stopAllPlayback()
       updateStoredMode('off')
       hideLoading()
+      if (!aiModeAllowed) {
+        setFallback(aiModeReason || 'AI narration is unavailable on this device.')
+      } else {
+        clearFallback()
+      }
       setStatus('Narration is off.')
     })
 
     modeSelect.addEventListener('change', async () => {
-      const mode = modeSelect.value === 'native' ? 'native' : 'ai'
+      const mode = modeSelect.value === 'native' || !aiModeAllowed ? 'native' : 'ai'
       updateStoredMode(mode)
       updateVoiceOptions(mode)
       if (mode === 'ai') {
+        clearFallback()
         setStatus('AI narration enabled. Press play to begin.')
       } else {
+        if (!aiModeAllowed) {
+          setFallback(aiModeReason || 'AI narration is unavailable on this device.')
+        }
         setStatus('Browser voice enabled.')
       }
     })
@@ -770,8 +933,20 @@ function chapterParam(entryId: string) {
       }
     }
 
+    {
+      const support = detectAiNarrationSupport()
+      aiModeAllowed = support.allowed
+      aiModeReason = support.reason
+      if (!support.allowed) {
+        setFallback(support.reason, support.detail)
+      } else if (support.reason) {
+        setFallback(support.reason, support.detail)
+      }
+    }
+
     syncUi(prefs.mode)
-    if (prefs.mode === 'native') {
+    if (prefs.mode === 'native' || !aiModeAllowed) {
+      updateStoredMode('native')
       updateVoiceOptions('native')
       setStatus('Browser voice is enabled.')
     } else if (prefs.mode === 'ai') {
