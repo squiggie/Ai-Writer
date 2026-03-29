@@ -522,6 +522,7 @@ function chapterParam(entryId: string) {
     let nativeUtterance: SpeechSynthesisUtterance | null = null
     let aiModeAllowed = true
     let aiModeReason = ''
+    let playbackToken = 0
 
     const defaultPrefs: StoredPrefs = {
       mode: 'off',
@@ -651,6 +652,7 @@ function chapterParam(entryId: string) {
     }
 
     function stopAllPlayback() {
+      playbackToken += 1
       stopAudioPlayback()
       stopNativePlayback()
     }
@@ -885,6 +887,86 @@ function chapterParam(entryId: string) {
       return wavBuffer
     }
 
+    function splitNarrationIntoChunks(input: string, maxChars = 380) {
+      const normalized = input.replace(/\s+/g, ' ').trim()
+      if (!normalized) return []
+
+      const sentences = normalized.match(/[^.!?]+[.!?]?/g) ?? [normalized]
+      const chunks: string[] = []
+      let current = ''
+
+      for (const sentence of sentences.map((item) => item.trim()).filter(Boolean)) {
+        const next = current ? `${current} ${sentence}` : sentence
+        if (next.length <= maxChars) {
+          current = next
+          continue
+        }
+
+        if (current) {
+          chunks.push(current)
+          current = ''
+        }
+
+        if (sentence.length <= maxChars) {
+          current = sentence
+          continue
+        }
+
+        const words = sentence.split(/\s+/)
+        let longChunk = ''
+        for (const word of words) {
+          const longNext = longChunk ? `${longChunk} ${word}` : word
+          if (longNext.length <= maxChars) {
+            longChunk = longNext
+          } else {
+            if (longChunk) {
+              chunks.push(longChunk)
+            }
+            longChunk = word
+          }
+        }
+        if (longChunk) {
+          current = longChunk
+        }
+      }
+
+      if (current) {
+        chunks.push(current)
+      }
+
+      return chunks
+    }
+
+    function waitForAudioToFinish(element: HTMLAudioElement, token: number) {
+      return new Promise<void>((resolve, reject) => {
+        const cleanup = () => {
+          element.onended = null
+          element.onerror = null
+        }
+
+        element.onended = () => {
+          cleanup()
+          resolve()
+        }
+
+        element.onerror = () => {
+          cleanup()
+          reject(new Error('Audio element playback failed.'))
+        }
+
+        const poll = () => {
+          if (token !== playbackToken) {
+            cleanup()
+            resolve()
+            return
+          }
+          window.setTimeout(poll, 150)
+        }
+
+        poll()
+      })
+    }
+
     async function playEnhancedNarration() {
       const ready = await ensureEnhancedEngine()
       if (!ready || !headtts) {
@@ -895,6 +977,7 @@ function chapterParam(entryId: string) {
       }
 
       stopAllPlayback()
+      const token = playbackToken
       setDebugPhase('synthesizing')
       setStatus('Generating chapter audio...')
       setLoading(null, 'Generating chapter audio...', 'This happens entirely in your browser.')
@@ -908,34 +991,61 @@ function chapterParam(entryId: string) {
         })
         logDebug(`setup voice=${voiceSelect.value || 'af_bella'} speed=${Number(speedInput.value).toFixed(2)}`)
 
-        const messages = await headtts.synthesize({ input: narrationText })
-        logDebug(`synthesize returned ${Array.isArray(messages) ? messages.length : 0} message(s)`)
-        const audioMessage = messages.find((message: any) => message.type === 'audio' && message.data?.audio)
-        const blob = audioBlobFromPayload(audioMessage?.data?.audio, audioMessage?.data?.audioEncoding || 'wav')
-
-        hideLoading()
-
-        if (!blob) {
-          logDebug('no playable audio payload found')
-          throw new Error('No playable audio payload returned from AI narration engine.')
+        const chunks = splitNarrationIntoChunks(narrationText)
+        logDebug(`chapter split into ${chunks.length} chunk(s)`)
+        if (!chunks.length) {
+          throw new Error('No narration text found for synthesis.')
         }
 
-        logDebug(`audio blob size=${blob.size}`)
-        audioUrl = URL.createObjectURL(blob)
-        audioElement = new Audio(audioUrl)
-        audioElement.onplay = () => setDebugAudioState('playing')
-        audioElement.onpause = () => setDebugAudioState('paused')
-        audioElement.onerror = () => {
-          setDebugAudioState('error')
-          logDebug('audio element error fired')
+        for (let index = 0; index < chunks.length; index += 1) {
+          if (token !== playbackToken) {
+            logDebug('chunk playback cancelled')
+            hideLoading()
+            return
+          }
+
+          const chunk = chunks[index]!
+          const chunkLabel = `Synthesizing part ${index + 1} of ${chunks.length}`
+          setLoading(Math.round((index / chunks.length) * 100), chunkLabel, 'Smaller chunks avoid browser stalls on long chapters.')
+          setStatus(`${chunkLabel}...`)
+          logDebug(`chunk ${index + 1}/${chunks.length} chars=${chunk.length}`)
+
+          const messages = await Promise.race([
+            headtts.synthesize({ input: chunk }),
+            new Promise((_, reject) => window.setTimeout(() => reject(new Error(`Chunk ${index + 1} timed out during synthesis.`)), 45000)),
+          ]) as any[]
+
+          logDebug(`chunk ${index + 1} returned ${Array.isArray(messages) ? messages.length : 0} message(s)`)
+          const audioMessage = messages.find((message: any) => message.type === 'audio' && message.data?.audio)
+          const blob = audioBlobFromPayload(audioMessage?.data?.audio, audioMessage?.data?.audioEncoding || 'wav')
+
+          if (!blob) {
+            logDebug(`chunk ${index + 1} had no playable audio payload`)
+            throw new Error(`Chunk ${index + 1} returned no playable audio.`)
+          }
+
+          logDebug(`chunk ${index + 1} audio blob size=${blob.size}`)
+          if (audioUrl) {
+            URL.revokeObjectURL(audioUrl)
+          }
+          audioUrl = URL.createObjectURL(blob)
+          audioElement = new Audio(audioUrl)
+          audioElement.onplay = () => setDebugAudioState(`playing chunk ${index + 1}/${chunks.length}`)
+          audioElement.onpause = () => setDebugAudioState(`paused chunk ${index + 1}/${chunks.length}`)
+          audioElement.onerror = () => {
+            setDebugAudioState('error')
+            logDebug(`audio element error on chunk ${index + 1}`)
+          }
+
+          hideLoading()
+          setDebugPhase('playing')
+          setStatus(`Playing part ${index + 1} of ${chunks.length}...`)
+          await audioElement.play()
+          await waitForAudioToFinish(audioElement, token)
         }
-        audioElement.onended = () => {
-          setDebugAudioState('ended')
-          setStatus('AI narration finished.')
-        }
-        await audioElement.play()
-        setDebugPhase('playing')
-        setStatus('Playing AI narration.')
+
+        setDebugAudioState('ended')
+        setStatus('AI narration finished.')
       } catch (error) {
         console.error(error)
         hideLoading()
