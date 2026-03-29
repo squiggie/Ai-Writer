@@ -1,7 +1,10 @@
 import type { CollectionEntry } from 'astro:content'
+import { existsSync } from 'node:fs'
 
 type NovelEntry = CollectionEntry<'novels'>
 type ChapterEntry = CollectionEntry<'chapters'>
+
+const COVER_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'avif']
 
 export function sourceBookKey(
   entry: { id: string; data?: { source_slug?: string; slug?: string } },
@@ -19,6 +22,23 @@ export function sourceBookKey(
 
 export function routeSlugForNovel(novel: NovelEntry) {
   return novel.data.slug?.trim() || sourceBookKey(novel)
+}
+
+export function coverUrlForNovel(novel: NovelEntry) {
+  if (novel.data.cover?.trim()) {
+    return novel.data.cover.trim()
+  }
+
+  const routeSlug = routeSlugForNovel(novel)
+
+  for (const extension of COVER_EXTENSIONS) {
+    const publicCoverPath = new URL(`../../public/covers/${routeSlug}.${extension}`, import.meta.url)
+    if (existsSync(publicCoverPath)) {
+      return `/covers/${routeSlug}.${extension}`
+    }
+  }
+
+  return null
 }
 
 export function chaptersForNovel(novel: NovelEntry, chapters: ChapterEntry[]) {

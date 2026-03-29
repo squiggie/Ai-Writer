@@ -5,6 +5,7 @@ import CoverPlaceholder from '../components/CoverPlaceholder.astro'
 import {
   chaptersForNovel,
   compareNovelsNewestFirst,
+  coverUrlForNovel,
   routeSlugForNovel,
   totalWordsForChapters,
 } from '../lib/novels'
@@ -19,6 +20,7 @@ const totalWords = totalWordsForChapters(chapters)
 const featured = novels[0]
 const featuredSlug = featured ? routeSlugForNovel(featured) : null
 const featuredChapters = featured ? chaptersForNovel(featured, chapters).length : 0
+const featuredCover = featured ? coverUrlForNovel(featured) : null
 ---
 
 <Base title="Nobody Publishing — Noman Stiles">
@@ -65,8 +67,8 @@ const featuredChapters = featured ? chaptersForNovel(featured, chapters).length 
         <p class="section-label">Featured work</p>
         <a href={`${base}/${featuredSlug}`} style="display: block; text-decoration: none;">
           <article class="featured-book">
-            {featured.data.cover
-              ? <img src={`${base}${featured.data.cover}`} alt={`Cover of ${featured.data.title}`} class="featured-book__cover-img" />
+            {featuredCover
+              ? <img src={`${base}${featuredCover}`} alt={`Cover of ${featured.data.title}`} class="featured-book__cover-img" />
               : <CoverPlaceholder title={featured.data.title} />}
             <div class="featured-book__meta">
               <p class="featured-book__genre">{featured.data.genre}</p>

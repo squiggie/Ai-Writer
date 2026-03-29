@@ -5,6 +5,7 @@ import CoverPlaceholder from '../components/CoverPlaceholder.astro'
 import {
   chaptersForNovel,
   compareNovelsNewestFirst,
+  coverUrlForNovel,
   routeSlugForNovel,
   totalWordsForChapters,
 } from '../lib/novels'
@@ -17,8 +18,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 const books = novels.map(novel => {
   const bookChapters = chaptersForNovel(novel, chapters)
   return {
-  ...novel,
+    ...novel,
     routeSlug: routeSlugForNovel(novel),
+    coverUrl: coverUrlForNovel(novel),
     chapterCount: bookChapters.length,
     wordCount: totalWordsForChapters(bookChapters),
   }
@@ -52,8 +54,8 @@ const books = novels.map(novel => {
         <a href={`${base}/${book.routeSlug}`} style="text-decoration: none; display: flex;">
           <article class="book-card" style="width: 100%;">
             <div class="book-card__cover">
-              {book.data.cover
-                ? <img src={`${base}${book.data.cover}`} alt={`Cover of ${book.data.title}`} class="book-card__cover-img" />
+              {book.coverUrl
+                ? <img src={`${base}${book.coverUrl}`} alt={`Cover of ${book.data.title}`} class="book-card__cover-img" />
                 : <CoverPlaceholder title={book.data.title} />}
             </div>
             <div class="book-card__body">

@@ -27,6 +27,37 @@ if [ ! -d "$WEB_DIR/node_modules" ]; then
     npm install
 fi
 
+# Publish novel cover assets into Astro's public directory using each book's route slug.
+mkdir -p "$WEB_DIR/public/covers"
+find "$WEB_DIR/public/covers" -maxdepth 1 -type f \
+    \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' -o -iname '*.avif' \) \
+    ! -name 'the-remnant-protocol-cover.png' \
+    -delete
+
+while IFS= read -r idea_file; do
+    novel_dir="$(dirname "$idea_file")"
+    route_slug="$(awk '/^slug:/{sub(/^slug:[[:space:]]*/, ""); print; exit}' "$idea_file")"
+
+    [ -n "$route_slug" ] || continue
+
+    cover_file=""
+    for candidate in "$novel_dir"/cover.{png,jpg,jpeg,webp,avif} \
+                     "$novel_dir"/Cover.{png,jpg,jpeg,webp,avif} \
+                     "$novel_dir"/*cover*.{png,jpg,jpeg,webp,avif} \
+                     "$novel_dir"/*Cover*.{png,jpg,jpeg,webp,avif} \
+                     "$novel_dir"/*.{png,jpg,jpeg,webp,avif}; do
+        [ -f "$candidate" ] || continue
+        cover_file="$candidate"
+        break
+    done
+
+    [ -n "$cover_file" ] || continue
+
+    extension="${cover_file##*.}"
+    cp "$cover_file" "$WEB_DIR/public/covers/$route_slug.$extension"
+    log "[build-site] Published cover for $route_slug → /covers/$route_slug.$extension"
+done < <(find "$NOVELS_DIR" -mindepth 2 -maxdepth 2 -name 'idea.md' | sort)
+
 # Clear the previous static build so removed books/routes do not persist in dist.
 rm -rf "$DIST_DIR"
 

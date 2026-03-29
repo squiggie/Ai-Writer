@@ -5,6 +5,7 @@ import CoverPlaceholder from '../../components/CoverPlaceholder.astro'
 import {
   chaptersForNovel,
   compareNovelsNewestFirst,
+  coverUrlForNovel,
   routeSlugForNovel,
   totalWordsForChapters,
 } from '../../lib/novels'
@@ -25,6 +26,7 @@ const { Content } = await render(novel)
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 const slug = routeSlugForNovel(novel)
+const coverUrl = coverUrlForNovel(novel)
 
 const totalWords = totalWordsForChapters(chapters)
 
@@ -40,8 +42,8 @@ function chapterParam(entryId: string) {
   <div class="container">
     <!-- Book hero -->
     <div class="book-hero">
-      {novel.data.cover
-        ? <img src={`${base}${novel.data.cover}`} alt={`Cover of ${novel.data.title}`} class="book-hero__cover-img" />
+      {coverUrl
+        ? <img src={`${base}${coverUrl}`} alt={`Cover of ${novel.data.title}`} class="book-hero__cover-img" />
         : <CoverPlaceholder title={novel.data.title} />}
 
       <div class="book-hero__meta">
