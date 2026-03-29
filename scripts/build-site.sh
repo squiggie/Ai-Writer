@@ -27,6 +27,9 @@ if [ ! -d "$WEB_DIR/node_modules" ]; then
     npm install
 fi
 
+# Clear the previous static build so removed books/routes do not persist in dist.
+rm -rf "$DIST_DIR"
+
 npm run build
 
 log "[build-site] Astro build complete → $DIST_DIR"
