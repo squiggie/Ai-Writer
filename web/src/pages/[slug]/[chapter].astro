@@ -444,6 +444,50 @@ function chapterParam(entryId: string) {
     text-align: right;
   }
 
+  .chapter-prose p {
+    position: relative;
+  }
+
+  .chapter-prose__marker {
+    position: absolute;
+    top: 0.2rem;
+    right: calc(100% + 0.8rem);
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.94);
+    color: var(--accent);
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateX(6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  }
+
+  .chapter-prose p:hover .chapter-prose__marker,
+  .chapter-prose p[data-tts-paragraph-active='true'] .chapter-prose__marker,
+  .chapter-prose__marker:focus-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .chapter-prose p[data-tts-paragraph-active='true'] .chapter-prose__marker {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .chapter-prose__marker:focus-visible {
+    outline: 2px solid rgba(51, 84, 255, 0.35);
+    outline-offset: 2px;
+  }
+
   @media (max-width: 720px) {
     .chapter-narration__player-bar,
     .chapter-narration__meta {
@@ -456,6 +500,14 @@ function chapterParam(entryId: string) {
     .chapter-narration__field--speed {
       max-width: none;
       min-width: 0;
+    }
+
+    .chapter-prose__marker {
+      right: auto;
+      left: -0.15rem;
+      top: -0.1rem;
+      opacity: 0.84;
+      transform: none;
     }
   }
 </style>
@@ -510,13 +562,14 @@ function chapterParam(entryId: string) {
     const debugLog = document.getElementById('tts-debug-log') as HTMLElement
 
     const chapterProse = document.querySelector('.chapter-prose') as HTMLElement | null
-    const chapterText = chapterProse?.innerText?.trim() ?? ''
+    const paragraphNodes = Array.from(chapterProse?.querySelectorAll('p') ?? []) as HTMLParagraphElement[]
+    const paragraphTexts = paragraphNodes.map((paragraph) => paragraph.innerText.replace(/\s+/g, ' ').trim()).filter(Boolean)
     const chapterHeading = [
       narrationRoot.dataset.bookTitle,
       `Chapter ${narrationRoot.dataset.chapterNumber}`,
       narrationRoot.dataset.chapterTitle,
     ].filter(Boolean).join('. ')
-    const narrationText = [chapterHeading, chapterText].filter(Boolean).join('. ')
+    let currentStartParagraph = 0
 
     let audioUrl: string | null = null
     let audioElement: HTMLAudioElement | null = null
@@ -564,6 +617,17 @@ function chapterParam(entryId: string) {
     function setStatus(message: string) {
       status.textContent = message
       logDebug(`status: ${message}`)
+    }
+
+    function buildNarrationText(startParagraph = 0) {
+      const prose = paragraphTexts.slice(startParagraph).join(' ')
+      return [chapterHeading, prose].filter(Boolean).join('. ')
+    }
+
+    function updateParagraphMarkers(activeIndex: number) {
+      paragraphNodes.forEach((paragraph, index) => {
+        paragraph.dataset.ttsParagraphActive = index === activeIndex ? 'true' : 'false'
+      })
     }
 
     function logDebug(message: string) {
@@ -1022,6 +1086,7 @@ function chapterParam(entryId: string) {
     }
 
     async function playEnhancedNarration() {
+      const narrationText = buildNarrationText(currentStartParagraph)
       const ready = await ensureEnhancedEngine()
       if (!ready || !headtts) {
         updateStoredMode('native')
@@ -1120,6 +1185,7 @@ function chapterParam(entryId: string) {
     }
 
     async function playNativeNarration() {
+      const narrationText = buildNarrationText(currentStartParagraph)
       if (!('speechSynthesis' in window)) {
         setStatus('This browser does not support speech synthesis.')
         return
@@ -1279,6 +1345,32 @@ function chapterParam(entryId: string) {
         setFallback(support.reason, support.detail)
       }
     }
+
+    paragraphNodes.forEach((paragraph, index) => {
+      const marker = document.createElement('button')
+      marker.type = 'button'
+      marker.className = 'chapter-prose__marker'
+      marker.textContent = '▶'
+      marker.title = `Start narration from paragraph ${index + 1}`
+      marker.setAttribute('aria-label', `Start narration from paragraph ${index + 1}`)
+      marker.addEventListener('click', async (event) => {
+        event.preventDefault()
+        currentStartParagraph = index
+        updateParagraphMarkers(index)
+        logDebug(`resume point -> paragraph ${index + 1}`)
+        setStatus(`Starting from paragraph ${index + 1}.`)
+        const mode = (modeSelect.value === 'native' ? 'native' : 'ai') as NarrationMode
+        updateStoredMode(mode)
+        if (mode === 'ai') {
+          await playEnhancedNarration()
+        } else {
+          await playNativeNarration()
+        }
+      })
+      paragraph.prepend(marker)
+    })
+
+    updateParagraphMarkers(currentStartParagraph)
 
     syncUi(prefs.mode)
     if (prefs.mode === 'native' || !aiModeAllowed) {
