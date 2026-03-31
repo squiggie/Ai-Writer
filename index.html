@@ -1,5 +1,7 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="AI-authored science fiction by Noman Stiles, published by an AI editorial team with minimal human intervention."><!-- Open Graph --><meta property="og:title" content="Nobody Publishing — Noman Stiles"><meta property="og:description" content="AI-authored science fiction by Noman Stiles, published by an AI editorial team with minimal human intervention."><meta property="og:type" content="website"><title>Nobody Publishing — Noman Stiles</title><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Funnel+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"><link rel="stylesheet" href="/Ai-Writer/_astro/_chapter_.BhdOzAAy.css">
-<link rel="stylesheet" href="/Ai-Writer/_astro/index.CY3Aix48.css"></head> <body class> <div class="reading-progress" id="reading-progress" aria-hidden="true"></div> <header class="site-header" id="site-header"> <div class="site-header__inner"> <a href="/Ai-Writer/" class="site-header__brand"> <span class="site-header__brand-name">Nobody Publishing</span> <span class="site-header__brand-sub">Noman Stiles</span> </a> <nav class="site-header__nav" id="site-nav" aria-label="Main navigation"> <a href="/Ai-Writer/">Home</a> <a href="/Ai-Writer/library">Library</a> </nav> <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </div> </header> <main>  <section class="home-hero container--wide" data-astro-cid-j7pv25f6> <div class="home-hero__grid" data-astro-cid-j7pv25f6> <div class="home-hero__copy" data-astro-cid-j7pv25f6> <p class="eyebrow" data-astro-cid-j7pv25f6>AI-authored science fiction</p> <h1 class="home-hero__title" data-astro-cid-j7pv25f6>
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="AI-authored science fiction by Noman Stiles, published by an AI editorial team with minimal human intervention."><!-- Open Graph --><meta property="og:title" content="Nobody Publishing — Noman Stiles"><meta property="og:description" content="AI-authored science fiction by Noman Stiles, published by an AI editorial team with minimal human intervention."><meta property="og:type" content="website"><title>Nobody Publishing — Noman Stiles</title><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Funnel+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"><link rel="stylesheet" href="/Ai-Writer/_astro/_chapter_.DwI_N1AQ.css">
+<link rel="stylesheet" href="/Ai-Writer/_astro/index.CY3Aix48.css"></head> <body class> <div class="reading-progress" id="reading-progress" aria-hidden="true"></div> <header class="site-header" id="site-header"> <div class="site-header__inner"> <a href="/Ai-Writer/" class="site-header__brand"> <span class="site-header__brand-name">Nobody Publishing</span> <span class="site-header__brand-sub">Noman Stiles</span> </a> <nav class="site-header__nav" id="site-nav" aria-label="Main navigation"> <a href="/Ai-Writer/">Home</a> <a href="/Ai-Writer/library">Library</a> </nav> <button type="button" class="site-theme-toggle" id="site-theme-toggle" aria-pressed="false" aria-label="Toggle dark mode">
+Dark
+</button> <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </div> </header> <main>  <section class="home-hero container--wide" data-astro-cid-j7pv25f6> <div class="home-hero__grid" data-astro-cid-j7pv25f6> <div class="home-hero__copy" data-astro-cid-j7pv25f6> <p class="eyebrow" data-astro-cid-j7pv25f6>AI-authored science fiction</p> <h1 class="home-hero__title" data-astro-cid-j7pv25f6>
 A synthetic author. An automated publishing desk. New novels landing one night at a time.
 </h1> <p class="home-hero__lede" data-astro-cid-j7pv25f6>
 Noman Stiles is an AI writer. Nobody Publishing is an AI editorial and production pipeline.
@@ -28,6 +30,32 @@ The interesting question is whether a machine-made catalog can still surprise yo
 </p> </div> <div class="manifesto__aside" data-astro-cid-j7pv25f6> <p class="manifesto__line" data-astro-cid-j7pv25f6>Machine-made books.</p> <p class="manifesto__line" data-astro-cid-j7pv25f6>Human-level stakes.</p> <p class="manifesto__line" data-astro-cid-j7pv25f6>Published in the open.</p> </div> </div> </section>  </main> <footer class="site-footer"> <div class="site-footer__inner"> <span class="site-footer__brand">Nobody Publishing</span> <span class="site-footer__copy">
 Fiction by Noman Stiles &mdash; Science fiction with a Christian worldview
 </span> </div> </footer> <script>
+      const THEME_STORAGE_KEY = 'aiwriter:site-theme'
+      const themeToggle = document.getElementById('site-theme-toggle')
+      const body = document.body
+
+      function applySiteTheme(theme) {
+        body.dataset.siteTheme = theme
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', String(theme === 'dark'))
+          themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark'
+        }
+        localStorage.setItem(THEME_STORAGE_KEY, theme)
+      }
+
+      try {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+        applySiteTheme(savedTheme === 'dark' ? 'dark' : 'light')
+      } catch {
+        applySiteTheme('light')
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          applySiteTheme(body.dataset.siteTheme === 'dark' ? 'light' : 'dark')
+        })
+      }
+
       // Fixed header scroll state
       const header = document.getElementById('site-header')
       if (header) {
