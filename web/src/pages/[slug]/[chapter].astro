@@ -54,26 +54,22 @@ function chapterParam(entryId: string) {
 >
   <div class="reading-progress-bar" id="rp-bar" aria-hidden="true"></div>
 
-  <aside class="reader-controls" aria-label="Reading controls">
-    <button type="button" class="reader-controls__btn" id="reader-theme-toggle" aria-pressed="false">
-      Dark
-    </button>
-    <button type="button" class="reader-controls__btn" id="reader-font-down" aria-label="Decrease font size">
-      A-
-    </button>
-    <button type="button" class="reader-controls__btn reader-controls__value" id="reader-font-label" aria-live="polite">
-      100%
-    </button>
-    <button type="button" class="reader-controls__btn" id="reader-font-up" aria-label="Increase font size">
-      A+
-    </button>
-  </aside>
-
   <div class="chapter-header">
-    <div class="chapter-breadcrumb">
-      <a href={`${base}/library`}>Library</a>
-      <span class="chapter-breadcrumb__sep">/</span>
-      <a href={`${base}/${slug}`}>{bookTitle}</a>
+    <div class="chapter-header__top">
+      <div class="chapter-breadcrumb">
+        <a href={`${base}/library`}>Library</a>
+        <span class="chapter-breadcrumb__sep">/</span>
+        <a href={`${base}/${slug}`}>{bookTitle}</a>
+      </div>
+
+      <div class="chapter-font-controls" aria-label="Font size controls">
+        <button type="button" class="chapter-font-controls__btn" id="reader-font-down" aria-label="Decrease font size">
+          -
+        </button>
+        <button type="button" class="chapter-font-controls__btn" id="reader-font-up" aria-label="Increase font size">
+          +
+        </button>
+      </div>
     </div>
 
     <p class="chapter-header__num">Chapter {entry.data.chapter}</p>
@@ -134,7 +130,7 @@ function chapterParam(entryId: string) {
     opacity: 0.45;
   }
 
-  body.reader-page[data-reader-theme='dark'] {
+  body.reader-page[data-site-theme='dark'] {
     --reader-bg: #10141c;
     --reader-surface: rgba(17, 23, 33, 0.88);
     --reader-border: rgba(129, 153, 196, 0.16);
@@ -143,75 +139,30 @@ function chapterParam(entryId: string) {
     --reader-muted: #9cadcc;
   }
 
-  body.reader-page[data-reader-theme='dark'] .site-header.is-scrolled {
+  body.reader-page[data-site-theme='dark'] .site-header.is-scrolled {
     background: rgba(16, 20, 28, 0.86);
     border-bottom-color: var(--reader-border);
   }
 
-  body.reader-page[data-reader-theme='dark'] .site-header__brand-name,
-  body.reader-page[data-reader-theme='dark'] .site-header__nav a,
-  body.reader-page[data-reader-theme='dark'] .chapter-header__title,
-  body.reader-page[data-reader-theme='dark'] .chapter-nav__dir {
+  body.reader-page[data-site-theme='dark'] .site-header__brand-name,
+  body.reader-page[data-site-theme='dark'] .site-header__nav a,
+  body.reader-page[data-site-theme='dark'] .chapter-header__title,
+  body.reader-page[data-site-theme='dark'] .chapter-nav__dir {
     color: #f1f5ff;
   }
 
-  body.reader-page[data-reader-theme='dark'] .site-header__brand-sub,
-  body.reader-page[data-reader-theme='dark'] .site-footer__copy,
-  body.reader-page[data-reader-theme='dark'] .chapter-breadcrumb,
-  body.reader-page[data-reader-theme='dark'] .chapter-breadcrumb a,
-  body.reader-page[data-reader-theme='dark'] .chapter-nav__title,
-  body.reader-page[data-reader-theme='dark'] .chapter-header__num {
+  body.reader-page[data-site-theme='dark'] .site-header__brand-sub,
+  body.reader-page[data-site-theme='dark'] .site-footer__copy,
+  body.reader-page[data-site-theme='dark'] .chapter-breadcrumb,
+  body.reader-page[data-site-theme='dark'] .chapter-breadcrumb a,
+  body.reader-page[data-site-theme='dark'] .chapter-nav__title,
+  body.reader-page[data-site-theme='dark'] .chapter-header__num {
     color: var(--reader-muted);
   }
 
-  body.reader-page[data-reader-theme='dark'] .site-footer {
+  body.reader-page[data-site-theme='dark'] .site-footer {
     background: rgba(17, 23, 33, 0.92);
     border-top-color: var(--reader-border);
-  }
-
-  .reader-controls {
-    position: fixed;
-    right: 1.25rem;
-    top: calc(var(--header-h) + 1rem);
-    z-index: 140;
-    display: flex;
-    gap: 0.45rem;
-    padding: 0.45rem;
-    border-radius: 999px;
-    background: var(--reader-surface);
-    border: 1px solid var(--reader-border);
-    box-shadow: 0 12px 28px rgba(17, 23, 33, 0.12);
-    backdrop-filter: blur(16px);
-  }
-
-  .reader-controls__btn {
-    min-width: 2.35rem;
-    height: 2.35rem;
-    padding: 0 0.75rem;
-    border: 1px solid var(--reader-border);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--reader-title);
-    font: inherit;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: background 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
-  }
-
-  .reader-controls__btn:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.92);
-  }
-
-  .reader-controls__btn[aria-pressed='true'] {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-
-  .reader-controls__value {
-    cursor: default;
-    min-width: 3.5rem;
   }
 
   .reading-progress-bar {
@@ -229,6 +180,37 @@ function chapterParam(entryId: string) {
     max-width: calc(var(--max-prose) + 6rem);
     margin-top: 0.5rem;
     padding-bottom: 2rem;
+  }
+
+  .chapter-header__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .chapter-font-controls {
+    display: inline-flex;
+    gap: 0.45rem;
+  }
+
+  .chapter-font-controls__btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--reader-border);
+    border-radius: 999px;
+    background: var(--reader-surface);
+    color: var(--reader-title);
+    box-shadow: var(--shadow-sm);
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+
+  .chapter-font-controls__btn:hover {
+    transform: translateY(-1px);
+    border-color: var(--border-accent);
   }
 
   .chapter-header__title {
@@ -286,12 +268,6 @@ function chapterParam(entryId: string) {
   }
 
   @media (max-width: 900px) {
-    .reader-controls {
-      right: 0.8rem;
-      top: auto;
-      bottom: 0.9rem;
-    }
-
     .chapter-header,
     .chapter-nav {
       max-width: var(--max-prose);
@@ -299,10 +275,9 @@ function chapterParam(entryId: string) {
   }
 
   @media (max-width: 640px) {
-    .reader-controls {
-      left: 0.8rem;
-      right: 0.8rem;
-      justify-content: center;
+    .chapter-header__top {
+      align-items: flex-start;
+      flex-direction: column;
     }
 
     .chapter-header {
@@ -328,14 +303,12 @@ function chapterParam(entryId: string) {
   }
 
   const READER_STORAGE_KEY = 'aiwriter:reader-prefs'
-  const themeToggle = document.getElementById('reader-theme-toggle') as HTMLButtonElement | null
   const fontDown = document.getElementById('reader-font-down') as HTMLButtonElement | null
   const fontUp = document.getElementById('reader-font-up') as HTMLButtonElement | null
-  const fontLabel = document.getElementById('reader-font-label') as HTMLButtonElement | null
 
-  if (themeToggle && fontDown && fontUp && fontLabel) {
+  if (fontDown && fontUp) {
     const body = document.body
-    const defaultPrefs = { theme: 'light', fontScale: 1 }
+    const defaultPrefs = { fontScale: 1 }
 
     function readPrefs() {
       try {
@@ -343,7 +316,6 @@ function chapterParam(entryId: string) {
         if (!raw) return defaultPrefs
         const parsed = JSON.parse(raw)
         return {
-          theme: parsed.theme === 'dark' ? 'dark' : 'light',
           fontScale: typeof parsed.fontScale === 'number' ? parsed.fontScale : 1,
         }
       } catch {
@@ -351,36 +323,27 @@ function chapterParam(entryId: string) {
       }
     }
 
-    function writePrefs(theme: string, fontScale: number) {
-      localStorage.setItem(READER_STORAGE_KEY, JSON.stringify({ theme, fontScale }))
+    function writePrefs(fontScale: number) {
+      localStorage.setItem(READER_STORAGE_KEY, JSON.stringify({ fontScale }))
     }
 
-    function applyPrefs(theme: string, fontScale: number) {
+    function applyPrefs(fontScale: number) {
       const clampedScale = Math.max(0.9, Math.min(1.3, Number(fontScale.toFixed(2))))
-      body.dataset.readerTheme = theme
       body.style.setProperty('--reader-font-scale', String(clampedScale))
-      themeToggle.setAttribute('aria-pressed', String(theme === 'dark'))
-      themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark'
-      fontLabel.textContent = `${Math.round(clampedScale * 100)}%`
-      writePrefs(theme, clampedScale)
+      writePrefs(clampedScale)
     }
 
     let prefs = readPrefs()
-    applyPrefs(prefs.theme, prefs.fontScale)
-
-    themeToggle.addEventListener('click', () => {
-      prefs = { ...prefs, theme: prefs.theme === 'dark' ? 'light' : 'dark' }
-      applyPrefs(prefs.theme, prefs.fontScale)
-    })
+    applyPrefs(prefs.fontScale)
 
     fontDown.addEventListener('click', () => {
       prefs = { ...prefs, fontScale: prefs.fontScale - 0.08 }
-      applyPrefs(prefs.theme, prefs.fontScale)
+      applyPrefs(prefs.fontScale)
     })
 
     fontUp.addEventListener('click', () => {
       prefs = { ...prefs, fontScale: prefs.fontScale + 0.08 }
-      applyPrefs(prefs.theme, prefs.fontScale)
+      applyPrefs(prefs.fontScale)
     })
   }
 </script>

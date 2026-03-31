@@ -63,6 +63,20 @@ body {
   position: relative;
 }
 
+body[data-site-theme='dark'] {
+  --bg: #10141c;
+  --surface: #111721;
+  --surface-raised: #182131;
+  --surface-hover: #1d283a;
+  --border: rgba(129, 153, 196, 0.16);
+  --border-strong: rgba(129, 153, 196, 0.28);
+  --border-accent: rgba(91, 127, 255, 0.45);
+  --accent-subtle: rgba(91, 127, 255, 0.14);
+  --text: #f1f5ff;
+  --text-muted: #b2c0da;
+  --text-subtle: #8ea0bf;
+}
+
 /* Dot grid background — matches ricoui.com */
 body::before {
   content: '';
@@ -72,6 +86,10 @@ body::before {
   background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 24px 24px;
   pointer-events: none;
+}
+
+body[data-site-theme='dark']::before {
+  background-image: radial-gradient(rgba(129, 153, 196, 0.12) 1px, transparent 1px);
 }
 
 img { display: block; max-width: 100%; }
@@ -175,6 +193,35 @@ hr {
 
 .site-header__nav a:hover { color: var(--text); }
 
+.site-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  height: 40px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.site-theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-accent);
+}
+
+.site-theme-toggle[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -211,6 +258,10 @@ hr {
 /* ── Mobile nav overlay ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .nav-toggle { display: flex; }
+
+  .site-theme-toggle {
+    order: 2;
+  }
 
   .site-header__nav {
     position: fixed;

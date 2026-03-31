@@ -53,6 +53,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
           <a href={`${base}/library`}>Library</a>
         </nav>
 
+        <button
+          type="button"
+          class="site-theme-toggle"
+          id="site-theme-toggle"
+          aria-pressed="false"
+          aria-label="Toggle dark mode"
+        >
+          Dark
+        </button>
+
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
           <span class="nav-toggle__bar"></span>
           <span class="nav-toggle__bar"></span>
@@ -75,6 +85,32 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '')
     </footer>
 
     <script is:inline>
+      const THEME_STORAGE_KEY = 'aiwriter:site-theme'
+      const themeToggle = document.getElementById('site-theme-toggle')
+      const body = document.body
+
+      function applySiteTheme(theme) {
+        body.dataset.siteTheme = theme
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', String(theme === 'dark'))
+          themeToggle.textContent = theme === 'dark' ? 'Light' : 'Dark'
+        }
+        localStorage.setItem(THEME_STORAGE_KEY, theme)
+      }
+
+      try {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+        applySiteTheme(savedTheme === 'dark' ? 'dark' : 'light')
+      } catch {
+        applySiteTheme('light')
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          applySiteTheme(body.dataset.siteTheme === 'dark' ? 'light' : 'dark')
+        })
+      }
+
       // Fixed header scroll state
       const header = document.getElementById('site-header')
       if (header) {
