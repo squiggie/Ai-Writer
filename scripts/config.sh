@@ -41,6 +41,23 @@ info() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] [INFO]  $*"; }
 warn() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] [WARN]  $*"; }
 fail() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] [ERROR] $*" >&2; exit 1; }
 
+bootstrap_cli_path() {
+    local nvm_dir="${NVM_DIR:-$HOME/.nvm}"
+
+    export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+
+    if command -v codex >/dev/null 2>&1 && command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+        return 0
+    fi
+
+    if [ -s "$nvm_dir/nvm.sh" ]; then
+        # Cron runs with a minimal shell environment, so load the user's Node toolchain explicitly.
+        # shellcheck disable=SC1090
+        . "$nvm_dir/nvm.sh"
+        nvm use default >/dev/null 2>&1 || true
+    fi
+}
+
 ensure_state_dir() {
     mkdir -p "$STATE_DIR"
 }
@@ -175,7 +192,7 @@ EOF
     fi
 
     if [ "$count" -gt 1 ]; then
-        warn "Multiple unfinished books found; set one active explicitly with scripts/activate-book.sh"
+        warn "Multiple unfinished books found; set one active explicitly with scripts/activate-book.sh" >&2
     fi
 
     return 1
@@ -213,6 +230,7 @@ final_review_status() {
 
 # ── Guard: abort if required tools not found ──────────────────────────────────
 check_deps() {
+    bootstrap_cli_path
     command -v codex  >/dev/null 2>&1 || fail "codex not found. Run setup.sh first."
     command -v node   >/dev/null 2>&1 || fail "node not found. Install Node.js 18+ and re-run setup.sh."
     command -v npm    >/dev/null 2>&1 || fail "npm not found. Install Node.js 18+ and re-run setup.sh."
